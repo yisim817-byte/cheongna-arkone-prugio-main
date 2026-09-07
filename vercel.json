@@ -52,6 +52,46 @@
     {
       "source": "/assets/:path*",
       "destination": "https://cdn.jsdelivr.net/gh/yisim817-byte/cheongna-arkone-prugio-main@main/assets/:path*"
+    },
+    {
+      "source": "/contact",
+      "destination": "/api/proxy?path=contact.html"
+    },
+    {
+      "source": "/information",
+      "destination": "/api/proxy?path=information.html"
+    },
+    {
+      "source": "/location",
+      "destination": "/api/proxy?path=location.html"
+    },
+    {
+      "source": "/news",
+      "destination": "/api/proxy?path=news.html"
+    },
+    {
+      "source": "/overview",
+      "destination": "/api/proxy?path=overview.html"
+    },
+    {
+      "source": "/premium",
+      "destination": "/api/proxy?path=premium.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/api/proxy?path=privacy.html"
+    },
+    {
+      "source": "/register",
+      "destination": "/api/proxy?path=register.html"
+    },
+    {
+      "source": "/units",
+      "destination": "/api/proxy?path=units.html"
+    },
+    {
+      "source": "/sitemap",
+      "destination": "/api/proxy?path=sitemap.html"
     }
   ]
 }
