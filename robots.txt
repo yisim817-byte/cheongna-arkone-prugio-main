@@ -1,0 +1,32 @@
+User-agent: *
+Allow: /
+
+# AI / Answer engines
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Yeti
+Allow: /
+
+Sitemap: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/sitemap.xml
