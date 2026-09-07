@@ -47,5 +47,11 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/assets/img/:file(.*).jpg",
+      "destination": "https://raw.githubusercontent.com/yisim817-byte/cheongna-arkone-prugio-main/main/assets/img/:file.jpg"
+    }
   ]
 }
