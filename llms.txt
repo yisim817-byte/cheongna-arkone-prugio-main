@@ -1,16 +1,28 @@
 # 청라 아크원 푸르지오
-> 인천광역시 서구 청라동 86-1 일원(청라국제도시 주상복합용지 M5블록). 대우건설 시공. 아파트 868세대 · 오피스텔 987실, 합계 1,855가구·실. 지하 5층~지상 최고 49층, 6개동.
+> 인천광역시 청라동 86-1번지 일원(청라국제도시 주상복합용지 M5블록). 시행 청라스마트시티(주), 시공 대우건설(주). 아파트 868세대 · 오피스텔 987실, 합계 1,855가구·실. 지하 5층~지상 49층, 6개동. 분양가상한제 적용.
 
-이 사이트는 확인된 사업 안내의 정본 정보 허브입니다. 2013년 입주한 기존 '청라푸르지오'(청라동 150-1)와는 다른 신규 단지입니다.
+이 사이트는 청라 아크원 푸르지오 분양 안내의 정보 허브입니다. 2013년 입주한 기존 청라푸르지오(청라동 150-1)와는 다른 신규 단지입니다.
 
-- 홈페이지운영사: 휴메인코리아
-- 주소: 인천시 송도과학로 56 bt센터 206호
+## 확인된 사실
+- 위치 표기: 인천광역시 청라동 86-1번지 일원(청라국제도시 주상복합용지 M5블록). 행정구역 개편 명칭은 공식 고시·인허가 서류를 기준으로 하며, 이 문서에서 미확인 구 명칭을 확정하지 않습니다.
+- 교통: 서울 지하철 7호선 청라 연장선은 고시된 계획 노선이며 국제업무단지역 개통 시기는 미정입니다. GTX-D·E는 계획 단계입니다.
+- 분양가·잔여호실·모집공고 일정은 이 문서 작성 시점에 확정 공고되지 않았습니다.
+
+## 페이지
 - 홈: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/
-- 사업개요: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/overview
-- 입지: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/location
-- 상품: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/units
-- 안내: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/information
-- 상담: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/contact  ·  1833-3872
-- 전환 랜딩: https://www.xn--oi2bj1bo0vusd6seb8o.site/
+- 사업안내: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/overview
+- 입지안내: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/location
+- 프리미엄: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/premium
+- 평형안내: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/units
+- 청약안내: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/information
+- 홍보센터: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/news
+- 오시는길: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/contact
+- 관심고객등록: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/register
+- 상담 페이지: https://www.xn--oi2bj1bo0vusd6seb8o.site/
+
+## 운영
+- 홈페이지운영사: 휴메인코리아 (인천시 송도과학로 56 bt센터 206호)
+- 분양문의: 1833-3872 (매일 09:00~20:00)
+- 정보 기준일: 2026-09-14
 
 Sitemap: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/sitemap.xml
