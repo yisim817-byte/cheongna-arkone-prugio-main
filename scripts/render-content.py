@@ -26,7 +26,7 @@ def schedule(short=False):
     return section('2026 분양일정', 'SCHEDULE',content+note('일정은 모두 예정이며 사업주체 사정에 따라 변경될 수 있습니다.')+('<a class="textlink" href="/information#schedule">전체 일정 · 청약안내</a>' if short else ''),'schedule')
 
 def overview():
-    rows=[('대지위치',D['address']+'<br>'+D['block']),('대지면적',D['siteArea']),('건축면적',D['buildingArea']),('연면적',D['grossArea']),('건폐율',D['coverage']),('용적률',D['far']),('아파트',f'{D["aptBuildings"]} · {N("apt")}세대 · 전용 84㎡·103㎡<br>{D["aptFloors"]}'),('오피스텔',f'{D["otBuildings"]} · {N("ot")}실 · 전용 105㎡·121㎡·136㎡<br>{D["otFloors"]}'),('총 규모',f'{D["buildings"]}개동 · {N("total")}세대·실'),('주차',f'{N("parking")}대 (APT {N("aptParking")} · OT {N("otParking")} · 상업시설 {D["retailParking"]})'),('입주',D['moveIn']),('시행',D['developer']),('시공',D['builder']),('분양방식','분양가상한제 적용')]
+    rows=[('대지위치',D['address']+'<br>'+D['block']),('대지면적',D['siteArea']),('건축면적',D['buildingArea']),('연면적',D['grossArea']),('건폐율',D['coverage']),('용적률',D['far']),('아파트',f'{D["aptBuildings"]} · {N("apt")}세대 · 전용 84㎡·103㎡<br>{D["aptFloors"]}'),('오피스텔',f'{D["otBuildings"]} · {N("ot")}실 · 전용 105㎡·121㎡·136㎡<br>{D["otFloors"]}'),('총 규모',f'{D["buildings"]}개동 · {N("total")}세대·실'),('주차',f'{N("parking")}대 (APT {N("aptParking")} · OT {N("otParking")} · 상업시설 {D["retailParking"]})'),('입주',D['moveIn']),('시행',D['developer']),('시공',D['builder'])]
     return section('사업 개요','PROJECT SUMMARY',spec(rows)+note(),'summary')
 
 def stats():
@@ -60,7 +60,7 @@ def brand():
     return section(f'총 {N("brandTown")}가구<br>푸르지오 브랜드타운','BRAND TOWN',spec([('M5 아크원',f'아파트 {N("apt")}세대 + 오피스텔 {N("ot")}실 = {N("total")}세대·실'),('B1 피크원',f'오피스텔 {N("peakone")}실'),('아크원 입주',D['moveIn'])])+note('브랜드타운은 두 단지의 합산 규모입니다. 사업일정은 변경될 수 있습니다.'),'brandtown','warm')
 
 def faq():
-    return [('청라 아크원 푸르지오 위치는 어디인가요?',D['address']+' ('+D['block']+')입니다.'),('총 공급 규모는 어떻게 되나요?',f'아파트 {N("apt")}세대와 오피스텔 {N("ot")}실, 총 {N("total")}세대·실입니다.'),('아파트 평형은 어떻게 구성되나요?','전용 84㎡·103㎡이며 '+', '.join(t['type'] for t in D['aptTypes'])+'의 6개 세부 타입입니다.'),('오피스텔 타입은 어떻게 구성되나요?','전용 105㎡·121㎡·136㎡이며 '+', '.join(t['type'] for t in D['otTypes'])+'의 8개 세부 타입입니다.'),('분양 일정은 언제인가요?','2026년 10월 8일 APT 모집공고, 10월 16일 GRAND OPEN 예정입니다. 일정은 변경될 수 있습니다.'),('피크원 푸르지오와 어떤 관계인가요?',f'B1블록 피크원 {N("peakone")}실과 M5블록 아크원 {N("total")}세대·실을 합산한 {N("brandTown")}가구 브랜드타운입니다.'),('분양가상한제가 적용되나요?','분양가상한제가 적용되는 단지로, 분양가는 관련 법령과 분양가심사 기준에 따라 산정·공고됩니다.')]
+    return [('청라 아크원 푸르지오 위치는 어디인가요?',D['address']+' ('+D['block']+')입니다.'),('총 공급 규모는 어떻게 되나요?',f'아파트 {N("apt")}세대와 오피스텔 {N("ot")}실, 총 {N("total")}세대·실입니다.'),('아파트 평형은 어떻게 구성되나요?','전용 84㎡·103㎡이며 '+', '.join(t['type'] for t in D['aptTypes'])+'의 6개 세부 타입입니다.'),('오피스텔 타입은 어떻게 구성되나요?','전용 105㎡·121㎡·136㎡이며 '+', '.join(t['type'] for t in D['otTypes'])+'의 8개 세부 타입입니다.'),('분양 일정은 언제인가요?','2026년 10월 8일 APT 모집공고, 10월 16일 GRAND OPEN 예정입니다. 일정은 변경될 수 있습니다.'),('피크원 푸르지오와 어떤 관계인가요?',f'B1블록 피크원 {N("peakone")}실과 M5블록 아크원 {N("total")}세대·실을 합산한 {N("brandTown")}가구 브랜드타운입니다.')]
 
 def faq_html():
     return section('자주 묻는 질문','FAQ','<div class="official-faq">'+''.join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q,a in faq())+'</div>','faq')
