@@ -1,0 +1,198 @@
+{
+  "name": "청라 아크원 푸르지오",
+  "english": "CHEONGNA ARK-ONE PRUGIO",
+  "address": "인천광역시 서해구 청라동 86-1번지",
+  "block": "청라국제도시 주상복합용지 M5BL",
+  "phone": "1833-3872",
+  "phoneHref": "18333872",
+  "siteArea": "35,306.00㎡ / 10,680.07평",
+  "buildingArea": "12,278.44㎡ / 3,714.23평",
+  "grossArea": "424,558.08㎡ / 128,418.82평",
+  "coverage": "34.78%",
+  "far": "799.57%",
+  "apt": 868,
+  "ot": 987,
+  "total": 1855,
+  "buildings": 6,
+  "aptBuildings": "101~103동",
+  "otBuildings": "201~203동",
+  "aptFloors": "지하 5층 ~ 지상 44층",
+  "otFloors": "지하 5층 ~ 지상 49층",
+  "parking": 3124,
+  "aptParking": 1389,
+  "otParking": 1695,
+  "retailParking": 40,
+  "moveIn": "2031년 예정",
+  "peakone": 1056,
+  "brandTown": 2911,
+  "retail": 43,
+  "peakRetail": 53,
+  "totalRetail": 96,
+  "retailFirst": 18,
+  "retailSecond": 25,
+  "developer": "㈜청라스마트시티",
+  "builder": "대우건설(주)",
+  "sourceDate": "2026-09-17",
+  "aptTypes": [
+    {
+      "type": "84A",
+      "count": 248,
+      "exclusive": 84.94,
+      "area": 122.21,
+      "pyeong": 36.97,
+      "line": "3호 / 5호"
+    },
+    {
+      "type": "84B",
+      "count": 124,
+      "exclusive": 84.92,
+      "area": 121.66,
+      "pyeong": 36.8,
+      "line": "4호"
+    },
+    {
+      "type": "84C",
+      "count": 124,
+      "exclusive": 84.86,
+      "area": 120.29,
+      "pyeong": 36.39,
+      "line": "6호"
+    },
+    {
+      "type": "84D",
+      "count": 124,
+      "exclusive": 84.95,
+      "area": 121.91,
+      "pyeong": 36.88,
+      "line": "7호"
+    },
+    {
+      "type": "103A",
+      "count": 124,
+      "exclusive": 103.85,
+      "area": 147.04,
+      "pyeong": 44.48,
+      "line": "2호"
+    },
+    {
+      "type": "103B",
+      "count": 124,
+      "exclusive": 103.99,
+      "area": 148.2,
+      "pyeong": 44.83,
+      "line": "1호"
+    }
+  ],
+  "otTypes": [
+    {
+      "type": "1050A",
+      "count": 141,
+      "exclusive": 105.85,
+      "area": 221.69,
+      "pyeong": 67.06,
+      "line": "3호",
+      "usable": 38.7
+    },
+    {
+      "type": "1050B",
+      "count": 141,
+      "exclusive": 105.99,
+      "area": 220.98,
+      "pyeong": 66.85,
+      "line": "2호",
+      "usable": 42.5
+    },
+    {
+      "type": "1050C",
+      "count": 94,
+      "exclusive": 105.99,
+      "area": 222.16,
+      "pyeong": 67.2,
+      "line": "1호",
+      "usable": 41.9
+    },
+    {
+      "type": "1050D",
+      "count": 47,
+      "exclusive": 105.99,
+      "area": 222.2,
+      "pyeong": 67.22,
+      "line": "1호",
+      "usable": 41.8
+    },
+    {
+      "type": "1210A",
+      "count": 141,
+      "exclusive": 121.99,
+      "area": 254.05,
+      "pyeong": 76.85,
+      "line": "5호",
+      "usable": 43.8
+    },
+    {
+      "type": "1210B",
+      "count": 141,
+      "exclusive": 121.98,
+      "area": 255.07,
+      "pyeong": 77.16,
+      "line": "7호",
+      "usable": 46.0
+    },
+    {
+      "type": "1360A",
+      "count": 141,
+      "exclusive": 136.84,
+      "area": 282.69,
+      "pyeong": 85.52,
+      "line": "4호",
+      "usable": 52.7
+    },
+    {
+      "type": "1360B",
+      "count": 141,
+      "exclusive": 136.98,
+      "area": 285.51,
+      "pyeong": 86.37,
+      "line": "6호",
+      "usable": 52.7
+    }
+  ],
+  "schedule": [
+    [
+      "10.08",
+      "APT 모집공고 예정"
+    ],
+    [
+      "10.16",
+      "GRAND OPEN 예정"
+    ],
+    [
+      "10.19",
+      "APT 특별공급 예정"
+    ],
+    [
+      "10.20",
+      "APT 1순위 예정"
+    ],
+    [
+      "10.21",
+      "APT 2순위 예정"
+    ],
+    [
+      "10.22",
+      "OT·근생 모집공고 예정"
+    ],
+    [
+      "10.27",
+      "APT 당첨자 발표 예정"
+    ],
+    [
+      "10.28",
+      "OT 청약 예정"
+    ],
+    [
+      "11.02",
+      "OT 당첨자 발표 예정"
+    ]
+  ]
+}
