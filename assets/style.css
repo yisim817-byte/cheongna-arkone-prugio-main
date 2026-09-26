@@ -642,7 +642,9 @@ body.menu-open .menu__link{transform:none;opacity:1}
 .prereg-pop__panel h2 { margin: 4px 0 12px; color: var(--green); font-size: 26px; font-weight: 700; }
 .prereg-pop__panel p { font-size: 15px; line-height: 1.6; }
 .prereg-pop__fine { font-size: 13px; color: var(--sub); }
-.prereg-pop__sub { display: inline-block; margin: 8px 0 12px; color: var(--ink); text-decoration: underline; }
+.prereg-confirm { margin: 12px 0; color: var(--ink); font-size: 16px; line-height: 1.6; }
+.prereg-pop__panel .prereg-confirm { font-size: 16px; }
+.prereg-confirm a { color: var(--ink); text-decoration: underline; }
 .prereg-pop .btn { width: 100%; }
 .prereg-pop__x { position: absolute; top: 8px; right: 8px; min-width: 44px; min-height: 44px; border: 0; background: transparent; color: var(--ink); font: inherit; }
 .prereg-pop__actions { display: flex; border-top: 1px solid var(--line); margin: 16px -40px -40px; }
@@ -650,7 +652,8 @@ body.menu-open .menu__link{transform:none;opacity:1}
 .prereg-step { color: var(--gold); font-size: 13px; }
 #prereg-form.is-step2 .field:has([name=name]),
 #prereg-form.is-step2 .field:has([name=phone]),
-#prereg-form.is-step2 .prereg-agree { opacity: .6; }
+#prereg-form.is-step2 .field:has([name=birth6]),
+#prereg-form.is-step2 > .prereg-agree { opacity: .6; }
 #prereg-form .check { min-height: 44px; align-items: center; }
 #prereg-form .check input { width: 22px; height: 22px; }
 .prereg-agree.err .check span { color: #B4443B; }

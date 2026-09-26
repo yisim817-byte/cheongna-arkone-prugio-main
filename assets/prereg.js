@@ -51,6 +51,23 @@
     });
   } catch (err) {}
 
+  function linkConfirm(root) {
+    (root || document).querySelectorAll(".prereg-confirm").forEach(function (el) {
+      if (el.querySelector("a")) return;
+      var text = el.textContent;
+      var at = text.indexOf("1833-3872");
+      if (at < 0) return;
+      el.textContent = "";
+      el.appendChild(document.createTextNode(text.slice(0, at)));
+      var link = document.createElement("a");
+      link.href = "tel:18333872";
+      link.textContent = "1833-3872";
+      el.appendChild(link);
+      el.appendChild(document.createTextNode(text.slice(at + 9)));
+    });
+  }
+  linkConfirm(document);
+
   function stored(key) {
     try { return sessionStorage.getItem(key) || ""; } catch (err) { return ""; }
   }
@@ -145,7 +162,7 @@
 
     function payloadBase() {
       return {
-        consent_version: CFG.CONSENT_VERSION || "2026-09-26-v1",
+        consent_version: CFG.CONSENT_VERSION || "2026-09-26-v2",
         site: location.hostname,
         page: location.pathname,
         utm_source: stored("utm_source"),
@@ -201,16 +218,22 @@
         var name = (form.querySelector("[name=name]").value || "").trim();
         var digits = (phone.value || "").replace(/\D/g, "");
         var agree = form.querySelector("[name=consent_collect]").checked;
+        var birthValue = birth.value;
         mark("name", name.length < 2 || name.length > 20);
         mark("phone", !(digits.startsWith("010") && digits.length === 11));
+        mark("birth6", !validDate(birthValue));
         var agreeWrap = form.querySelector("[name=consent_collect]").closest(".prereg-agree");
         if (agreeWrap) agreeWrap.classList.toggle("err", !agree);
-        if (name.length < 2 || name.length > 20 || !(digits.startsWith("010") && digits.length === 11) || !agree) return;
+        if (name.length < 2 || name.length > 20 || !(digits.startsWith("010") && digits.length === 11) || !validDate(birthValue) || !agree) {
+          say("입력 내용을 확인해 주세요.");
+          return;
+        }
         var visit = form.querySelector("[name=visit_request]");
         post(Object.assign(payloadBase(), {
           step: 1,
           name: name,
           phone: hyphen(digits),
+          birth6: birthValue,
           consent_collect: true,
           consent_marketing: !!form.querySelector("[name=consent_marketing]").checked,
           visit_request: !!(visit && visit.checked),
@@ -226,7 +249,7 @@
           document.getElementById("prereg-time").textContent = formatKst(createdAt);
           document.getElementById("prereg-step1-note").hidden = false;
           form.classList.add("is-step2");
-          ["name", "phone", "consent_collect", "consent_marketing"].forEach(function (key) {
+          ["name", "phone", "birth6", "consent_collect", "consent_marketing"].forEach(function (key) {
             var field = form.querySelector("[name=" + key + "]");
             if (field) field.disabled = true;
           });
@@ -236,16 +259,16 @@
         });
         return;
       }
-      var birthValue = birth.value;
       var sido = form.querySelector("[name=addr_sido]").value;
       var sigungu = (form.querySelector("[name=addr_sigungu]").value || "").trim();
       var dong = (form.querySelector("[name=addr_dong]").value || "").trim();
-      mark("birth6", !validDate(birthValue));
-      mark("addr_sido", !sido);
-      mark("addr_sigungu", sigungu.length < 2 || sigungu.length > 20);
-      mark("addr_dong", dong.length < 2 || dong.length > 20);
-      if (!validDate(birthValue) || !sido || sigungu.length < 2 || sigungu.length > 20 || dong.length < 2 || dong.length > 20) {
-        say("입력 내용을 확인해 주세요.");
+      var anyAddress = !!(sido || sigungu || dong);
+      var addressOk = !!sido && sigungu.length >= 2 && sigungu.length <= 20 && dong.length >= 2 && dong.length <= 20;
+      mark("addr_sido", anyAddress && !sido);
+      mark("addr_sigungu", anyAddress && (sigungu.length < 2 || sigungu.length > 20));
+      mark("addr_dong", anyAddress && (dong.length < 2 || dong.length > 20));
+      if (anyAddress && !addressOk) {
+        say("주소는 선택 항목입니다. 입력하시려면 시·도, 시·군·구, 읍·면·동을 모두 입력해 주세요.");
         return;
       }
       var interest = form.querySelector("[name=interest_type]:checked");
@@ -255,43 +278,50 @@
         step: 2,
         receipt_no: receiptNo,
         phone: phoneValue,
-        birth6: birthValue,
-        addr_sido: sido,
-        addr_sigungu: sigungu,
-        addr_dong: dong,
+        addr_sido: anyAddress ? sido : "",
+        addr_sigungu: anyAddress ? sigungu : "",
+        addr_dong: anyAddress ? dong : "",
         interest_type: interest ? interest.value : "",
         special_supply: special ? special.value : "",
         consent_mgm: !!(mgm && mgm.checked),
-        consent_version: CFG.CONSENT_VERSION || "2026-09-26-v1"
+        consent_version: CFG.CONSENT_VERSION || "2026-09-26-v2"
       }, form.querySelector("[data-prereg-step2]")).then(function (data) {
         if (!data) {
           var keep = document.getElementById("prereg-step2-keep");
           if (keep) keep.hidden = false;
           return;
         }
-        document.getElementById("prereg-done-no").textContent = data.receipt_no || receiptNo;
-        document.getElementById("prereg-done-time").textContent = formatKst(createdAt);
-        if (promoReady()) {
-          document.getElementById("prereg-steps").innerHTML =
-            "<p>STEP 1 홈페이지 사전고객등록 완료</p>" +
-            "<p>STEP 2 MGM 등록 확인</p>" +
-            "<p>STEP 3 공식 청약 진행 (입주자모집공고 기준)</p>" +
-            "<p>STEP 4 청약 당첨 및 MGM 인정조건 확인</p>" +
-            "<p>STEP 5 백화점 상품권 선택 및 지급</p>" +
-            termsButton();
-        }
-        form.hidden = true;
-        done.hidden = false;
-        done.focus();
+        showDone(data.receipt_no || receiptNo);
       });
     });
+    form.querySelector("[data-prereg-skip]").addEventListener("click", function () {
+      if (!receiptNo) return;
+      showDone(receiptNo);
+    });
+    function showDone(no) {
+      document.getElementById("prereg-done-no").textContent = no || receiptNo;
+      document.getElementById("prereg-done-time").textContent = formatKst(createdAt);
+      if (promoReady()) {
+        document.getElementById("prereg-steps").innerHTML =
+          "<p>STEP 1 홈페이지 사전고객등록 완료</p>" +
+          "<p>STEP 2 MGM 등록 확인</p>" +
+          "<p>STEP 3 공식 청약 진행 (입주자모집공고 기준)</p>" +
+          "<p>STEP 4 청약 당첨 및 MGM 인정조건 확인</p>" +
+          "<p>STEP 5 백화점 상품권 선택 및 지급</p>" +
+          termsButton();
+      }
+      form.hidden = true;
+      done.hidden = false;
+      linkConfirm(done);
+      done.focus();
+    }
   }
 
   if (form && CFG.MGM_RECIPIENT) {
     var host = document.getElementById("prereg-mgm-host");
     if (host) {
       host.hidden = false;
-      host.innerHTML = '<div class="prereg-agree"><label class="check"><input name="consent_mgm" type="checkbox"><span>[선택] 개인정보 제3자 제공 동의 (MGM 등록)</span></label> <button type="button" data-prereg-toggle="consent-mgm">보기</button><div id="consent-mgm" hidden><p>제공받는 자 : ' + CFG.MGM_RECIPIENT + '<br>제공 목적 : 청라 아크원 푸르지오 MGM 고객 등록 및 인정 여부 확인<br>제공 항목 : 성명, 휴대전화번호, 생년월일(앞 6자리), 주민등록상 주소(시·군·구·읍·면·동), 관심타입<br>보유·이용 기간 : ' + (CFG.MGM_RETENTION || "") + '<br>동의를 거부할 수 있으며, 거부 시에도 사전고객등록과 일정 안내는 이용하실 수 있습니다.<br>다만 MGM 등록이 되지 않아 이벤트 상품권 지급 대상에서 제외됩니다.</p></div></div>';
+      host.innerHTML = '<div class="prereg-agree"><label class="check"><input name="consent_mgm" type="checkbox"><span>[선택] 개인정보 제3자 제공 동의 (MGM 등록)</span></label> <button type="button" data-prereg-toggle="consent-mgm">보기</button><div id="consent-mgm" hidden><p>제공받는 자 : ' + CFG.MGM_RECIPIENT + '<br>제공 목적 : 청라 아크원 푸르지오 MGM 고객 등록 및 인정 여부 확인<br>제공 항목 : 성명, 휴대전화번호, 생년월일(앞 6자리), 주민등록상 주소(입력한 경우), 관심타입(입력한 경우)<br>보유·이용 기간 : ' + (CFG.MGM_RETENTION || "") + '<br>동의를 거부할 수 있으며, 거부 시에도 사전고객등록과 일정 안내는 이용하실 수 있습니다.<br>다만 MGM 등록이 되지 않아 이벤트 상품권 지급 대상에서 제외됩니다.</p></div></div>';
     }
   }
   if (promoReady()) {
@@ -329,11 +359,12 @@
         ? '<div class="prereg-promo"><p>사전고객등록 고객 중<br>청약 당첨 및 MGM 인정조건 충족 시</p><p class="prereg-promo__money">백화점 상품권 30만원 증정</p><p>롯데 · 현대 · 신세계 중 선택</p><p class="prereg-pop__fine">※ 상품권은 청약 당첨 및 MGM 인정 등 지급조건을 모두 충족한 고객에 한해 지급됩니다.</p><div class="prereg-terms-wrap">' + termsButton() + '</div></div>'
         : '<p>청약 일정과 모집공고 소식을<br>등록하신 순서대로 안내해 드립니다.</p>') +
       '<a class="btn btn--gold" href="/register">사전고객등록하기</a>' +
-      '<a class="prereg-pop__sub" href="' + TEL + '">등록 확인 문의 ' + PHONE + '</a>' +
+      '<p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p>' +
       '<p class="prereg-pop__fine">※ 사전고객등록은 공식 청약 신청이 아닙니다.<br>공식 청약은 입주자모집공고에 따른 별도 절차로 진행됩니다.</p>' +
       '<div class="prereg-pop__actions"><button type="button" data-today="1">오늘 하루 보지 않기</button><button type="button" data-close="1">닫기</button></div>' +
       '</div>';
     document.body.appendChild(root);
+    linkConfirm(root);
     document.body.classList.add("prereg-lock");
     requestAnimationFrame(function () { root.classList.add("is-in"); });
     try { sessionStorage.setItem("prereg_popup_seen", "1"); } catch (err) {}

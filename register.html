@@ -127,26 +127,29 @@
 <div id="prereg-step1-note" hidden>
 <p>사전고객등록이 접수되었습니다.</p>
 <p>접수번호 <span id="prereg-receipt"></span> · 접수시각 <span id="prereg-time"></span></p>
-<p>아래 정보를 입력하시면 등록이 완료됩니다.</p>
 </div>
 <p id="prereg-alert" class="prereg-alert" role="alert" hidden></p>
 <div class="field"><label for="f-name">성명 <i>*</i></label><input id="f-name" name="name" type="text" required autocomplete="name" maxlength="20"><span class="msg">2~20자로 입력해 주세요.</span></div>
 <div class="field"><label for="f-phone">휴대전화 <i>*</i></label><input id="f-phone" name="phone" type="tel" inputmode="numeric" required autocomplete="tel" placeholder="010-0000-0000"><span class="msg">010으로 시작하는 11자리를 입력해 주세요.</span></div>
+<div class="field"><label for="f-birth">생년월일 6자리 <i>*</i></label><input id="f-birth" name="birth6" inputmode="numeric" maxlength="6" placeholder="예: 780315" autocomplete="off"><span class="msg">생년월일 6자리를 확인해 주세요.</span><p id="prereg-birth-warn" hidden>생년월일 6자리만 입력해 주세요. 주민등록번호는 받지 않습니다.</p><p>주민등록번호는 받지 않습니다.</p></div>
 <div class="prereg-hidden-hp" aria-hidden="true"><label>회사<input name="hp" tabindex="-1" autocomplete="off"></label></div>
-<div class="prereg-agree"><label class="check"><input name="consent_collect" type="checkbox" required><span>[필수] 개인정보 수집·이용 동의</span></label> <button type="button" data-prereg-toggle="consent-collect">보기</button><div id="consent-collect" hidden><p>수집 항목 : 성명, 휴대전화번호, 생년월일(앞 6자리), 주민등록상 주소(시·도, 시·군·구, 읍·면·동), 관심타입·특별공급 관심 여부(선택 입력 시) (자동 수집) 접속 사이트, 유입 경로, 접수 일시<br>이용 목적 : 청라 아크원 푸르지오 청약 일정·모집공고 안내, 청약 해당지역 안내, 사전고객 관리, 이벤트 시행 시 대상 확인<br>보유 기간 : 이벤트 종료 시 지체 없이 파기. 최장 수집일로부터 1년<br>보관 위치 : Supabase, Inc. 클라우드 데이터베이스 — 일본(도쿄 리전)<br>※ 주민등록번호는 수집하지 않습니다.<br>동의를 거부할 수 있으며, 거부 시 사전고객등록이 제한됩니다. 전화 문의(1833-3872)는 동의 없이 이용하실 수 있습니다.</p></div></div>
+<div class="prereg-agree"><label class="check"><input name="consent_collect" type="checkbox" required><span>[필수] 개인정보 수집·이용 동의</span></label> <button type="button" data-prereg-toggle="consent-collect">보기</button><div id="consent-collect" hidden><p>수집 항목 : [필수] 성명, 휴대전화번호, 생년월일(앞 6자리) [선택] 주민등록상 주소(시·도, 시·군·구, 읍·면·동), 관심타입, 특별공급 관심 여부 (자동 수집) 접속 사이트, 유입 경로, 접수 일시<br>이용 목적 : 청라 아크원 푸르지오 청약 일정·모집공고 안내, 청약 해당지역 안내, 사전고객 관리, 이벤트 시행 시 대상 확인<br>보유 기간 : 이벤트 종료 시 지체 없이 파기. 최장 수집일로부터 1년<br>보관 위치 : Supabase, Inc. 클라우드 데이터베이스 — 일본(도쿄 리전)<br>※ 주민등록번호는 수집하지 않습니다.<br>동의를 거부할 수 있으며, 거부 시 사전고객등록이 제한됩니다. 전화 문의(1833-3872)는 동의 없이 이용하실 수 있습니다.</p></div></div>
 <div class="prereg-agree"><label class="check"><input name="consent_marketing" type="checkbox"><span>[선택] 광고성 정보 수신 동의</span></label> <button type="button" data-prereg-toggle="consent-mkt">보기</button><div id="consent-mkt" hidden><p>청약 일정·모집공고 등 분양 관련 광고성 정보를 문자·카카오톡으로 받습니다. 언제든 1833-3872로 수신을 철회하실 수 있습니다.</p></div></div>
 <button class="btn btn--gold" type="submit" data-prereg-step1>사전고객등록하기</button>
+<p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p>
 <div id="prereg-step2" hidden>
-<p class="prereg-step">[2/2] 등록 정보 <span class="prereg-receipt" id="prereg-receipt-2"></span></p>
-<div class="field"><label for="f-birth">생년월일 6자리 <i>*</i></label><input id="f-birth" name="birth6" inputmode="numeric" maxlength="6" placeholder="예: 780315" autocomplete="off"><span class="msg">생년월일 6자리를 확인해 주세요.</span><p id="prereg-birth-warn" hidden>생년월일 6자리만 입력해 주세요. 주민등록번호는 받지 않습니다.</p><p>주민등록번호는 받지 않습니다.</p></div>
-<div class="field"><label for="f-sido">주민등록상 주소 — 시·도 <i>*</i></label><select id="f-sido" name="addr_sido" required></select><span class="msg">시·도를 선택해 주세요.</span></div>
-<div class="field"><label for="f-sigungu">주민등록상 주소 — 시·군·구 <i>*</i></label><input id="f-sigungu" name="addr_sigungu" type="text" maxlength="20"><span class="msg">2~20자로 입력해 주세요.</span></div>
-<div class="field"><label for="f-dong">주민등록상 주소 — 읍·면·동 <i>*</i></label><input id="f-dong" name="addr_dong" type="text" maxlength="20"><span class="msg">2~20자로 입력해 주세요.</span></div>
+<p class="prereg-step">[2/2] 추가 정보 (선택) <span class="prereg-receipt" id="prereg-receipt-2"></span></p>
+<p>입력하지 않으셔도 사전고객등록은 완료되었습니다.</p>
+<p>주민등록상 주소 (선택)</p>
+<div class="field"><label for="f-sido">시·도</label><select id="f-sido" name="addr_sido"></select></div>
+<div class="field"><label for="f-sigungu">시·군·구</label><input id="f-sigungu" name="addr_sigungu" type="text" maxlength="20"></div>
+<div class="field"><label for="f-dong">읍·면·동</label><input id="f-dong" name="addr_dong" type="text" maxlength="20"></div>
 <div class="field"><span>관심타입</span><div class="chips"><label class="chip"><input type="radio" name="interest_type" value="APT 84㎡"><span>APT 84㎡</span></label><label class="chip"><input type="radio" name="interest_type" value="APT 103㎡"><span>APT 103㎡</span></label><label class="chip"><input type="radio" name="interest_type" value="오피스텔"><span>오피스텔</span></label><label class="chip"><input type="radio" name="interest_type" value="미정"><span>미정</span></label></div></div>
 <div class="field"><span>특별공급 관심</span><div class="chips"><label class="chip"><input type="radio" name="special_supply" value="신혼부부"><span>신혼부부</span></label><label class="chip"><input type="radio" name="special_supply" value="생애최초"><span>생애최초</span></label><label class="chip"><input type="radio" name="special_supply" value="다자녀"><span>다자녀</span></label><label class="chip"><input type="radio" name="special_supply" value="노부모"><span>노부모</span></label><label class="chip"><input type="radio" name="special_supply" value="해당없음"><span>해당없음</span></label><label class="chip"><input type="radio" name="special_supply" value="모름"><span>모름</span></label></div></div>
 <div id="prereg-mgm-host" hidden></div>
 <p id="prereg-step2-keep" hidden>1단계 접수는 유지되었습니다.</p>
-<button class="btn btn--fill" type="submit" data-prereg-step2>등록 정보 완료하기</button>
+<button class="btn btn--fill" type="submit" data-prereg-step2>추가 정보 저장</button>
+<button class="btn btn--line" type="button" data-prereg-skip>건너뛰고 완료</button>
 </div>
 </form>
 <div id="prereg-done" hidden tabindex="-1">
@@ -154,6 +157,7 @@
 <h3>APT 사전고객등록이 완료되었습니다.</h3>
 <p>접수번호 <span class="prereg-receipt" id="prereg-done-no"></span></p>
 <p>접수시각 <span id="prereg-done-time"></span></p>
+<p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p>
 <div id="prereg-steps">
 <p>STEP 1 홈페이지 사전고객등록 완료</p>
 <p>STEP 3 공식 청약 진행 (입주자모집공고 기준)</p>
