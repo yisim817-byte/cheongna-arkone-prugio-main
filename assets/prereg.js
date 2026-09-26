@@ -213,22 +213,27 @@
     mark("phone", !(digits.indexOf("010") === 0 && digits.length === 11));
     mark("birth6", !validDate(birthValue));
     mark("consent_collect", !agree);
-    if (name.length < 2 || name.length > 20 || digits.indexOf("010") !== 0 || digits.length !== 11 || !validDate(birthValue) || !agree) {
-      say("입력 내용을 확인해 주세요.");
+    var missing = [];
+    if (name.length < 2 || name.length > 20) missing.push("이름");
+    if (digits.indexOf("010") !== 0 || digits.length !== 11) missing.push("휴대전화번호");
+    if (!validDate(birthValue)) missing.push("생년월일");
+    if (!agree) missing.push("개인정보 동의");
+    if (missing.length) {
+      say(missing.join(", ") + " 항목을 확인해 주세요.");
       var first = form.querySelector(".err");
       if (first) first.scrollIntoView({ block: "center" });
       return;
     }
     say("");
-    step1.hidden = true;
     step2.hidden = false;
+    form.querySelector("[data-prereg-next]").hidden = true;
     step2.scrollIntoView({ block: "start" });
   });
 
   form.querySelector("[data-prereg-back]").addEventListener("click", function () {
     say("");
     step2.hidden = true;
-    step1.hidden = false;
+    form.querySelector("[data-prereg-next]").hidden = false;
   });
 
   form.addEventListener("submit", function (event) {
