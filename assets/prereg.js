@@ -215,12 +215,14 @@
     mark("consent_collect", !agree);
     if (name.length < 2 || name.length > 20 || digits.indexOf("010") !== 0 || digits.length !== 11 || !validDate(birthValue) || !agree) {
       say("입력 내용을 확인해 주세요.");
+      var first = form.querySelector(".err");
+      if (first) first.scrollIntoView({ block: "center" });
       return;
     }
     say("");
     step1.hidden = true;
     step2.hidden = false;
-    form.querySelector("[name=addr_sido]").focus();
+    step2.scrollIntoView({ block: "start" });
   });
 
   form.querySelector("[data-prereg-back]").addEventListener("click", function () {
@@ -245,6 +247,8 @@
     mark("addr_dong", dong.length < 2 || dong.length > 20);
     if (!validDate(birthValue) || !sido || sigungu.length < 2 || sigungu.length > 20 || dong.length < 2 || dong.length > 20) {
       say("입력 내용을 확인해 주세요.");
+      var first = form.querySelector("#prereg-step2 .err");
+      if (first) first.scrollIntoView({ block: "center" });
       return;
     }
     var button = form.querySelector("[data-prereg-done]");
@@ -294,7 +298,7 @@
       document.getElementById("prereg-existing").hidden = !(created && Date.now() - created > 120000);
       form.hidden = true;
       done.hidden = false;
-      done.focus();
+      done.scrollIntoView({ block: "start" });
     }).finally(function () {
       button.disabled = false;
       button.textContent = label;
