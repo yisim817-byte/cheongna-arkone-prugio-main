@@ -1,5 +1,5 @@
 window.PREREG_CONFIG = {
-  ENDPOINT: "",
+  ENDPOINT: "https://jzmktahlrwtrtejjflrw.supabase.co/functions/v1/arkone-prereg-submit",
   PROMO_ON: false,
   MGM_RECIPIENT: "",
   MGM_RETENTION: "",
