@@ -152,6 +152,10 @@
   function say(message) {
     alertBox.hidden = !message;
     alertBox.textContent = message || "";
+    if (!message) return;
+    var anchor = step2.hidden ? form.querySelector("[data-prereg-next]") : form.querySelector(".register-actions");
+    if (anchor) anchor.parentNode.insertBefore(alertBox, anchor);
+    alertBox.scrollIntoView({ block: "center" });
   }
   function validDate(value) {
     if (!/^\d{6}$/.test(value)) return false;
