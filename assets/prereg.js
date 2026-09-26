@@ -204,17 +204,19 @@
     var name = (form.querySelector("[name=name]").value || "").trim();
     var digits = phone.value.replace(/\D/g, "");
     var agree = form.querySelector("[name=consent_collect]").checked;
+    var birthValue = birth.value;
     mark("name", name.length < 2 || name.length > 20);
     mark("phone", !(digits.indexOf("010") === 0 && digits.length === 11));
+    mark("birth6", !validDate(birthValue));
     mark("consent_collect", !agree);
-    if (name.length < 2 || name.length > 20 || digits.indexOf("010") !== 0 || digits.length !== 11 || !agree) {
+    if (name.length < 2 || name.length > 20 || digits.indexOf("010") !== 0 || digits.length !== 11 || !validDate(birthValue) || !agree) {
       say("입력 내용을 확인해 주세요.");
       return;
     }
     say("");
     step1.hidden = true;
     step2.hidden = false;
-    birth.focus();
+    form.querySelector("[name=addr_sido]").focus();
   });
 
   form.querySelector("[data-prereg-back]").addEventListener("click", function () {
