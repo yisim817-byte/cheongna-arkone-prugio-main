@@ -195,10 +195,10 @@
     }).finally(function () { clearTimeout(timeout); });
   }
 
-  if (CFG.MGM_RECIPIENT) {
-    var host = document.getElementById("prereg-mgm-host");
-    host.innerHTML = '<div class="prereg-agree"><label class="check"><input name="consent_mgm" type="checkbox"><span>[선택] 개인정보 제3자 제공 동의 (MGM 등록)</span></label> <button type="button" data-prereg-toggle="consent-mgm">보기</button><div id="consent-mgm" hidden><p>제공받는 자 : ' + CFG.MGM_RECIPIENT + '<br>제공 목적 : 청라 아크원 푸르지오 MGM 고객 등록 및 인정 여부 확인<br>제공 항목 : 이름, 휴대전화번호, 생년월일 앞 6자리, 사는 지역(시·도, 시·군·구, 읍·면·동)<br>보유·이용 기간 : ' + (CFG.MGM_RETENTION || "") + '<br>동의하지 않아도 사전고객등록은 가능합니다. MGM 등록과 이벤트 대상에서는 제외됩니다.</p></div></div>';
-  }
+  var mgmName = document.getElementById("prereg-mgm-name");
+  if (mgmName && CFG.MGM_RECIPIENT) mgmName.textContent = CFG.MGM_RECIPIENT;
+  var mgmHold = document.getElementById("prereg-mgm-hold");
+  if (mgmHold && CFG.MGM_RETENTION) mgmHold.textContent = CFG.MGM_RETENTION;
 
   form.querySelector("[data-prereg-next]").addEventListener("click", function () {
     var name = (form.querySelector("[name=name]").value || "").trim();
@@ -215,6 +215,12 @@
     step1.hidden = true;
     step2.hidden = false;
     birth.focus();
+  });
+
+  form.querySelector("[data-prereg-back]").addEventListener("click", function () {
+    say("");
+    step2.hidden = true;
+    step1.hidden = false;
   });
 
   form.addEventListener("submit", function (event) {
