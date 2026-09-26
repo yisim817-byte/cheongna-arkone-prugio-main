@@ -227,7 +227,7 @@
     say("");
     step2.hidden = false;
     form.querySelector("[data-prereg-next]").hidden = true;
-    step2.scrollIntoView({ block: "start" });
+    window.scrollTo(0, step2.getBoundingClientRect().top + window.scrollY - 120);
   });
 
   form.querySelector("[data-prereg-back]").addEventListener("click", function () {
