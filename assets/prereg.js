@@ -179,8 +179,15 @@
           createdAt = data.created_at || "";
           phoneValue = hyphen(digits);
           document.getElementById("prereg-receipt").textContent = receiptNo;
+          var receipt2 = document.getElementById("prereg-receipt-2");
+          if (receipt2) receipt2.textContent = receiptNo;
           document.getElementById("prereg-time").textContent = createdAt;
           document.getElementById("prereg-step1-note").hidden = false;
+          form.classList.add("is-step2");
+          ["name", "phone", "consent_collect", "consent_marketing"].forEach(function (key) {
+            var field = form.querySelector("[name=" + key + "]");
+            if (field) field.disabled = true;
+          });
           form.querySelector("[data-prereg-step1]").hidden = true;
           step2.hidden = false;
           step2.querySelector("input, select, button").focus();
@@ -250,17 +257,20 @@
       '<div class="prereg-pop__panel">' +
       '<button type="button" class="prereg-pop__x" data-close="1" aria-label="닫기">✕</button>' +
       '<p class="prereg-pop__badge">10월 OPEN 예정</p>' +
-      '<h2 id="prereg-pop-title">청라 아크원 푸르지오 APT<br>사전고객등록</h2>' +
+      '<p class="prereg-pop__kicker">청라 아크원 푸르지오 APT</p>' +
+      '<h2 id="prereg-pop-title">사전고객등록</h2>' +
       (promo
         ? '<p>사전고객등록 고객 중<br>청약 당첨 및 MGM 인정조건 충족 시<br><strong class="prereg-pop__money">백화점 상품권 30만원 증정</strong><br>롯데 · 현대 · 신세계 중 선택</p>'
         : '<p>청약 일정과 모집공고 소식을<br>등록하신 순서대로 안내해 드립니다.</p>') +
-      '<a class="btn btn--fill" href="/register">사전고객등록하기</a>' +
+      '<a class="btn btn--gold" href="/register">사전고객등록하기</a>' +
       '<a class="prereg-pop__sub" href="' + TEL + '">등록 확인 문의 ' + PHONE + '</a>' +
       '<p class="prereg-pop__fine">※ 사전고객등록은 공식 청약 신청이 아닙니다.<br>공식 청약은 입주자모집공고에 따른 별도 절차로 진행됩니다.</p>' +
       (promo ? '<p class="prereg-pop__fine">※ 상품권은 청약 당첨 및 MGM 인정 등 지급조건을 모두 충족한 고객에 한해 지급됩니다.<br>세부 조건은 <button type="button" class="prereg-link" id="prereg-terms-open">이벤트 유의사항</button>을 확인해 주세요.</p><div id="prereg-terms" hidden></div>' : '') +
       '<div class="prereg-pop__actions"><button type="button" data-today="1">오늘 하루 보지 않기</button><button type="button" data-close="1">닫기</button></div>' +
       '</div>';
     document.body.appendChild(root);
+    document.body.classList.add("prereg-lock");
+    requestAnimationFrame(function () { root.classList.add("is-in"); });
     try { sessionStorage.setItem("prereg_popup_seen", "1"); } catch (err) {}
     var panel = root.querySelector(".prereg-pop__panel");
     var focusable = function () {
@@ -269,6 +279,7 @@
     var first = root.querySelector(".prereg-pop__x");
     first.focus();
     function close() {
+      document.body.classList.remove("prereg-lock");
       root.remove();
       if (last && last.focus) last.focus();
     }
