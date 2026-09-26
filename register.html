@@ -138,12 +138,13 @@
 <button class="btn btn--gold" type="submit" data-prereg-step1>사전고객등록하기</button>
 <div id="prereg-step2" hidden>
 <p class="prereg-step">[2/2] 등록 정보 <span class="prereg-receipt" id="prereg-receipt-2"></span></p>
-<div class="field"><label for="f-birth">생년월일 6자리 <i>*</i></label><input id="f-birth" name="birth6" inputmode="numeric" maxlength="6" placeholder="예: 780315" autocomplete="off"><span class="msg">숫자 6자리로 입력해 주세요.</span><p id="prereg-birth-warn" hidden>생년월일 6자리만 입력해 주세요. 주민등록번호는 받지 않습니다.</p><p>주민등록번호는 받지 않습니다.</p></div>
-<div class="field"><label for="f-sido">주민등록상 주소 — 시·도 <i>*</i></label><select id="f-sido" name="addr_sido" required></select></div>
-<div class="field"><label for="f-sigungu">주민등록상 주소 — 시·군·구 <i>*</i></label><input id="f-sigungu" name="addr_sigungu" type="text" maxlength="20"></div>
-<div class="field"><label for="f-dong">주민등록상 주소 — 읍·면·동 <i>*</i></label><input id="f-dong" name="addr_dong" type="text" maxlength="20"></div>
+<div class="field"><label for="f-birth">생년월일 6자리 <i>*</i></label><input id="f-birth" name="birth6" inputmode="numeric" maxlength="6" placeholder="예: 780315" autocomplete="off"><span class="msg">생년월일 6자리를 확인해 주세요.</span><p id="prereg-birth-warn" hidden>생년월일 6자리만 입력해 주세요. 주민등록번호는 받지 않습니다.</p><p>주민등록번호는 받지 않습니다.</p></div>
+<div class="field"><label for="f-sido">주민등록상 주소 — 시·도 <i>*</i></label><select id="f-sido" name="addr_sido" required></select><span class="msg">시·도를 선택해 주세요.</span></div>
+<div class="field"><label for="f-sigungu">주민등록상 주소 — 시·군·구 <i>*</i></label><input id="f-sigungu" name="addr_sigungu" type="text" maxlength="20"><span class="msg">2~20자로 입력해 주세요.</span></div>
+<div class="field"><label for="f-dong">주민등록상 주소 — 읍·면·동 <i>*</i></label><input id="f-dong" name="addr_dong" type="text" maxlength="20"><span class="msg">2~20자로 입력해 주세요.</span></div>
 <div class="field"><span>관심타입</span><div class="chips"><label class="chip"><input type="radio" name="interest_type" value="APT 84㎡"><span>APT 84㎡</span></label><label class="chip"><input type="radio" name="interest_type" value="APT 103㎡"><span>APT 103㎡</span></label><label class="chip"><input type="radio" name="interest_type" value="오피스텔"><span>오피스텔</span></label><label class="chip"><input type="radio" name="interest_type" value="미정"><span>미정</span></label></div></div>
 <div class="field"><span>특별공급 관심</span><div class="chips"><label class="chip"><input type="radio" name="special_supply" value="신혼부부"><span>신혼부부</span></label><label class="chip"><input type="radio" name="special_supply" value="생애최초"><span>생애최초</span></label><label class="chip"><input type="radio" name="special_supply" value="다자녀"><span>다자녀</span></label><label class="chip"><input type="radio" name="special_supply" value="노부모"><span>노부모</span></label><label class="chip"><input type="radio" name="special_supply" value="해당없음"><span>해당없음</span></label><label class="chip"><input type="radio" name="special_supply" value="모름"><span>모름</span></label></div></div>
+<div id="prereg-mgm-host" hidden></div>
 <p id="prereg-step2-keep" hidden>1단계 접수는 유지되었습니다.</p>
 <button class="btn btn--fill" type="submit" data-prereg-step2>등록 정보 완료하기</button>
 </div>
@@ -153,8 +154,10 @@
 <h3>APT 사전고객등록이 완료되었습니다.</h3>
 <p>접수번호 <span class="prereg-receipt" id="prereg-done-no"></span></p>
 <p>접수시각 <span id="prereg-done-time"></span></p>
+<div id="prereg-steps">
 <p>STEP 1 홈페이지 사전고객등록 완료</p>
 <p>STEP 3 공식 청약 진행 (입주자모집공고 기준)</p>
+</div>
 <p><a class="btn btn--fill" href="tel:18333872">등록 확인 전화하기 1833-3872</a></p>
 <p>등록 확인 시 접수번호를 알려 주세요.</p>
 <p>※ 사전고객등록은 공식 청약 신청이 아닙니다.</p>

@@ -3,6 +3,43 @@
   var PHONE = CFG.PHONE || "1833-3872";
   var TEL = "tel:" + String(PHONE).replace(/\D/g, "");
 
+  function promoTerms() { return CFG.PROMO_TERMS || {}; }
+  function promoReady() {
+    var terms = promoTerms();
+    return CFG.PROMO_ON === true && !!(terms.basis && terms.payout_time && terms.refund && terms.tax);
+  }
+  function formatKst(value) {
+    var date = new Date(value);
+    if (!value || isNaN(date.getTime())) return value || "";
+    var parts = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", hour12: false
+    }).formatToParts(date);
+    function pick(type) {
+      var found = parts.filter(function (part) { return part.type === type; })[0];
+      return found ? found.value : "";
+    }
+    return pick("year") + "." + pick("month") + "." + pick("day") + " " + pick("hour") + ":" + pick("minute");
+  }
+  function termsMarkup() {
+    var terms = promoTerms();
+    return '<div class="prereg-terms" hidden><p><b>청라 아크원 푸르지오 APT 사전고객등록 이벤트 유의사항</b></p><ol>' +
+      '<li>대상 : 본 홈페이지에서 사전고객등록을 완료하고 개인정보 제3자 제공(MGM 등록)에 동의한 고객 중, 청라 아크원 푸르지오 아파트 청약에 당첨되어 ' + terms.basis + ' 및 MGM 인정조건을 충족한 고객</li>' +
+      '<li>혜택 : 백화점 상품권 30만원 (롯데·현대·신세계 중 1종 선택)</li>' +
+      '<li>지급 시기 : ' + terms.payout_time + '</li>' +
+      '<li>1인(동일인·동일 휴대전화번호) 1회 지급</li>' +
+      '<li>부적격 당첨, 계약 미체결·취소·해제 시 지급 대상에서 제외되며, 지급 후 해당 사유 발생 시 ' + terms.refund + '</li>' +
+      '<li>다른 경로로 먼저 MGM 등록된 고객은 MGM 운영 기준에 따라 대상에서 제외될 수 있습니다.</li>' +
+      '<li>제세공과금 : ' + terms.tax + '</li>' +
+      '<li>본 이벤트는 홈페이지운영 휴메인코리아가 진행하며, 시행·시공사가 제공하는 혜택이 아닙니다.</li>' +
+      '<li>이벤트 내용은 사전 공지 후 변경 또는 조기 종료될 수 있습니다.</li>' +
+      '<li>사전고객등록은 공식 청약 신청이 아니며, 청약 자격과 일정은 입주자모집공고를 따릅니다.</li>' +
+      '</ol><p>등록 확인 및 문의 ' + PHONE + '</p></div>';
+  }
+  function termsButton() {
+    return '<button type="button" class="prereg-link" data-prereg-terms>이벤트 유의사항</button>' + termsMarkup();
+  }
+
   try {
     if (!sessionStorage.getItem("prereg_first_visit_at")) {
       sessionStorage.setItem("prereg_first_visit_at", new Date().toISOString());
@@ -33,6 +70,19 @@
     });
     select.dataset.filled = "1";
   }
+
+  document.addEventListener("click", function (event) {
+    var toggle = event.target.closest && event.target.closest("[data-prereg-toggle]");
+    if (toggle) {
+      var panel = document.getElementById(toggle.getAttribute("data-prereg-toggle"));
+      if (panel) panel.hidden = !panel.hidden;
+    }
+    var terms = event.target.closest && event.target.closest("[data-prereg-terms]");
+    if (terms) {
+      var box = terms.parentNode.querySelector(".prereg-terms");
+      if (box) box.hidden = !box.hidden;
+    }
+  });
 
   var form = document.getElementById("prereg-form");
   if (form) {
@@ -72,14 +122,6 @@
         birth.value = digits.slice(0, 6);
       });
     }
-
-    document.querySelectorAll("[data-prereg-toggle]").forEach(function (button) {
-      button.addEventListener("click", function () {
-        var panel = document.getElementById(button.getAttribute("data-prereg-toggle"));
-        if (!panel) return;
-        panel.hidden = !panel.hidden;
-      });
-    });
 
     function mark(name, on) {
       var field = form.querySelector("[name=" + name + "]");
@@ -181,7 +223,7 @@
           document.getElementById("prereg-receipt").textContent = receiptNo;
           var receipt2 = document.getElementById("prereg-receipt-2");
           if (receipt2) receipt2.textContent = receiptNo;
-          document.getElementById("prereg-time").textContent = createdAt;
+          document.getElementById("prereg-time").textContent = formatKst(createdAt);
           document.getElementById("prereg-step1-note").hidden = false;
           form.classList.add("is-step2");
           ["name", "phone", "consent_collect", "consent_marketing"].forEach(function (key) {
@@ -203,7 +245,7 @@
       mark("addr_sigungu", sigungu.length < 2 || sigungu.length > 20);
       mark("addr_dong", dong.length < 2 || dong.length > 20);
       if (!validDate(birthValue) || !sido || sigungu.length < 2 || sigungu.length > 20 || dong.length < 2 || dong.length > 20) {
-        say("접수를 확인하지 못했습니다. 입력 내용은 유지됩니다. 잠시 후 다시 시도하시거나 " + PHONE + "로 문의해 주세요.");
+        say("입력 내용을 확인해 주세요.");
         return;
       }
       var interest = form.querySelector("[name=interest_type]:checked");
@@ -228,12 +270,36 @@
           return;
         }
         document.getElementById("prereg-done-no").textContent = data.receipt_no || receiptNo;
-        document.getElementById("prereg-done-time").textContent = createdAt;
+        document.getElementById("prereg-done-time").textContent = formatKst(createdAt);
+        if (promoReady()) {
+          document.getElementById("prereg-steps").innerHTML =
+            "<p>STEP 1 홈페이지 사전고객등록 완료</p>" +
+            "<p>STEP 2 MGM 등록 확인</p>" +
+            "<p>STEP 3 공식 청약 진행 (입주자모집공고 기준)</p>" +
+            "<p>STEP 4 청약 당첨 및 MGM 인정조건 확인</p>" +
+            "<p>STEP 5 백화점 상품권 선택 및 지급</p>" +
+            termsButton();
+        }
         form.hidden = true;
         done.hidden = false;
         done.focus();
       });
     });
+  }
+
+  if (form && CFG.MGM_RECIPIENT) {
+    var host = document.getElementById("prereg-mgm-host");
+    if (host) {
+      host.hidden = false;
+      host.innerHTML = '<div class="prereg-agree"><label class="check"><input name="consent_mgm" type="checkbox"><span>[선택] 개인정보 제3자 제공 동의 (MGM 등록)</span></label> <button type="button" data-prereg-toggle="consent-mgm">보기</button><div id="consent-mgm" hidden><p>제공받는 자 : ' + CFG.MGM_RECIPIENT + '<br>제공 목적 : 청라 아크원 푸르지오 MGM 고객 등록 및 인정 여부 확인<br>제공 항목 : 성명, 휴대전화번호, 생년월일(앞 6자리), 주민등록상 주소(시·군·구·읍·면·동), 관심타입<br>보유·이용 기간 : ' + (CFG.MGM_RETENTION || "") + '<br>동의를 거부할 수 있으며, 거부 시에도 사전고객등록과 일정 안내는 이용하실 수 있습니다.<br>다만 MGM 등록이 되지 않아 이벤트 상품권 지급 대상에서 제외됩니다.</p></div></div>';
+    }
+  }
+  if (promoReady()) {
+    var slot = document.getElementById("prereg-band-slot");
+    if (slot) {
+      slot.hidden = false;
+      slot.innerHTML = '<div class="prereg-promo"><p>사전고객등록 고객 혜택</p><p class="prereg-promo__money">백화점 상품권 30만원</p><p>롯데 · 현대 · 신세계 중 선택</p><p>청약 당첨 및 MGM 인정·지급조건 충족 고객 대상</p></div><div class="prereg-terms-wrap">' + termsButton() + '</div>';
+    }
   }
 
   var path = location.pathname.replace(/\.html$/, "");
@@ -251,7 +317,7 @@
     root.setAttribute("role", "dialog");
     root.setAttribute("aria-modal", "true");
     root.setAttribute("aria-labelledby", "prereg-pop-title");
-    var promo = CFG.PROMO_ON === true;
+    var promo = promoReady();
     root.innerHTML =
       '<div class="prereg-pop__bg" data-close="1"></div>' +
       '<div class="prereg-pop__panel">' +
@@ -260,12 +326,11 @@
       '<p class="prereg-pop__kicker">청라 아크원 푸르지오 APT</p>' +
       '<h2 id="prereg-pop-title">사전고객등록</h2>' +
       (promo
-        ? '<p>사전고객등록 고객 중<br>청약 당첨 및 MGM 인정조건 충족 시<br><strong class="prereg-pop__money">백화점 상품권 30만원 증정</strong><br>롯데 · 현대 · 신세계 중 선택</p>'
+        ? '<div class="prereg-promo"><p>사전고객등록 고객 중<br>청약 당첨 및 MGM 인정조건 충족 시</p><p class="prereg-promo__money">백화점 상품권 30만원 증정</p><p>롯데 · 현대 · 신세계 중 선택</p><p class="prereg-pop__fine">※ 상품권은 청약 당첨 및 MGM 인정 등 지급조건을 모두 충족한 고객에 한해 지급됩니다.</p><div class="prereg-terms-wrap">' + termsButton() + '</div></div>'
         : '<p>청약 일정과 모집공고 소식을<br>등록하신 순서대로 안내해 드립니다.</p>') +
       '<a class="btn btn--gold" href="/register">사전고객등록하기</a>' +
       '<a class="prereg-pop__sub" href="' + TEL + '">등록 확인 문의 ' + PHONE + '</a>' +
       '<p class="prereg-pop__fine">※ 사전고객등록은 공식 청약 신청이 아닙니다.<br>공식 청약은 입주자모집공고에 따른 별도 절차로 진행됩니다.</p>' +
-      (promo ? '<p class="prereg-pop__fine">※ 상품권은 청약 당첨 및 MGM 인정 등 지급조건을 모두 충족한 고객에 한해 지급됩니다.<br>세부 조건은 <button type="button" class="prereg-link" id="prereg-terms-open">이벤트 유의사항</button>을 확인해 주세요.</p><div id="prereg-terms" hidden></div>' : '') +
       '<div class="prereg-pop__actions"><button type="button" data-today="1">오늘 하루 보지 않기</button><button type="button" data-close="1">닫기</button></div>' +
       '</div>';
     document.body.appendChild(root);
