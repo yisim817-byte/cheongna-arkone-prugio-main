@@ -4,11 +4,37 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<script>
+(function () {
+  var home = location.pathname === "/" || location.pathname === "/index.html";
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  if (!home || location.hash) return;
+  window.__homeUserMoved = false;
+  function markMoved() { window.__homeUserMoved = true; }
+  window.addEventListener("wheel", markMoved, { passive: true, once: true });
+  window.addEventListener("touchmove", markMoved, { passive: true, once: true });
+  window.addEventListener("keydown", function (event) {
+    if (event.key === "ArrowDown" || event.key === "ArrowUp" || event.key === "PageDown" || event.key === "PageUp" || event.key === " ") markMoved();
+  });
+  function resetHomeScroll() {
+    if (window.__homeUserMoved || location.hash) return;
+    window.scrollTo(0, 0);
+  }
+  resetHomeScroll();
+  window.addEventListener("DOMContentLoaded", resetHomeScroll);
+  window.addEventListener("load", resetHomeScroll);
+  window.addEventListener("pageshow", resetHomeScroll);
+  window.setTimeout(resetHomeScroll, 500);
+  window.setTimeout(resetHomeScroll, 1500);
+})();
+</script>
 <title>청라 아크원 푸르지오 | 분양정보·평면·입지·분양일정</title>
 <meta content="청라국제업무단지 M5블록 청라 아크원 푸르지오. 아파트 868세대, 오피스텔 987실, 총 1,855세대·실. 평면타입, 단지배치, 입지환경 및 분양일정 안내." name="description"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="telephone=no" name="format-detection"/>
 <meta content="청라 아크원 푸르지오 분양 홍보 운영팀" name="author"/>
+<meta name="naver-site-verification" content="c3cf0b42fa3d8456e2ecb0a8e1702fa0d907b1e4" />
+<meta name="msvalidate.01" content="1CA8C4AC579A0BA4C40BC37CD046AC48" />
 <link href="https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/" rel="canonical"/>
 <meta content="website" property="og:type"/>
 <meta content="청라 아크원 푸르지오" property="og:site_name"/>
@@ -29,7 +55,7 @@
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css" rel="stylesheet"/>
 <link href="/assets/style.css" rel="stylesheet"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"ApartmentComplex","name":"청라 아크원 푸르지오","alternateName":["아크원 푸르지오","ARK-ONE PRUGIO","청라 M5블록 주상복합"],"description":"인천광역시 서해구 청라동 86-1번지 (청라국제도시 주상복합용지 M5BL), 아파트 868세대·최고 44층, 오피스텔 987실·최고 49층, 총 1,855세대·실.","numberOfAccommodationUnits":1855,"url":"https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/","image":"https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/assets/img/og.svg","telephone":"1833-3872","address":{"@type":"PostalAddress","addressCountry":"KR","addressRegion":"인천광역시","addressLocality":"서해구 청라동","streetAddress":"청라동 86-1번지"},"containsPlace":[{"@type":"Accommodation","name":"아파트 전용 84㎡","floorSize":{"@type":"QuantitativeValue","value":84,"unitCode":"MTK"}},{"@type":"Accommodation","name":"아파트 전용 103㎡","floorSize":{"@type":"QuantitativeValue","value":103,"unitCode":"MTK"}},{"@type":"Accommodation","name":"오피스텔 전용 105㎡","floorSize":{"@type":"QuantitativeValue","value":105,"unitCode":"MTK"}},{"@type":"Accommodation","name":"오피스텔 전용 121㎡","floorSize":{"@type":"QuantitativeValue","value":121,"unitCode":"MTK"}},{"@type":"Accommodation","name":"오피스텔 전용 136㎡","floorSize":{"@type":"QuantitativeValue","value":136,"unitCode":"MTK"}}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"청라 아크원 푸르지오 분양 안내","url":"https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/","inLanguage":"ko-KR","publisher":{"@type":"Organization","name":"홈페이지운영사 휴메인코리아","alternateName":"휴메인코리아","telephone":"1833-3872","address":{"@type":"PostalAddress","streetAddress":"인천시 송도과학로 56 bt센터 206호"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"청라 아크원 푸르지오 분양 안내","url":"https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/","inLanguage":"ko-KR","publisher":{"@type":"Organization","@id":"https://www.humanekorea.co.kr/#org","name":"휴메인코리아","telephone":"1833-3872"}}</script>
 <link as="image" fetchpriority="high" href="/assets/official/arkone/main/main_visual_img.v3.jpg" media="(min-width:761px)" rel="preload"/><link as="image" fetchpriority="high" href="/assets/official/arkone/main/main_visual_img_m.v3.jpg" media="(max-width:760px)" rel="preload"/><link href="/assets/hybrid-official.css?v=20260921" rel="stylesheet"/></head>
 <body data-page="home">
 <a class="skip" href="#main">본문 바로가기</a>
@@ -37,7 +63,7 @@
 <div class="header__in">
 <a class="brand" href="/"><span>청라 아크원 푸르지오</span></a>
 <div class="header__tel"><small>분양문의</small><a href="tel:18333872">1833-3872</a></div>
-<a class="header__cta" href="/register"><span>관심고객등록</span></a>
+<a class="header__cta" href="/register"><span>사전고객등록</span></a>
 <button aria-controls="fullmenu" aria-expanded="false" aria-label="전체메뉴 열기" class="menubtn" data-menu="" type="button">
 <span>MENU</span><i aria-hidden="true"></i>
 </button>
@@ -75,7 +101,7 @@
 </a></li>
 <li class="menu__item"><a class="menu__link" href="/register">
 <span class="menu__no">07</span>
-<span><span class="menu__en">REGISTER</span><span class="menu__ko">관심고객등록</span></span>
+<span><span class="menu__en">REGISTER</span><span class="menu__ko">사전고객등록</span></span>
 </a></li>
 </ul>
 <div class="menu__foot">
@@ -93,20 +119,19 @@
 <p class="hero__en">CHEONGNA ARK-ONE PRUGIO</p>
 <h1 class="hero__name">청라 아크원 푸르지오</h1>
 <p class="hero__ko">청라국제업무단지 M5BL</p>
-<div class="hero__acts">
-<a class="btn btn--fill" href="/register">관심고객등록</a>
-</div>
 <ul class="hero__badge">
 <li>지하 5층 ~ 지상 49층 · 총 6개동</li>
 <li>총 1,855가구·실 (APT 868 · OT 987)</li>
 </ul>
-<p class="hero__note">※ 공식 홍보 이미지이며 소비자의 이해를 돕기 위한 CG·연출 이미지입니다. 실제 시공 및 조망은 다를 수 있습니다.</p>
+<p class="hero__note">※ 사업주체 제공 홍보 이미지이며 소비자의 이해를 돕기 위한 CG·연출 이미지입니다. 실제 시공 및 조망은 다를 수 있습니다.</p>
 </div>
 <div aria-hidden="true" class="hero__scroll">SCROLL<i></i></div>
-</section><!-- SSoT:stats -->
+</section>
+
+<!-- SSoT:stats -->
 <section class="sec sec--paper official-stats-section"><div class="wrap"><p class="sec__en">청라국제업무단지 M5BL</p><div class="official-stats"><div><span>APT</span><strong>868<small>세대</small></strong></div><div><span>OFFICETEL</span><strong>987<small>실</small></strong></div><div><span>ARK-ONE</span><strong>1,855<small>세대·실</small></strong></div><div><span>PRUGIO BRAND TOWN</span><strong>2,911<small>가구</small></strong></div><div><span>HIGHEST FLOOR</span><strong>49<small>F</small></strong></div><div><span>PARKING</span><strong>3,124<small>대</small></strong></div></div><p class="official-note">※ 브랜드타운은 아크원과 피크원을 합산한 규모이며 단일 단지 규모가 아닙니다.</p></div></section>
 <!-- /SSoT:stats --><!-- SSoT:home-schedule -->
-<section class="sec sec--paper" id="schedule"><div class="wrap"><div class="sec__head"><span class="sec__en">SCHEDULE</span><h2>2026 분양일정</h2></div><div class="official-schedule"><div><time datetime="2026-10-08">10.08</time><span>APT 모집공고 예정</span></div><div><time datetime="2026-10-16">10.16</time><span>GRAND OPEN 예정</span></div></div><p class="official-note">※ 일정은 모두 예정이며 사업주체 사정에 따라 변경될 수 있습니다.</p><a class="textlink" href="/information#schedule">전체 일정 · 청약안내</a></div></section>
+<section class="sec sec--paper" id="schedule"><div class="wrap"><div class="sec__head"><span class="sec__en">SCHEDULE</span><h2>2026 분양일정</h2></div><div class="official-schedule"><div><span>입주자모집공고 2026년 10월 15일(목) 예정 · GRAND OPEN 2026년 10월 23일(금) 예정</span></div></div><p class="official-note">※ 일정은 모두 예정이며 사업주체 사정에 따라 변경될 수 있습니다. 청약 일정은 공식 모집공고를 확인해 주세요.</p><a class="textlink" href="/information#schedule">전체 일정 · 청약안내</a></div></section>
 <!-- /SSoT:home-schedule -->
 <section class="sec sec--paper">
 <div class="wrap">
@@ -144,7 +169,7 @@
 <div class="rv rv--d1" style="direction:ltr">
 <figure class="fig official-figure">
 <picture class="official-picture"><source height="516" media="(max-width:760px)" srcset="/assets/official/arkone/overview/overview_apt_img_m.v3.jpg" width="670"/><img alt="청라 아크원 푸르지오 공식 건축 이미지" decoding="async" height="762" loading="lazy" src="/assets/official/arkone/overview/overview_apt_img.v3.jpg" width="491"/></picture>
-<figcaption>※ 공식 홍보 이미지이며 소비자의 이해를 돕기 위한 CG·연출 이미지입니다. 실제 시공 및 조망은 다를 수 있습니다.</figcaption>
+<figcaption>※ 사업주체 제공 홍보 이미지이며 소비자의 이해를 돕기 위한 CG·연출 이미지입니다. 실제 시공 및 조망은 다를 수 있습니다.</figcaption>
 </figure>
 </div>
 </div>
@@ -162,7 +187,7 @@
 <div class="rv rv--d1" style="direction:ltr">
 <figure class="fig official-figure">
 <picture class="official-picture"><source height="330" media="(max-width:760px)" srcset="/assets/official/arkone/premium/premium_02_img_1_m.v3.jpg" width="335"/><img alt="국제업무단지 생활을 표현한 공식 연출 이미지" decoding="async" height="520" loading="lazy" src="/assets/official/arkone/premium/premium_02_img_1.v3.jpg" width="560"/></picture>
-<figcaption>※ 공식 홍보 이미지이며 소비자의 이해를 돕기 위한 CG·연출 이미지입니다. 실제 시공 및 조망은 다를 수 있습니다.</figcaption>
+<figcaption>※ 사업주체 제공 홍보 이미지이며 소비자의 이해를 돕기 위한 CG·연출 이미지입니다. 실제 시공 및 조망은 다를 수 있습니다.</figcaption>
 </figure>
 </div>
 </div>
@@ -180,7 +205,7 @@
 <div class="rv rv--d1" style="direction:ltr">
 <figure class="fig official-figure">
 <picture class="official-picture"><source height="179" media="(max-width:760px)" srcset="/assets/official/arkone/premium/premium_03_img_1_m.v3.jpg" width="364"/><img alt="청라 아크원 푸르지오 오션·시티뷰 예시 이미지 (일부 세대)" decoding="async" height="239" loading="lazy" src="/assets/official/arkone/premium/premium_03_img_1.v3.jpg" width="485"/></picture>
-<figcaption>※ 공식 홍보 이미지이며 소비자의 이해를 돕기 위한 CG·연출 이미지입니다. 실제 시공 및 조망은 다를 수 있습니다.</figcaption>
+<figcaption>※ 사업주체 제공 홍보 이미지이며 소비자의 이해를 돕기 위한 CG·연출 이미지입니다. 실제 시공 및 조망은 다를 수 있습니다.</figcaption>
 </figure>
 </div>
 </div>
@@ -191,9 +216,9 @@
 <!-- /SSoT:retail --><section class="sec ctaband">
 <div class="wrap wrap--narrow">
 <h2 class="rv">공고 일정, 가장 먼저 안내받으세요</h2>
-<p class="rv rv--d1">관심고객으로 등록해 주시면 입주자모집공고 및 견본주택 개관 일정 확정 시 순차적으로 안내해 드립니다.</p>
+<p class="rv rv--d1">사전고객으로 등록해 주시면 입주자모집공고 및 견본주택 개관 일정 확정 시 순차적으로 안내해 드립니다.</p>
 <div class="btns rv rv--d2">
-<a class="btn btn--gold" href="/register">관심고객등록</a>
+<a class="btn btn--gold" href="/register">사전고객등록</a>
 <a class="btn btn--ghost" href="tel:18333872">1833-3872 전화상담</a>
 </div>
 </div>
@@ -211,7 +236,7 @@
 <a href="/information">청약안내</a>
 <a href="/news">홍보센터</a>
 <a href="/contact">오시는길</a>
-<a href="/register">관심고객등록</a>
+<a href="/register">사전고객등록</a>
 </nav>
 </div>
 <dl class="footer__body">
@@ -231,14 +256,13 @@
         상담시간 매일 09:00 ~ 20:00</dd>
 </div>
 <div>
-<dt>홈페이지운영사</dt>
-<dd><b>휴메인코리아</b><br/>
-        인천시 송도과학로 56 bt센터 206호</dd>
+<dt>홈페이지운영</dt>
+<dd><b>휴메인코리아</b></dd>
 </div>
 </dl>
 <ul class="footer__disc">
 <li>본 페이지는 <b>분양 홍보를 목적으로 운영되는 광고 페이지</b>이며, 사업주체의 공식 홈페이지가 아닙니다.</li>
-<li>본 페이지에는 본사 공식 홍보 이미지와 기존 안내 도식이 포함되어 있습니다. CG·연출 이미지 및 약도는 실제 시공·조망·현황과 다를 수 있습니다.</li>
+<li>본 페이지에는 사업주체 제공 홍보 이미지와 기존 안내 도식이 포함되어 있습니다. CG·연출 이미지 및 약도는 실제 시공·조망·현황과 다를 수 있습니다.</li>
 <li>세대 내부를 표현한 이미지는 특정 타입의 실제 평면을 나타내지 않으며, <b>타입별 구성은 입주자모집공고문</b>을 따릅니다.</li>
 <li>기재된 사업 내용·면적·세대수 등은 인·허가 및 사업 진행 과정에서 <b>변경될 수 있습니다.</b></li>
 <li>주변 개발계획 및 교통계획은 <b>예정 또는 계획 사항</b>으로 관계기관 사정에 따라 변경·지연·취소될 수 있으며 당사와 무관합니다.</li>
@@ -254,13 +278,15 @@
 </footer>
 <nav aria-label="빠른 상담" class="mbar">
 <a href="tel:18333872">전화상담 <b>1833-3872</b></a>
-<a class="mbar__reg" href="/register">관심고객등록</a>
+<a class="mbar__reg" href="/register">사전고객등록</a>
 </nav>
 <div aria-label="지도 크게 보기" aria-modal="true" class="lightbox" role="dialog">
 <button aria-label="닫기" class="lightbox__close" type="button">✕</button>
 <img alt=""/>
 </div>
-<script defer="" src="/assets/app.js"></script>
+<script defer="" src="/assets/prereg-config.js?v=20260927-popup-v6"></script>
+<script defer="" src="/assets/prereg.js?v=20260927-popup-v8"></script>
+<script defer="" src="/assets/app.js?v=20260927-popup-v6"></script>
 </body>
 </html>
 

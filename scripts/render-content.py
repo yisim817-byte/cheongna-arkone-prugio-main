@@ -21,8 +21,7 @@ def note(text=NOTICE):
     return f'<p class="official-note">※ {text}</p>'
 
 def schedule(short=False):
-    dates=D['schedule'][:2] if short else D['schedule']
-    content='<div class="official-schedule">'+''.join(f'<div><time datetime="2026-{date.replace(".", "-")}">{date}</time><span>{label}</span></div>' for date,label in dates)+'</div>'
+    content='<div class="official-schedule"><div><span>입주자모집공고 및 GRAND OPEN: 2026년 10월 중 예정 · 세부 일정은 공식 공고로 확인</span></div></div>'
     return section('2026 분양일정', 'SCHEDULE',content+note('일정은 모두 예정이며 사업주체 사정에 따라 변경될 수 있습니다.')+('<a class="textlink" href="/information#schedule">전체 일정 · 청약안내</a>' if short else ''),'schedule')
 
 def overview():
@@ -60,7 +59,7 @@ def brand():
     return section(f'총 {N("brandTown")}가구<br>푸르지오 브랜드타운','BRAND TOWN',spec([('M5 아크원',f'아파트 {N("apt")}세대 + 오피스텔 {N("ot")}실 = {N("total")}세대·실'),('B1 피크원',f'오피스텔 {N("peakone")}실'),('아크원 입주',D['moveIn'])])+note('브랜드타운은 두 단지의 합산 규모입니다. 사업일정은 변경될 수 있습니다.'),'brandtown','warm')
 
 def faq():
-    return [('청라 아크원 푸르지오 위치는 어디인가요?',D['address']+' ('+D['block']+')입니다.'),('총 공급 규모는 어떻게 되나요?',f'아파트 {N("apt")}세대와 오피스텔 {N("ot")}실, 총 {N("total")}세대·실입니다.'),('아파트 평형은 어떻게 구성되나요?','전용 84㎡·103㎡이며 '+', '.join(t['type'] for t in D['aptTypes'])+'의 6개 세부 타입입니다.'),('오피스텔 타입은 어떻게 구성되나요?','전용 105㎡·121㎡·136㎡이며 '+', '.join(t['type'] for t in D['otTypes'])+'의 8개 세부 타입입니다.'),('분양 일정은 언제인가요?','2026년 10월 8일 APT 모집공고, 10월 16일 GRAND OPEN 예정입니다. 일정은 변경될 수 있습니다.'),('피크원 푸르지오와 어떤 관계인가요?',f'B1블록 피크원 {N("peakone")}실과 M5블록 아크원 {N("total")}세대·실을 합산한 {N("brandTown")}가구 브랜드타운입니다.')]
+    return [('청라 아크원 푸르지오 위치는 어디인가요?',D['address']+' ('+D['block']+')입니다.'),('총 공급 규모는 어떻게 되나요?',f'아파트 {N("apt")}세대와 오피스텔 {N("ot")}실, 총 {N("total")}세대·실입니다.'),('아파트 평형은 어떻게 구성되나요?','전용 84㎡·103㎡이며 '+', '.join(t['type'] for t in D['aptTypes'])+'의 6개 세부 타입입니다.'),('오피스텔 타입은 어떻게 구성되나요?','전용 105㎡·121㎡·136㎡이며 '+', '.join(t['type'] for t in D['otTypes'])+'의 8개 세부 타입입니다.'),('분양 일정은 언제인가요?','입주자모집공고 및 GRAND OPEN: 2026년 10월 중 예정 · 세부 일정은 공식 공고로 확인'),('피크원 푸르지오와 어떤 관계인가요?',f'B1블록 피크원 {N("peakone")}실과 M5블록 아크원 {N("total")}세대·실을 합산한 {N("brandTown")}가구 브랜드타운입니다.')]
 
 def faq_html():
     return section('자주 묻는 질문','FAQ','<div class="official-faq">'+''.join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q,a in faq())+'</div>','faq')
