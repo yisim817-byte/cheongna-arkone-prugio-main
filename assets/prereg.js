@@ -132,6 +132,22 @@
   var step2 = document.getElementById("prereg-step2");
   var done = document.getElementById("prereg-done");
   var alertBox = document.getElementById("prereg-alert");
+  var requestedProduct = new URLSearchParams(location.search).get("product");
+  var product = requestedProduct === "apt" || requestedProduct === "officetel" ? requestedProduct : "";
+  function applyProduct(value) {
+    product = value;
+    form.querySelectorAll("[data-product-option]").forEach(function (option) { option.hidden = option.getAttribute("data-product-option") !== product; });
+    form.querySelectorAll("[data-product-apt-only]").forEach(function (section) { section.hidden = product !== "apt"; });
+    form.querySelectorAll("[name=special_supply]").forEach(function (input) { input.checked = false; });
+    var officeType = form.querySelector('[name="interest_type"][value="오피스텔"]');
+    form.querySelectorAll('[name="interest_type"]').forEach(function (input) { input.checked = false; });
+    if (product === "officetel" && officeType) officeType.checked = true;
+  }
+  form.querySelectorAll('[name="product"]').forEach(function (input) {
+    input.checked = input.value === product;
+    input.addEventListener("change", function () { if (input.checked) applyProduct(input.value); });
+  });
+  if (product) applyProduct(product);
 
   function hyphen(value) {
     var digits = value.replace(/\D/g, "").slice(0, 11);
@@ -187,7 +203,7 @@
     return {
       consent_version: CFG.CONSENT_VERSION || "2026-09-26-v2",
       site: location.hostname,
-      page: location.pathname,
+      page: location.pathname + "?product=" + product,
       utm_source: stored("utm_source"),
       utm_medium: stored("utm_medium"),
       utm_campaign: stored("utm_campaign"),
@@ -225,6 +241,8 @@
     var digits = phone.value.replace(/\D/g, "");
     var agree = form.querySelector("[name=consent_collect]").checked;
     var birthValue = birth.value;
+    var productWrap = form.querySelector(".prereg-product");
+    if (productWrap) productWrap.classList.toggle("err", !product);
     mark("name", name.length < 2 || name.length > 20);
     mark("phone", !(digits.indexOf("010") === 0 && digits.length === 11));
     mark("birth6", !validDate(birthValue));
@@ -233,6 +251,7 @@
     if (name.length < 2 || name.length > 20) missing.push("이름");
     if (digits.indexOf("010") !== 0 || digits.length !== 11) missing.push("휴대전화번호");
     if (!validDate(birthValue)) missing.push("생년월일");
+    if (!product) missing.push("등록 상품");
     if (!agree) missing.push("개인정보 동의");
     if (missing.length) {
       say("입력 내용을 확인해 주세요. " + missing.join(", ") + " 항목을 확인해 주세요.");
@@ -282,7 +301,7 @@
       receiptNo = first.receipt_no || ""; createdAt = first.created_at || ""; phoneValue = hyphen(digits);
       document.getElementById("prereg-done-no").textContent = receiptNo;
       document.getElementById("prereg-done-time").textContent = formatKst(createdAt);
-      var step1Note = document.createElement("p"); step1Note.textContent = "사전고객등록이 접수되었습니다. 접수번호 " + receiptNo + " · 접수시각 " + formatKst(createdAt);
+      var step1Note = document.createElement("p"); step1Note.textContent = "사전고객등록이 접수되었습니다. 상품: " + (product === "officetel" ? "오피스텔" : "아파트") + " · 접수번호 " + receiptNo + " · 접수시각 " + formatKst(createdAt);
       step1.insertBefore(step1Note, step1.firstChild); step1.querySelectorAll("input,button").forEach(function(el){el.disabled=true;}); button.hidden=true;
       if (first.duplicate) { var existing=document.getElementById("prereg-existing"); existing.hidden=false; document.getElementById("prereg-existing-no").textContent=receiptNo; }
       step2.hidden=false; say(""); step2.scrollIntoView({block:"start"}); var first2=step2.querySelector("select,input,button"); if(first2) first2.focus();
@@ -295,5 +314,5 @@
     });
   });
   form.querySelector("[data-prereg-skip]").addEventListener("click", function(){ if(receiptNo) showDone(false); });
-  function showDone(duplicate){ document.getElementById("prereg-done-no").textContent=receiptNo; document.getElementById("prereg-done-time").textContent=formatKst(createdAt); if(duplicate){document.getElementById("prereg-existing").hidden=false;document.getElementById("prereg-existing-no").textContent=receiptNo;} form.hidden=true; done.hidden=false; done.scrollIntoView({block:"start"}); }
+  function showDone(duplicate){ document.getElementById("prereg-done-no").textContent=receiptNo; document.getElementById("prereg-done-time").textContent=formatKst(createdAt); document.getElementById("prereg-done-heading").textContent=product==="officetel"?"오피스텔 사전등록이 완료되었습니다.":"아파트 사전고객등록이 완료되었습니다."; if(product==="officetel"){document.getElementById("prereg-steps").innerHTML="<p>STEP 1 오피스텔 사전등록 완료</p><p>STEP 2 담당자가 오피스텔 상품 안내를 드립니다.</p>";} if(duplicate){document.getElementById("prereg-existing").hidden=false;document.getElementById("prereg-existing-no").textContent=receiptNo;} form.hidden=true; done.hidden=false; done.scrollIntoView({block:"start"}); }
 })();
