@@ -111,12 +111,12 @@
 
   if (promoReady() && location.pathname === "/") {
     var popupUntil = 0;
-    try { popupUntil = Number(localStorage.getItem("prereg_popup_until_v2") || 0); } catch (err) {}
+    try { popupUntil = Number(localStorage.getItem("prereg_popup_until_v3") || 0); } catch (err) {}
     if (Date.now() >= popupUntil) {
         setTimeout(function () {
           var modal = document.createElement("div"); modal.className = "prereg-popup"; modal.setAttribute("role", "dialog"); modal.setAttribute("aria-modal", "true");
           modal.innerHTML = '<div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><p>모집공고 10.15(목) 예정 · GRAND OPEN 10.23(금) 예정</p><p>EVENT · 사전고객등록 고객 혜택</p><h2>백화점 상품권 30만원</h2><p>롯데 · 현대 · 신세계 중 선택</p><p>사전고객등록 후 담당자 안내에 따라 MGM 등록을 마치고, 청약 당첨 및 MGM 인정조건을 충족하신 고객께 드립니다.</p><p>사전고객등록은 공식 청약 신청이 아닙니다.</p>' + termsButton() + '<p><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p>사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p><div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></div>';
-          function close(hideToday) { modal.remove(); document.body.style.overflow = ""; if (hideToday) { try { localStorage.setItem("prereg_popup_until_v2", String(Date.now() + 86400000)); } catch (err) {} } }
+          function close(hideToday) { modal.remove(); document.body.style.overflow = ""; if (hideToday) { try { localStorage.setItem("prereg_popup_until_v3", String(Date.now() + 86400000)); } catch (err) {} } }
           modal.addEventListener("click", function (e) { if (e.target === modal) close(false); else if (e.target.closest(".prereg-popup__today")) close(true); else if (e.target.closest(".prereg-popup__close, .prereg-popup__later")) close(false); });
           modal.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); if (e.key === "Tab") { var f=Array.from(modal.querySelectorAll("a,button")),i=f.indexOf(document.activeElement); if(e.shiftKey&&i===0){e.preventDefault();f[f.length-1].focus();}else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus();} } }); document.body.appendChild(modal); document.body.style.overflow = "hidden"; modal.querySelector(".prereg-popup__close").focus();
         }, 1200);
