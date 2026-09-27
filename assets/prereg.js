@@ -105,21 +105,43 @@
     var promo = document.createElement("section");
     promo.className = "prereg-event";
     promo.innerHTML = '<div><p>EVENT · 사전고객등록 고객 혜택</p><h2>백화점 상품권 30만원</h2><p>롯데 · 현대 · 신세계 중 선택</p><p>홈페이지 사전고객등록 후 담당자 안내에 따라 MGM 등록(개인정보 제3자 제공 동의 포함)을 마치고, 청약 당첨 및 MGM 인정조건을 충족하신 고객께 드립니다.</p><ol class="prereg-event__steps"><li>① 사전고객등록</li><li>② MGM 등록 확인</li><li>③ 공식 청약</li><li>④ 당첨·인정 확인</li><li>⑤ 상품권 지급</li></ol><p>지급 시기: 청약 당첨 및 MGM 인정조건 충족 확인 후 계약 당일 지급합니다. 제세공과금 처리 기준은 담당자가 개별 안내합니다.</p><p class="prereg-event__schedule">APT 입주자모집공고 2026.10.15(목) 예정 · GRAND OPEN 2026.10.23(금) 예정</p><p>사전고객등록은 공식 청약 신청이 아닙니다.</p>' + termsButton() + '<p><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p></div>';
+    promo.style.overflowAnchor = "none";
     var hero = document.querySelector(".hero");
     if (hero) hero.insertAdjacentElement("afterend", promo);
+    if (location.pathname === "/" && !location.hash && !window.__homeUserMoved) window.scrollTo(0, 0);
   }
 
   if (promoReady() && location.pathname === "/") {
-    var forcePopup = new URLSearchParams(location.search).get("repair") === "popup-v7";
+    var repair = new URLSearchParams(location.search).get("repair");
+    var forcePopup = repair === "popup-v8" || repair === "popup-v7";
     var popupUntil = 0;
-    try { popupUntil = Number(localStorage.getItem("prereg_popup_until_v7") || 0); } catch (err) {}
+    try { popupUntil = Number(localStorage.getItem("prereg_popup_until_v8") || 0); } catch (err) {}
     if (forcePopup || Date.now() >= popupUntil) {
       if (!document.querySelector(".prereg-popup")) {
         var modal = document.createElement("div"); modal.className = "prereg-popup"; modal.setAttribute("role", "dialog"); modal.setAttribute("aria-modal", "true");
         modal.innerHTML = '<div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><p>모집공고 10.15(목) 예정 · GRAND OPEN 10.23(금) 예정</p><p>EVENT · 사전고객등록 고객 혜택</p><h2>백화점 상품권 30만원</h2><p>롯데 · 현대 · 신세계 중 선택</p><p>사전고객등록 후 담당자 안내에 따라 MGM 등록을 마치고, 청약 당첨 및 MGM 인정조건을 충족하신 고객께 드립니다.</p><p>사전고객등록은 공식 청약 신청이 아닙니다.</p>' + termsButton() + '<p><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p>사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p><div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></div>';
-        function close(hideToday) { modal.remove(); document.body.style.overflow = ""; if (hideToday) { try { localStorage.setItem("prereg_popup_until_v7", String(Date.now() + 86400000)); } catch (err) {} } }
+        var savedY = window.__homeUserMoved ? (window.scrollY || 0) : 0;
+        if (!window.__homeUserMoved) window.scrollTo(0, 0);
+        document.body.dataset.preregScroll = String(savedY);
+        document.body.style.position = "fixed";
+        document.body.style.top = (-savedY) + "px";
+        document.body.style.left = "0";
+        document.body.style.right = "0";
+        document.body.style.width = "100%";
+        function unlock() {
+          var y = Number(document.body.dataset.preregScroll || 0);
+          document.body.style.position = "";
+          document.body.style.top = "";
+          document.body.style.left = "";
+          document.body.style.right = "";
+          document.body.style.width = "";
+          document.body.style.overflow = "";
+          window.scrollTo(0, y);
+        }
+        function close(hideToday) { modal.remove(); unlock(); if (hideToday) { try { localStorage.setItem("prereg_popup_until_v8", String(Date.now() + 86400000)); } catch (err) {} } }
         modal.addEventListener("click", function (e) { if (e.target === modal) close(false); else if (e.target.closest(".prereg-popup__today")) close(true); else if (e.target.closest(".prereg-popup__close, .prereg-popup__later")) close(false); });
-        modal.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); if (e.key === "Tab") { var f=Array.from(modal.querySelectorAll("a,button")),i=f.indexOf(document.activeElement); if(e.shiftKey&&i===0){e.preventDefault();f[f.length-1].focus();}else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus();} } }); document.body.appendChild(modal); document.body.style.overflow = "hidden"; modal.querySelector(".prereg-popup__close").focus({ preventScroll: true });
+        modal.addEventListener("keydown", function (e) { if (e.key === "Escape") close(false); if (e.key === "Tab") { var f=Array.from(modal.querySelectorAll("a,button")),i=f.indexOf(document.activeElement); if(e.shiftKey&&i===0){e.preventDefault();f[f.length-1].focus();}else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus();} } });
+        document.body.appendChild(modal);
       }
     }
   }
