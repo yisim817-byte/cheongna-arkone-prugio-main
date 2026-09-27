@@ -24,7 +24,7 @@
   function termsMarkup() {
     var terms = promoTerms();
     return '<div class="prereg-terms" hidden><p><b>청라 아크원 푸르지오 APT 사전고객등록 이벤트 유의사항</b></p><ol>' +
-      '<li>대상 : 본 홈페이지에서 사전고객등록을 완료하고 개인정보 제3자 제공(MGM 등록)에 동의한 고객 중, 청라 아크원 푸르지오 아파트 청약에 당첨되어 ' + terms.basis + ' 및 MGM 인정조건을 충족한 고객</li>' +
+      '<li>대상 : 홈페이지 사전고객등록 후 청약에 당첨되어 MGM 인정조건을 충족한 고객. 세부 기준은 확정 후 담당자가 개별 안내합니다.</li>' +
       '<li>혜택 : 백화점 상품권 30만원 (롯데·현대·신세계 중 1종 선택)</li>' +
       '<li>지급 시기 : ' + terms.payout_time + '</li>' +
       '<li>1인(동일인·동일 휴대전화번호) 1회 지급</li>' +
@@ -100,6 +100,25 @@
       if (box) box.hidden = !box.hidden;
     }
   });
+
+  if (promoReady() && !/\/(register|privacy)(\.html)?\/?$/.test(location.pathname)) {
+    var promo = document.createElement("section");
+    promo.className = "prereg-event";
+    promo.innerHTML = '<div><p>EVENT · 사전고객등록 고객 혜택</p><h2>백화점 상품권 30만원</h2><p>롯데 · 현대 · 신세계 중 선택</p><p>홈페이지 사전고객등록 후 청약 당첨 및 MGM 인정조건을 충족하신 고객께 드립니다.</p><p>세부 기준·지급 시기·제세공과금은 확정 후 담당자가 개별 안내합니다.</p><p>사전고객등록은 공식 청약 신청이 아닙니다.</p>' + termsButton() + '<p><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p></div>';
+    var hero = document.querySelector(".hero");
+    if (hero) hero.insertAdjacentElement("afterend", promo);
+    try {
+      if (!sessionStorage.getItem("prereg_popup_session") && Date.now() >= Number(localStorage.getItem("prereg_popup_until") || 0)) {
+        setTimeout(function () {
+          var modal = document.createElement("div"); modal.className = "prereg-popup"; modal.setAttribute("role", "dialog"); modal.setAttribute("aria-modal", "true");
+          modal.innerHTML = '<div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><p>EVENT · 사전고객등록 고객 혜택</p><h2>백화점 상품권 30만원</h2><p>롯데 · 현대 · 신세계 중 선택</p><p>청약 당첨 및 MGM 인정조건을 충족하신 고객께 드립니다.</p><p>사전고객등록은 공식 청약 신청이 아닙니다.</p>' + termsButton() + '<p><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p>사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p><button type="button" class="prereg-popup__later">닫기</button></div>';
+          function close() { modal.remove(); document.body.style.overflow = ""; sessionStorage.setItem("prereg_popup_session", "1"); localStorage.setItem("prereg_popup_until", String(Date.now() + 86400000)); }
+          modal.addEventListener("click", function (e) { if (e.target === modal || e.target.closest(".prereg-popup__close, .prereg-popup__later")) close(); });
+          modal.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); if (e.key === "Tab") { var f=Array.from(modal.querySelectorAll("a,button")),i=f.indexOf(document.activeElement); if(e.shiftKey&&i===0){e.preventDefault();f[f.length-1].focus();}else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus();} } }); document.body.appendChild(modal); document.body.style.overflow = "hidden"; modal.querySelector(".prereg-popup__close").focus();
+        }, 1200);
+      }
+    } catch (err) {}
+  }
 
   var form = document.getElementById("prereg-form");
   if (!form) return;
@@ -199,12 +218,8 @@
     }).finally(function () { clearTimeout(timeout); });
   }
 
-  var mgmName = document.getElementById("prereg-mgm-name");
-  if (mgmName && CFG.MGM_RECIPIENT) mgmName.textContent = CFG.MGM_RECIPIENT;
-  var mgmHold = document.getElementById("prereg-mgm-hold");
-  if (mgmHold && CFG.MGM_RETENTION) mgmHold.textContent = CFG.MGM_RETENTION;
-
-  form.querySelector("[data-prereg-next]").addEventListener("click", function () {
+  var receiptNo = "", createdAt = "", phoneValue = "";
+  function validateFirst() {
     var name = (form.querySelector("[name=name]").value || "").trim();
     var digits = phone.value.replace(/\D/g, "");
     var agree = form.querySelector("[name=consent_collect]").checked;
@@ -219,49 +234,36 @@
     if (!validDate(birthValue)) missing.push("생년월일");
     if (!agree) missing.push("개인정보 동의");
     if (missing.length) {
-      say(missing.join(", ") + " 항목을 확인해 주세요.");
+      say("입력 내용을 확인해 주세요. " + missing.join(", ") + " 항목을 확인해 주세요.");
       var first = form.querySelector(".err");
       if (first) first.scrollIntoView({ block: "center" });
       return;
     }
-    say("");
-    step2.hidden = false;
-    form.querySelector("[data-prereg-next]").hidden = true;
-    window.scrollTo(0, step2.getBoundingClientRect().top + window.scrollY - 120);
-  });
-
-  form.querySelector("[data-prereg-back]").addEventListener("click", function () {
-    say("");
-    step2.hidden = true;
-    form.querySelector("[data-prereg-next]").hidden = false;
-  });
+    return true;
+  }
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     var honeypot = form.querySelector("[name=hp]");
     if (honeypot && honeypot.value) return;
+    var button = form.querySelector("[data-prereg-submit]");
+    if (!step2.hidden) {
+      var sido2 = form.querySelector("[name=addr_sido]").value, sigungu2 = form.querySelector("[name=addr_sigungu]").value.trim(), dong2 = form.querySelector("[name=addr_dong]").value.trim();
+      var any = !!(sido2 || sigungu2 || dong2);
+      if (any && !(sido2 && sigungu2.length >= 2 && dong2.length >= 2)) { say("주소는 선택 항목입니다. 입력하시려면 시·도, 시·군·구, 읍·면·동을 모두 입력해 주세요."); return; }
+      var save = form.querySelector("[data-prereg-save]"), interest = form.querySelector("[name=interest_type]:checked"), special = form.querySelector("[name=special_supply]:checked");
+      save.disabled = true; save.textContent = "저장 중…";
+      post({step:2, receipt_no:receiptNo, phone:phoneValue, addr_sido:any?sido2:"", addr_sigungu:any?sigungu2:"", addr_dong:any?dong2:"", interest_type:interest?interest.value:"", special_supply:special?special.value:"", consent_mgm:false, consent_version:CFG.CONSENT_VERSION||"2026-09-26-v2"}).then(function (data) { if(data) showDone(false); else say("접수를 확인하지 못했습니다. 입력 내용은 유지됩니다. 잠시 후 다시 시도하시거나 1833-3872로 문의해 주세요."); }).finally(function(){save.disabled=false;save.textContent="추가 정보 저장";});
+      return;
+    }
+    if (!validateFirst()) return;
     var name = (form.querySelector("[name=name]").value || "").trim();
     var digits = phone.value.replace(/\D/g, "");
     var birthValue = birth.value;
-    var sido = form.querySelector("[name=addr_sido]").value;
-    var sigungu = (form.querySelector("[name=addr_sigungu]").value || "").trim();
-    var dong = (form.querySelector("[name=addr_dong]").value || "").trim();
-    mark("birth6", !validDate(birthValue));
-    mark("addr_sido", !sido);
-    mark("addr_sigungu", sigungu.length < 2 || sigungu.length > 20);
-    mark("addr_dong", dong.length < 2 || dong.length > 20);
-    if (!validDate(birthValue) || !sido || sigungu.length < 2 || sigungu.length > 20 || dong.length < 2 || dong.length > 20) {
-      say("입력 내용을 확인해 주세요.");
-      var first = form.querySelector("#prereg-step2 .err");
-      if (first) first.scrollIntoView({ block: "center" });
-      return;
-    }
-    var button = form.querySelector("[data-prereg-done]");
     var label = button.textContent;
     button.disabled = true;
     button.textContent = "접수 중…";
     say("");
-    var mgm = form.querySelector("[name=consent_mgm]");
     post(Object.assign(payloadBase(), {
       step: 1,
       name: name,
@@ -276,37 +278,21 @@
         say("접수를 확인하지 못했습니다. 입력 내용은 유지됩니다. 잠시 후 다시 시도하시거나 " + PHONE + "로 문의해 주세요.");
         return null;
       }
-      return post({
-        step: 2,
-        receipt_no: first.receipt_no,
-        phone: hyphen(digits),
-        birth6: birthValue,
-        addr_sido: sido,
-        addr_sigungu: sigungu,
-        addr_dong: dong,
-        interest_type: "",
-        special_supply: "",
-        consent_mgm: !!(mgm && mgm.checked),
-        consent_version: CFG.CONSENT_VERSION || "2026-09-26-v2"
-      }).then(function (second) {
-        if (!second) {
-          say("접수를 확인하지 못했습니다. 입력 내용은 유지됩니다. 잠시 후 다시 시도하시거나 " + PHONE + "로 문의해 주세요.");
-          return null;
-        }
-        return first;
-      });
+      receiptNo = first.receipt_no || ""; createdAt = first.created_at || ""; phoneValue = hyphen(digits);
+      document.getElementById("prereg-done-no").textContent = receiptNo;
+      document.getElementById("prereg-done-time").textContent = formatKst(createdAt);
+      var step1Note = document.createElement("p"); step1Note.textContent = "사전고객등록이 접수되었습니다. 접수번호 " + receiptNo + " · 접수시각 " + formatKst(createdAt);
+      step1.insertBefore(step1Note, step1.firstChild); step1.querySelectorAll("input,button").forEach(function(el){el.disabled=true;}); button.hidden=true;
+      if (first.duplicate) { var existing=document.getElementById("prereg-existing"); existing.hidden=false; document.getElementById("prereg-existing-no").textContent=receiptNo; }
+      step2.hidden=false; say(""); step2.scrollIntoView({block:"start"}); var first2=step2.querySelector("select,input,button"); if(first2) first2.focus();
+      return null;
     }).then(function (first) {
       if (!first) return;
-      document.getElementById("prereg-done-no").textContent = first.receipt_no || "";
-      document.getElementById("prereg-done-time").textContent = formatKst(first.created_at);
-      var created = new Date(first.created_at).getTime();
-      document.getElementById("prereg-existing").hidden = !(created && Date.now() - created > 120000);
-      form.hidden = true;
-      done.hidden = false;
-      done.scrollIntoView({ block: "start" });
     }).finally(function () {
       button.disabled = false;
       button.textContent = label;
     });
   });
+  form.querySelector("[data-prereg-skip]").addEventListener("click", function(){ if(receiptNo) showDone(false); });
+  function showDone(duplicate){ document.getElementById("prereg-done-no").textContent=receiptNo; document.getElementById("prereg-done-time").textContent=formatKst(createdAt); if(duplicate){document.getElementById("prereg-existing").hidden=false;document.getElementById("prereg-existing-no").textContent=receiptNo;} form.hidden=true; done.hidden=false; done.scrollIntoView({block:"start"}); }
 })();
