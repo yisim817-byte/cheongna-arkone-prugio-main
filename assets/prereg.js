@@ -104,7 +104,7 @@
   if (promoReady() && !/\/(register|privacy)(\.html)?\/?$/.test(location.pathname)) {
     var promo = document.createElement("section");
     promo.className = "prereg-event";
-    promo.innerHTML = '<div><p>EVENT · 사전고객등록 고객 혜택</p><h2>백화점 상품권 30만원</h2><p>롯데 · 현대 · 신세계 중 선택</p><p>홈페이지 사전고객등록 후 청약 당첨 및 MGM 인정조건을 충족하신 고객께 드립니다.</p><p>세부 기준·지급 시기·제세공과금은 확정 후 담당자가 개별 안내합니다.</p><p>사전고객등록은 공식 청약 신청이 아닙니다.</p>' + termsButton() + '<p><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p></div>';
+    promo.innerHTML = '<div><p>EVENT · 사전고객등록 고객 혜택</p><h2>백화점 상품권 30만원</h2><p>롯데 · 현대 · 신세계 중 선택</p><p>홈페이지 사전고객등록 후 청약 당첨 및 MGM 인정조건을 충족하신 고객께 드립니다.</p><p>지급 시기: 청약 당첨 및 MGM 인정조건 충족 확인 후 계약 당일 지급합니다. 제세공과금 처리 기준은 담당자가 개별 안내합니다.</p><p>사전고객등록은 공식 청약 신청이 아닙니다.</p>' + termsButton() + '<p><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p></div>';
     var hero = document.querySelector(".hero");
     if (hero) hero.insertAdjacentElement("afterend", promo);
     try {
