@@ -2,7 +2,7 @@
 (function () {
   "use strict";
 
-  /* 관심고객 접수 — Supabase arkone_leads 테이블에 INSERT 한다.
+  /* 기존 사전고객 접수 — Supabase arkone_leads 테이블에 INSERT 한다.
      INSERT 후 트리거(arkone_leads_kakao_alert)가 Edge Function(arkone-kakao-alert)을 호출해
      담당자 카카오톡으로 접수 알림이 발송된다. 이 흐름은 이미 구축·검증되어 있다.
      아래 키는 anon publishable 키이며, RLS 정책상 consent=true 인 INSERT 만 허용된다. */
@@ -148,7 +148,7 @@
     });
   });
 
-  /* ── 관심고객등록 폼 ───────────────────────────── */
+  /* ── 기존 사전고객등록 폼 ──────────────────────── */
   var form = $("[data-register]");
   if (form) {
     var tel = form.querySelector("[name=phone]");
@@ -229,7 +229,7 @@
           okBox.setAttribute("tabindex", "-1");
           okBox.focus();
         } else {
-          alert("관심고객 등록이 완료되었습니다.\n담당자가 확인 후 안내드리겠습니다.");
+          alert("사전고객등록이 완료되었습니다.\n담당자가 확인 후 안내드리겠습니다.");
         }
       }
 

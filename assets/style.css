@@ -651,13 +651,16 @@ body.menu-open .menu__link{transform:none;opacity:1}
 .prereg-pop__actions button { flex: 1; height: 48px; border: 0; background: transparent; color: var(--ink); font: inherit; }
 .prereg-event{padding:clamp(56px,7vw,96px) 24px;background:var(--green);color:var(--paper);text-align:center}
 .prereg-event>div{max-width:980px;margin:auto}.prereg-event p{font-size:17px;line-height:1.6}.prereg-event h2{font-size:clamp(34px,4vw,52px);margin:12px 0;color:var(--paper)}
+.prereg-event__steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:24px 0;padding:0;list-style:none}.prereg-event__steps li{padding:12px 8px;border:1px solid rgba(255,255,255,.35);font-size:15px;line-height:1.5}.prereg-event__schedule{font-size:15px!important}
+.prereg-popup__actions{position:sticky;bottom:-24px;display:flex;gap:8px;margin:16px -32px -24px;padding:8px 24px calc(8px + env(safe-area-inset-bottom));background:var(--ivory)}.prereg-popup__today,.prereg-popup__later{flex:1;min-height:44px;margin:0;padding:8px 10px;border:1px solid currentColor;background:transparent;color:var(--ink);font:inherit;cursor:pointer}
 .prereg-event .prereg-link{color:var(--paper)}.prereg-event .prereg-confirm{color:var(--paper)}
+@media(max-width:600px){.prereg-event__steps{grid-template-columns:1fr;gap:6px}.prereg-event__steps li{padding:9px 12px}}
 .prereg-popup{position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;color:var(--ink)}
 .prereg-popup__card{position:relative;width:min(480px,calc(100% - 32px));max-height:85vh;overflow:auto;background:var(--ivory);padding:32px;color:var(--ink)}
 .prereg-popup__card p{color:var(--ink);font-size:15px;line-height:1.6}.prereg-popup__card h2{color:var(--green);font-size:30px}.prereg-popup__close{position:absolute;right:10px;top:10px;width:44px;height:44px;background:transparent;border:0;color:var(--ink)}.prereg-popup__later{width:100%;min-height:48px;background:transparent;border:1px solid var(--line);color:var(--ink)}
 .prereg-options{display:flex;flex-wrap:wrap;gap:8px 16px;margin:12px 0 24px}.prereg-options label{display:inline-flex;align-items:center;gap:6px}
 .prereg-hp{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
-@media(max-width:600px){.prereg-popup{align-items:flex-end}.prereg-popup__card{width:100%;max-height:85vh;padding:24px 24px calc(24px + env(safe-area-inset-bottom))}.prereg-popup__card h2{font-size:26px}}
+@media(max-width:600px){.prereg-popup{align-items:flex-end}.prereg-popup__card{width:100%;max-height:85vh;padding:24px 24px calc(24px + env(safe-area-inset-bottom))}.prereg-popup__card h2{font-size:26px}.prereg-popup__actions{bottom:-24px;margin:16px -24px -24px}}
 .prereg-step { color: var(--gold); font-size: 13px; }
 #prereg-form.is-step2 .field:has([name=name]),
 #prereg-form.is-step2 .field:has([name=phone]),
