@@ -25,7 +25,7 @@ def schedule(short=False):
     return section('2026 분양일정', 'SCHEDULE',content+note('일정은 모두 예정이며 사업주체 사정에 따라 변경될 수 있습니다.')+('<a class="textlink" href="/information#schedule">전체 일정 · 청약안내</a>' if short else ''),'schedule')
 
 def overview():
-    rows=[('대지위치',D['address']+'<br>'+D['block']),('대지면적',D['siteArea']),('건축면적',D['buildingArea']),('연면적',D['grossArea']),('건폐율',D['coverage']),('용적률',D['far']),('아파트',f'{D["aptBuildings"]} · {N("apt")}세대 · 전용 84㎡·103㎡'),('오피스텔',f'{D["otBuildings"]} · {N("ot")}실 · 전용 105㎡·121㎡·136㎡<br>{D["otFloors"]}'),('총 규모',f'지하 5층~지상 49층, 총 {D["buildings"]}개동 · {N("total")}세대·실'),('주차',f'{N("parking")}대 (APT {N("aptParking")} · OT {N("otParking")} · 상업시설 {D["retailParking"]})'),('입주',D['moveIn']),('시행',D['developer']),('시공',D['builder'])]
+    rows=[('대지위치',D['address']+'<br>'+D['block']),('대지면적',D['siteArea']),('건축면적',D['buildingArea']),('연면적',D['grossArea']),('건폐율',D['coverage']),('용적률',D['far']),('아파트',f'{D["aptBuildings"]} · {N("apt")}세대 · 전용 84㎡·103㎡'),('오피스텔',f'{D["otBuildings"]} · {N("ot")}실 · 전용 105㎡·121㎡·136㎡'),('총 규모',f'지하 5층~지상 49층, 총 {D["buildings"]}개동 · {N("total")}세대·실'),('주차',f'{N("parking")}대 (APT {N("aptParking")} · OT {N("otParking")} · 상업시설 {D["retailParking"]})'),('입주',D['moveIn']),('시행',D['developer']),('시공',D['builder'])]
     return section('사업 개요','PROJECT SUMMARY',spec(rows)+note(),'summary')
 
 def stats():
@@ -78,7 +78,7 @@ for path in ROOT.glob('*.html'):
         if obj.get('@type')=='ApartmentComplex':
             obj['name']=D['name'];obj['numberOfAccommodationUnits']=D['total'];obj['telephone']=D['phone']
             obj['address'].update(addressLocality='서해구 청라동',streetAddress='청라동 86-1번지')
-            obj['description']=f'{D["address"]} ({D["block"]}), 아파트 {N("apt")}세대, 오피스텔 {N("ot")}실·최고 49층, 총 {N("total")}세대·실.'
+            obj['description']=f'{D["address"]} ({D["block"]}), 아파트 {N("apt")}세대, 오피스텔 {N("ot")}실, 총 {N("total")}세대·실, 단지 전체 최고 49층.'
         if obj.get('@type')=='FAQPage':
             obj['mainEntity']=[{'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}} for q,a in faq()]
         return '<script type="application/ld+json">'+json.dumps(obj,ensure_ascii=False,separators=(',',':'))+'</script>'
