@@ -25,7 +25,7 @@ def schedule(short=False):
     return section('2026 분양일정', 'SCHEDULE',content+note('일정은 모두 예정이며 사업주체 사정에 따라 변경될 수 있습니다.')+('<a class="textlink" href="/information#schedule">전체 일정 · 청약안내</a>' if short else ''),'schedule')
 
 def overview():
-    rows=[('대지위치',D['address']+'<br>'+D['block']),('대지면적',D['siteArea']),('건축면적',D['buildingArea']),('연면적',D['grossArea']),('건폐율',D['coverage']),('용적률',D['far']),('아파트',f'{D["aptBuildings"]} · {N("apt")}세대 · 전용 84㎡·103㎡<br>{D["aptFloors"]}'),('오피스텔',f'{D["otBuildings"]} · {N("ot")}실 · 전용 105㎡·121㎡·136㎡<br>{D["otFloors"]}'),('총 규모',f'{D["buildings"]}개동 · {N("total")}세대·실'),('주차',f'{N("parking")}대 (APT {N("aptParking")} · OT {N("otParking")} · 상업시설 {D["retailParking"]})'),('입주',D['moveIn']),('시행',D['developer']),('시공',D['builder'])]
+    rows=[('대지위치',D['address']+'<br>'+D['block']),('대지면적',D['siteArea']),('건축면적',D['buildingArea']),('연면적',D['grossArea']),('건폐율',D['coverage']),('용적률',D['far']),('아파트',f'{D["aptBuildings"]} · {N("apt")}세대 · 전용 84㎡·103㎡'),('오피스텔',f'{D["otBuildings"]} · {N("ot")}실 · 전용 105㎡·121㎡·136㎡'),('총 규모',f'지하 5층~지상 49층, 총 {D["buildings"]}개동 · {N("total")}세대·실'),('주차',f'{N("parking")}대 (APT {N("aptParking")} · OT {N("otParking")} · 상업시설 {D["retailParking"]})'),('입주',D['moveIn']),('시행',D['developer']),('시공',D['builder'])]
     return section('사업 개요','PROJECT SUMMARY',spec(rows)+note(),'summary')
 
 def stats():
@@ -59,10 +59,12 @@ def brand():
     return section(f'총 {N("brandTown")}가구<br>푸르지오 브랜드타운','BRAND TOWN',spec([('M5 아크원',f'아파트 {N("apt")}세대 + 오피스텔 {N("ot")}실 = {N("total")}세대·실'),('B1 피크원',f'오피스텔 {N("peakone")}실'),('아크원 입주',D['moveIn'])])+note('브랜드타운은 두 단지의 합산 규모입니다. 사업일정은 변경될 수 있습니다.'),'brandtown','warm')
 
 def faq():
-    return [('청라 아크원 푸르지오 위치는 어디인가요?',D['address']+' ('+D['block']+')입니다.'),('총 공급 규모는 어떻게 되나요?',f'아파트 {N("apt")}세대와 오피스텔 {N("ot")}실, 총 {N("total")}세대·실입니다.'),('아파트 평형은 어떻게 구성되나요?','전용 84㎡·103㎡이며 '+', '.join(t['type'] for t in D['aptTypes'])+'의 6개 세부 타입입니다.'),('오피스텔 타입은 어떻게 구성되나요?','전용 105㎡·121㎡·136㎡이며 '+', '.join(t['type'] for t in D['otTypes'])+'의 8개 세부 타입입니다.'),('분양 일정은 언제인가요?','입주자모집공고 및 GRAND OPEN: 2026년 10월 중 예정 · 세부 일정은 공식 공고로 확인'),('피크원 푸르지오와 어떤 관계인가요?',f'B1블록 피크원 {N("peakone")}실과 M5블록 아크원 {N("total")}세대·실을 합산한 {N("brandTown")}가구 브랜드타운입니다.')]
+    return [('청라 아크원 푸르지오 위치는 어디인가요?',D['address']+' ('+D['block']+')입니다.'),('총 공급 규모는 어떻게 되나요?',f'아파트 {N("apt")}세대와 오피스텔 {N("ot")}실, 총 {N("total")}세대·실입니다.'),('아파트 평형은 어떻게 구성되나요?','전용 84㎡·103㎡이며 '+', '.join(t['type'] for t in D['aptTypes'])+'의 6개 세부 타입입니다.'),('오피스텔 타입은 어떻게 구성되나요?','전용 105㎡·121㎡·136㎡이며 '+', '.join(t['type'] for t in D['otTypes'])+'의 8개 세부 타입입니다.'),('분양 일정은 언제인가요?','입주자모집공고 및 GRAND OPEN: 2026년 10월 중 예정 · 세부 일정은 공식 공고로 확인'),('청라 아크원 푸르지오 분양가는 언제, 어디서 확인하나요?','분양가는 2026.10.01 확인 기준 아직 공식 발표되지 않았으며, 입주자모집공고를 통해 확정·공개됩니다. 입주자모집공고는 2026년 10월 중 예정이며 세부 일정은 공식 공고로 확인해 주세요. 공고가 게시되면 한국부동산원 청약홈(www.applyhome.co.kr)과 사업주체 공식 홈페이지(arkone-prugio.com)에서 공고 원문을 확인하실 수 있습니다. 아파트와 오피스텔의 공급금액은 공고에 따라 타입·층별로 다르게 정해질 수 있습니다. 사전고객으로 등록하시면 공고 일정이 확정되는 대로 안내해 드리며, 분양문의는 1833-3872입니다.'),('피크원 푸르지오와 어떤 관계인가요?',f'B1블록 피크원 {N("peakone")}실과 M5블록 아크원 {N("total")}세대·실을 합산한 {N("brandTown")}가구 브랜드타운입니다.')]
+
+FAQ_IDS={'청라 아크원 푸르지오 분양가는 언제, 어디서 확인하나요?':' id="faq-price"'}
 
 def faq_html():
-    return section('자주 묻는 질문','FAQ','<div class="official-faq">'+''.join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q,a in faq())+'</div>','faq')
+    return section('자주 묻는 질문','FAQ','<div class="official-faq">'+''.join(f'<details{FAQ_IDS.get(q,"")}><summary>{q}</summary><p>{a}</p></details>' for q,a in faq())+'</div>','faq')
 
 BLOCKS={'stats':stats(),'home-schedule':schedule(True),'schedule':schedule(),'overview':overview(),'retail':retail(),'types':types(),'layout':layout(),'brand':brand(),'faq':faq_html()}
 for path in ROOT.glob('*.html'):
@@ -78,7 +80,7 @@ for path in ROOT.glob('*.html'):
         if obj.get('@type')=='ApartmentComplex':
             obj['name']=D['name'];obj['numberOfAccommodationUnits']=D['total'];obj['telephone']=D['phone']
             obj['address'].update(addressLocality='서해구 청라동',streetAddress='청라동 86-1번지')
-            obj['description']=f'{D["address"]} ({D["block"]}), 아파트 {N("apt")}세대·최고 44층, 오피스텔 {N("ot")}실·최고 49층, 총 {N("total")}세대·실.'
+            obj['description']=f'{D["address"]} ({D["block"]}), 아파트 {N("apt")}세대, 오피스텔 {N("ot")}실, 총 {N("total")}세대·실, 단지 전체 최고 49층.'
         if obj.get('@type')=='FAQPage':
             obj['mainEntity']=[{'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}} for q,a in faq()]
         return '<script type="application/ld+json">'+json.dumps(obj,ensure_ascii=False,separators=(',',':'))+'</script>'
