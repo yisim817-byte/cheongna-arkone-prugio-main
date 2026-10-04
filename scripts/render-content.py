@@ -29,7 +29,7 @@ def overview():
     return section('사업 개요','PROJECT SUMMARY',spec(rows)+note(),'summary')
 
 def stats():
-    items=[('APT',N('apt'),'세대'),('OFFICETEL',N('ot'),'실'),('ARK-ONE',N('total'),'세대·실'),('PRUGIO BRAND TOWN',N('brandTown'),'가구'),('HIGHEST FLOOR','49','F'),('PARKING',N('parking'),'대')]
+    items=[('APT',N('apt'),'세대'),('OFFICETEL',N('ot'),'실'),('ARK-ONE',N('total'),'세대·실'),('PRUGIO BRAND TOWN',N('brandTown'),'세대·실'),('HIGHEST FLOOR','49','F'),('PARKING',N('parking'),'대')]
     return '<section class="sec sec--paper official-stats-section"><div class="wrap"><p class="sec__en">청라국제업무단지 M5BL</p><div class="official-stats">'+''.join(f'<div><span>{a}</span><strong>{b}<small>{c}</small></strong></div>' for a,b,c in items)+'</div>'+note('브랜드타운은 아크원과 피크원을 합산한 규모이며 단일 단지 규모가 아닙니다.')+'</div></section>'
 
 def retail():
@@ -56,10 +56,10 @@ def layout():
     return section('단지 동·라인 안내','BUILDING & LINE',table+note('동·라인별 타입 정보입니다. 향·조망 또는 실제 배치도를 나타내지 않습니다. 공식 단지배치도는 추후 안내 예정입니다.'),'layout','warm')
 
 def brand():
-    return section(f'총 {N("brandTown")}가구<br>푸르지오 브랜드타운','BRAND TOWN',spec([('M5 아크원',f'아파트 {N("apt")}세대 + 오피스텔 {N("ot")}실 = {N("total")}세대·실'),('B1 피크원',f'오피스텔 {N("peakone")}실'),('아크원 입주',D['moveIn'])])+note('브랜드타운은 두 단지의 합산 규모입니다. 사업일정은 변경될 수 있습니다.'),'brandtown','warm')
+    return section(f'총 {N("brandTown")}세대·실<br>푸르지오 브랜드타운','BRAND TOWN',spec([('M5 아크원',f'아파트 {N("apt")}세대 + 오피스텔 {N("ot")}실 = {N("total")}세대·실'),('B1 피크원',f'오피스텔 {N("peakone")}실'),('아크원 입주',D['moveIn'])])+note('브랜드타운은 두 단지의 합산 규모입니다. 사업일정은 변경될 수 있습니다.'),'brandtown','warm')
 
 def faq():
-    return [('청라 아크원 푸르지오 위치는 어디인가요?',D['address']+' ('+D['block']+')입니다.'),('총 공급 규모는 어떻게 되나요?',f'아파트 {N("apt")}세대와 오피스텔 {N("ot")}실, 총 {N("total")}세대·실입니다.'),('아파트 평형은 어떻게 구성되나요?','전용 84㎡·103㎡이며 '+', '.join(t['type'] for t in D['aptTypes'])+'의 6개 세부 타입입니다.'),('오피스텔 타입은 어떻게 구성되나요?','전용 105㎡·121㎡·136㎡이며 '+', '.join(t['type'] for t in D['otTypes'])+'의 8개 세부 타입입니다.'),('분양 일정은 언제인가요?','입주자모집공고 및 GRAND OPEN: 2026년 10월 중 예정 · 세부 일정은 공식 공고로 확인'),('청라 아크원 푸르지오 분양가는 언제, 어디서 확인하나요?','분양가는 2026.10.01 확인 기준 아직 공식 발표되지 않았으며, 입주자모집공고를 통해 확정·공개됩니다. 입주자모집공고는 2026년 10월 중 예정이며 세부 일정은 공식 공고로 확인해 주세요. 공고가 게시되면 한국부동산원 청약홈(www.applyhome.co.kr)과 사업주체 공식 홈페이지(arkone-prugio.com)에서 공고 원문을 확인하실 수 있습니다. 아파트와 오피스텔의 공급금액은 공고에 따라 타입·층별로 다르게 정해질 수 있습니다. 사전고객으로 등록하시면 공고 일정이 확정되는 대로 안내해 드리며, 분양문의는 1833-3872입니다.'),('피크원 푸르지오와 어떤 관계인가요?',f'B1블록 피크원 {N("peakone")}실과 M5블록 아크원 {N("total")}세대·실을 합산한 {N("brandTown")}가구 브랜드타운입니다.')]
+    return [('청라 아크원 푸르지오 위치는 어디인가요?',D['address']+' ('+D['block']+')입니다.'),('총 공급 규모는 어떻게 되나요?',f'아파트 {N("apt")}세대와 오피스텔 {N("ot")}실, 총 {N("total")}세대·실입니다.'),('아파트 평형은 어떻게 구성되나요?','전용 84㎡·103㎡이며 '+', '.join(t['type'] for t in D['aptTypes'])+'의 6개 세부 타입입니다.'),('오피스텔 타입은 어떻게 구성되나요?','전용 105㎡·121㎡·136㎡이며 '+', '.join(t['type'] for t in D['otTypes'])+'의 8개 세부 타입입니다.'),('분양 일정은 언제인가요?','입주자모집공고 및 GRAND OPEN: 2026년 10월 중 예정 · 세부 일정은 공식 공고로 확인'),('청라 아크원 푸르지오 분양가는 언제, 어디서 확인하나요?','분양가는 2026.10.04 확인 기준 아직 공식 발표되지 않았으며, 입주자모집공고를 통해 확정·공개됩니다. 입주자모집공고는 2026년 10월 중 예정이며 세부 일정은 공식 공고로 확인해 주세요. 공고가 게시되면 한국부동산원 청약홈(www.applyhome.co.kr)과 사업주체 공식 홈페이지(arkone-prugio.com)에서 공고 원문을 확인하실 수 있습니다. 아파트와 오피스텔의 공급금액은 공고에 따라 타입·층별로 다르게 정해질 수 있습니다. 사전고객으로 등록하시면 공고 일정이 확정되는 대로 안내해 드리며, 분양문의는 1833-3872입니다.'),('피크원 푸르지오와 어떤 관계인가요?',f'B1블록 피크원 {N("peakone")}실과 M5블록 아크원 {N("total")}세대·실을 합산한 {N("brandTown")}세대·실 브랜드타운입니다.')]
 
 FAQ_IDS={'청라 아크원 푸르지오 분양가는 언제, 어디서 확인하나요?':' id="faq-price"'}
 
