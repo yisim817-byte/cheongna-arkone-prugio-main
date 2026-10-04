@@ -107,6 +107,7 @@
 .register-actions{display:flex;gap:12px}
 .register-actions .btn{flex:1;margin-top:clamp(24px,3vw,34px)}
 .prereg-alert:not([hidden]){display:block;margin:0 0 14px;padding:12px 14px;background:#F8E8E6;color:#B4443B;font-size:15px}
+.prereg-done-box{margin:0 0 18px;padding:18px 18px 14px;background:#EEF4F1;border-radius:8px}.prereg-done-box p{margin:6px 0 0;font-size:15px}.prereg-done-title{display:block;font-size:22px;font-weight:800;line-height:1.35;color:#0E3B33}#prereg-done-heading{font-weight:800}.prereg-share{margin:14px 0 4px}.prereg-share__btn{width:100%;min-height:54px;border:0;border-radius:8px;background:#FEE500;color:#191919;font:inherit;font-size:17px;font-weight:700;cursor:pointer}.prereg-share__hint{margin:8px 0 0;font-size:13px;line-height:1.5;opacity:.8}.prereg-share__note{margin:8px 0 0;font-size:14px;font-weight:600}
 .register-form input:-webkit-autofill,.register-form input:-webkit-autofill:hover,.register-form input:-webkit-autofill:focus,.register-form select:-webkit-autofill{
   -webkit-text-fill-color:var(--ink);caret-color:var(--ink);
   box-shadow:0 0 0 1000px var(--ivory) inset;-webkit-box-shadow:0 0 0 1000px var(--ivory) inset;
@@ -156,7 +157,7 @@
 <button class="btn btn--gold" type="submit" data-prereg-submit>사전고객등록하기</button><p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p>
 </div>
 <div id="prereg-step2" hidden>
-<p class="prereg-step">[2/2] 추가 정보 · 선택</p><p>입력하지 않으셔도 사전고객등록은 완료되었습니다.</p>
+<p class="prereg-step">[2/2] 추가 정보 · 선택</p><p>입력하지 않으셔도 사전등록은 완료되었습니다.</p>
 <p>주민등록상 주소 (선택)</p>
 <div class="field"><label for="f-sido">시·도</label><select id="f-sido" name="addr_sido"></select><span class="msg">시·도를 선택해 주세요.</span></div>
 <div class="field"><label for="f-sigungu">시·군·구</label><input id="f-sigungu" name="addr_sigungu" type="text" maxlength="20" placeholder="예: 서구"><span class="msg">2~20자로 입력해 주세요.</span></div>
@@ -170,10 +171,12 @@
 </form>
 <div id="prereg-done" hidden tabindex="-1">
 <p>청라 아크원 푸르지오</p>
-<h3 id="prereg-done-heading">아파트 사전고객등록이 완료되었습니다.</h3>
+<h3 id="prereg-done-heading">사전등록 완료되었습니다.</h3>
+<p id="prereg-done-product"></p>
 <p id="prereg-existing" hidden>이미 사전고객등록된 번호입니다. 최초 접수번호 <span id="prereg-existing-no"></span></p>
 <p>접수번호 <span class="prereg-receipt" id="prereg-done-no"></span></p>
 <p>접수시각 <span id="prereg-done-time"></span></p>
+<div id="prereg-done-share"></div>
 <p>본 등록은 청라 아크원 푸르지오 사전고객등록이며 공식 청약 신청이 아닙니다.</p>
 <div id="prereg-steps"><p>STEP 1 홈페이지 사전고객등록 완료</p><p>STEP 2 MGM 등록 확인 (담당자 안내)</p><p>STEP 3 공식 청약 진행 (입주자모집공고 기준)</p><p>STEP 4 청약 당첨 및 MGM 인정조건 확인</p><p>STEP 5 백화점 상품권 선택 및 지급</p></div><p>일정이 변경되면 담당자가 등록하신 휴대전화로 연락드립니다.</p>
 <p><a class="btn btn--fill" href="tel:18333872">등록 확인 전화하기 1833-3872</a></p>
@@ -246,7 +249,8 @@
 <img alt=""/>
 </div>
 <script defer="" src="/assets/prereg-config.js?v=20260927-popup-v6"></script>
-<script defer="" src="/assets/prereg.js?v=20260927-popup-v6"></script>
+<script defer="" src="/assets/prereg-share.js?v=20261004-share"></script>
+<script defer="" src="/assets/prereg.js?v=20261004-share"></script>
 <script defer="" src="/assets/app.js?v=20260927-popup-v6"></script>
 </body>
 </html>

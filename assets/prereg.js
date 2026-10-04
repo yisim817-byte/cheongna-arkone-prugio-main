@@ -326,8 +326,13 @@
       receiptNo = first.receipt_no || ""; createdAt = first.created_at || ""; phoneValue = hyphen(digits);
       document.getElementById("prereg-done-no").textContent = receiptNo;
       document.getElementById("prereg-done-time").textContent = formatKst(createdAt);
-      var step1Note = document.createElement("p"); step1Note.textContent = "사전고객등록이 접수되었습니다. 상품: " + (product === "officetel" ? "오피스텔" : "아파트") + " · 접수번호 " + receiptNo + " · 접수시각 " + formatKst(createdAt);
-      step1.insertBefore(step1Note, step1.firstChild); step1.querySelectorAll("input,button").forEach(function(el){el.disabled=true;}); button.hidden=true;
+      var step1Note = document.createElement("div"); step1Note.className = "prereg-done-box"; step1Note.setAttribute("role", "status");
+      var t1 = document.createElement("strong"); t1.className = "prereg-done-title"; t1.textContent = "사전등록 완료되었습니다.";
+      var d1 = document.createElement("p"); d1.textContent = (first.duplicate ? "이미 사전등록된 번호입니다. 최초 접수번호 " : "접수번호 ") + receiptNo + " · 접수시각 " + formatKst(createdAt) + " · 상품 " + (product === "officetel" ? "오피스텔" : "아파트");
+      var sh1 = document.createElement("div");
+      step1Note.appendChild(t1); step1Note.appendChild(d1); step1Note.appendChild(sh1);
+      if (window.PreregShare) window.PreregShare.mount(sh1, receiptNo, formatKst(createdAt));
+      step1.parentNode.insertBefore(step1Note, step1); step1.querySelectorAll("input,button").forEach(function(el){el.disabled=true;}); button.hidden=true;
       if (first.duplicate) { var existing=document.getElementById("prereg-existing"); existing.hidden=false; document.getElementById("prereg-existing-no").textContent=receiptNo; }
       step2.hidden=false; say(""); step2.scrollIntoView({block:"start"}); var first2=step2.querySelector("select,input,button"); if(first2) first2.focus();
       return null;
@@ -339,5 +344,5 @@
     });
   });
   form.querySelector("[data-prereg-skip]").addEventListener("click", function(){ if(receiptNo) showDone(false); });
-  function showDone(duplicate){ document.getElementById("prereg-done-no").textContent=receiptNo; document.getElementById("prereg-done-time").textContent=formatKst(createdAt); document.getElementById("prereg-done-heading").textContent=product==="officetel"?"오피스텔 사전등록이 완료되었습니다.":"아파트 사전고객등록이 완료되었습니다."; if(product==="officetel"){document.getElementById("prereg-steps").innerHTML="<p>STEP 1 오피스텔 사전등록 완료</p><p>STEP 2 담당자가 오피스텔 상품 안내를 드립니다.</p>";} if(duplicate){document.getElementById("prereg-existing").hidden=false;document.getElementById("prereg-existing-no").textContent=receiptNo;} form.hidden=true; done.hidden=false; done.scrollIntoView({block:"start"}); }
+  function showDone(duplicate){ document.getElementById("prereg-done-no").textContent=receiptNo; document.getElementById("prereg-done-time").textContent=formatKst(createdAt); document.getElementById("prereg-done-heading").textContent="사전등록 완료되었습니다."; var dp=document.getElementById("prereg-done-product"); if(dp) dp.textContent="등록 상품 "+(product==="officetel"?"오피스텔":"아파트"); if(window.PreregShare) window.PreregShare.mount(document.getElementById("prereg-done-share"), receiptNo, formatKst(createdAt)); if(product==="officetel"){document.getElementById("prereg-steps").innerHTML="<p>STEP 1 오피스텔 사전등록 완료</p><p>STEP 2 담당자가 오피스텔 상품 안내를 드립니다.</p>";} if(duplicate){document.getElementById("prereg-existing").hidden=false;document.getElementById("prereg-existing-no").textContent=receiptNo;} form.hidden=true; done.hidden=false; done.scrollIntoView({block:"start"}); }
 })();
