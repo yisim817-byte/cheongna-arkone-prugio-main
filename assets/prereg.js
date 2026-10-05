@@ -118,7 +118,16 @@
     try { popupUntil = Number(localStorage.getItem("prereg_popup_until_v8") || 0); } catch (err) {}
     if (forcePopup || Date.now() >= popupUntil) {
       if (!document.querySelector(".prereg-popup")) {
-        var modal = document.createElement("div"); modal.className = "prereg-popup"; modal.setAttribute("role", "dialog"); modal.setAttribute("aria-modal", "true");
+        // 팝업은 브라우저 기본 <dialog>(top layer, 덮개는 ::backdrop)로 띄운다. 화면 전체를 덮는 고정 요소가 DOM 에 없어
+        // 「마우스 제한 해제」류 확장이 덮개로 오인해 지우는 일을 피한다. <dialog> 를 못 쓰는 브라우저는 전과 같은 div 로 띄운다.
+        var canDialog = typeof HTMLDialogElement === "function" && typeof HTMLDialogElement.prototype.showModal === "function";
+        var modal = document.createElement(canDialog ? "dialog" : "div"); modal.className = "prereg-popup"; modal.setAttribute("aria-label", "사전고객등록 이벤트 안내");
+        if (!canDialog) { modal.setAttribute("role", "dialog"); modal.setAttribute("aria-modal", "true"); }
+        if (canDialog && !document.getElementById("prereg-popup-style")) {
+          var popupStyle = document.createElement("style"); popupStyle.id = "prereg-popup-style";
+          popupStyle.textContent = "dialog.prereg-popup{position:fixed;inset:auto;top:50%;left:50%;transform:translate(-50%,-50%);width:min(480px,calc(100% - 32px));max-width:none;max-height:85vh;margin:0;padding:0;border:0;background:transparent;overflow:visible}dialog.prereg-popup:not([open]){display:none}dialog.prereg-popup[open]{display:block}dialog.prereg-popup::backdrop{background:rgba(0,0,0,.55)}dialog.prereg-popup .prereg-popup__card{width:100%}";
+          document.head.appendChild(popupStyle);
+        }
         modal.innerHTML = '<div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><p>입주자모집공고 및 GRAND OPEN: 2026년 10월 중 예정 · 세부 일정은 공식 공고로 확인</p><p>EVENT · 사전고객등록 고객 혜택</p><h2>백화점 상품권 30만원</h2><p>롯데 · 현대 · 신세계 중 선택</p><p>사전고객등록 후 담당자 안내에 따라 MGM 등록을 마치고, 청약 당첨 및 MGM 인정조건을 충족하신 고객께 드립니다.</p><p>사전고객등록은 공식 청약 신청이 아닙니다.</p>' + termsButton() + '<p><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p>사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p><div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></div>';
         var savedY = window.__homeUserMoved ? (window.scrollY || 0) : 0;
         if (!window.__homeUserMoved) window.scrollTo(0, 0);
@@ -138,10 +147,37 @@
           document.body.style.overflow = "";
           window.scrollTo(0, y);
         }
-        function close(hideToday) { modal.remove(); unlock(); if (hideToday) { try { localStorage.setItem("prereg_popup_until_v8", String(Date.now() + 86400000)); } catch (err) {} } }
+        var closed = false, shown = false, guard = null;
+        // 확장 프로그램 등이 팝업을 지우거나 숨기면 사용자가 닫을 수 없으므로, 그때는 잠금을 스스로 푼다.
+        function check() {
+          if (closed) return;
+          if (!document.body.contains(modal) || (shown && (window.getComputedStyle(modal).display === "none" || (canDialog && !modal.open)))) close(false);
+        }
+        function close(hideToday) {
+          if (closed) return;
+          closed = true;
+          if (guard) guard.disconnect();
+          ["wheel", "touchstart", "keydown"].forEach(function (type) { window.removeEventListener(type, check); });
+          if (canDialog && modal.open) modal.close();
+          modal.remove(); unlock();
+          if (hideToday) { try { localStorage.setItem("prereg_popup_until_v8", String(Date.now() + 86400000)); } catch (err) {} }
+        }
+        function show() {
+          if (closed || shown) return;
+          shown = true;
+          if (canDialog) modal.showModal();
+          var x = modal.querySelector(".prereg-popup__close");
+          if (x) x.focus();
+        }
         modal.addEventListener("click", function (e) { if (e.target === modal) close(false); else if (e.target.closest(".prereg-popup__today")) close(true); else if (e.target.closest(".prereg-popup__close, .prereg-popup__later")) close(false); });
         modal.addEventListener("keydown", function (e) { if (e.key === "Escape") close(false); if (e.key === "Tab") { var f=Array.from(modal.querySelectorAll("a,button")),i=f.indexOf(document.activeElement); if(e.shiftKey&&i===0){e.preventDefault();f[f.length-1].focus();}else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus();} } });
+        if (canDialog) modal.addEventListener("close", function () { close(false); });
         document.body.appendChild(modal);
+        if ("MutationObserver" in window) { guard = new MutationObserver(check); guard.observe(document.body, { childList: true }); }
+        ["wheel", "touchstart", "keydown"].forEach(function (type) { window.addEventListener(type, check, { passive: true }); });
+        // 홈 인트로가 도는 동안에는 띄우지 않는다(top layer 는 인트로보다 위에 그려진다). 인트로가 끝나면 official-main.js 가 om:intro-done 을 낸다.
+        if (document.documentElement.hasAttribute("data-om-intro")) window.addEventListener("om:intro-done", show, { once: true });
+        else show();
       }
     }
   }
