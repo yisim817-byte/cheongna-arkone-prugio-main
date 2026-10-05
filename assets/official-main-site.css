@@ -1,0 +1,98 @@
+/* official-main-site.css — 청라아크원푸르지오.site(D2) 전용. 공식 메인 복제 구간(official-main.css)에서 사이트마다 다른 것만 여기에 둔다.
+   - 운영 주체 표시 줄(.om-util)
+   - 이 사이트의 고정 헤더(header.header, fixed 86px·휴대폰 66px)를 히어로 위에서 투명하게
+   - 모바일 하단 바(nav.mbar 58px) 높이
+   - 기존 히어로 띠(#site-info 안의 .hero--official) 높이 줄이기 */
+
+/* ── 운영 주체 표시 줄: 기준(.ak-util)과 같은 모양. PC 36px, 휴대폰 두 줄까지 ── */
+.om-util {
+  margin: 0;
+  padding: 8px 16px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #10241e;
+  color: #c9d2cc;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+@media (max-width: 900px) {
+  .om-util {
+    padding: 8px 14px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+/* ── 헤더: 흐름 밖의 고정 헤더이므로 첫 화면에서는 표시 줄 높이만큼 내려온다(스크립트가 --om-util-rest 를 넣는다) ── */
+body[data-page="home"] .header {
+  top: var(--om-util-rest, 0px);
+}
+/* 히어로 위: 투명 배경(.solid 보다 이긴다). 영상 위에서는 흰 글자, 「아크원이란?」에서는 어두운 글자 */
+html[data-om-hd] .header {
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+html[data-om-hd="clear"] .header,
+html[data-om-hd="clear"] .header .brand,
+html[data-om-hd="clear"] .header__tel,
+html[data-om-hd="clear"] .header__tel a,
+html[data-om-hd="clear"] .header__cta,
+html[data-om-hd="clear"] .menubtn {
+  color: #fff;
+}
+html[data-om-hd="clear"] .header__cta:hover {
+  color: #23211f;
+}
+html[data-om-hd="plain"] .header,
+html[data-om-hd="plain"] .header .brand,
+html[data-om-hd="plain"] .header__tel,
+html[data-om-hd="plain"] .header__tel a,
+html[data-om-hd="plain"] .header__cta,
+html[data-om-hd="plain"] .menubtn {
+  color: #23211f;
+}
+
+/* ── 히어로: 헤더가 흐름 밖(fixed)이라 기준의 음수 여백(-1 × 헤더 높이)을 복제 구간 위 여백으로 상쇄한다(히어로는 표시 줄 바로 아래에서 시작).
+   하단 바는 이 사이트의 실제 높이(58px, 900px 이하에서만 보인다) ── */
+.om {
+  padding-top: var(--om-hd, 0px);
+}
+.om .om-hero {
+  --bar: 0px;
+}
+@media (max-width: 900px) {
+  .om .om-hero {
+    --bar: calc(58px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ── 기존 히어로: 이제 본문 중간의 띠. 화면을 꽉 채우지 않게 높이만 줄인다(글자·이미지는 그대로) ── */
+#site-info .hero--official {
+  min-height: 0;
+}
+#site-info .hero--official .hero__in {
+  padding-top: clamp(72px, 9vw, 128px);
+  padding-bottom: clamp(72px, 9vw, 128px);
+}
+#site-info .hero--official .hero__scroll {
+  display: none;
+}
+@media (max-width: 760px) {
+  #site-info .hero--official {
+    min-height: 0;
+    align-items: center;
+  }
+  #site-info .hero--official .hero__in {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+}
