@@ -210,6 +210,8 @@
      광고 차단 확장 등이 팝업을 숨기면(display:none) 사용자가 닫을 수 없어 잠금만 남고 스크롤이 전혀 되지 않는다(크롬에서만 막히는 원인).
      팝업이 보이지 않는데 잠금만 남아 있으면 팝업의 닫기와 같은 방식으로 푼다. prereg.js 는 건드리지 않는다. */
   function releaseStaleLock() {
+    if (modal && !modal.isConnected) { modal = null; window.removeEventListener("keydown", onModalKey); }
+    if (html.hasAttribute("data-om-intro")) return false;
     var body = document.body;
     var locked = body.style.position === "fixed" || body.classList.contains("prereg-lock");
     if (!locked) return false;
