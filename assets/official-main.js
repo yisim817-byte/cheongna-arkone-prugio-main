@@ -206,6 +206,32 @@
     return false;
   }
 
+  /* 이벤트 팝업(prereg.js)은 열려 있는 동안 body 를 고정(D2: position:fixed, D1: .prereg-lock)하고 닫을 때 푼다.
+     광고 차단 확장 등이 팝업을 숨기면(display:none) 사용자가 닫을 수 없어 잠금만 남고 스크롤이 전혀 되지 않는다(크롬에서만 막히는 원인).
+     팝업이 보이지 않는데 잠금만 남아 있으면 팝업의 닫기와 같은 방식으로 푼다. prereg.js 는 건드리지 않는다. */
+  function releaseStaleLock() {
+    var body = document.body;
+    var locked = body.style.position === "fixed" || body.classList.contains("prereg-lock");
+    if (!locked) return false;
+    var pops = document.querySelectorAll(".prereg-popup, .prereg-pop");
+    for (var i = 0; i < pops.length; i++) if (isVisible(pops[i])) return false;
+    for (var j = 0; j < pops.length; j++) if (pops[j].parentNode) pops[j].parentNode.removeChild(pops[j]);
+    body.classList.remove("prereg-lock");
+    if (body.style.position === "fixed") {
+      var y = Number(body.dataset.preregScroll || 0);
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.right = "";
+      body.style.width = "";
+      body.style.overflow = "";
+      window.scrollTo(0, y);
+    }
+    return true;
+  }
+  window.addEventListener("touchstart", releaseStaleLock, { passive: true });
+  window.addEventListener("om:intro-done", function () { window.setTimeout(releaseStaleLock, 1500); });
+
   /* ── 장면 (useScenes, stepOf) ───────────────────────────────────────────── */
   function stepOf(sec, scene) {
     var cur = SCENES[scene];
@@ -242,14 +268,29 @@
   // 같은 순서·시점이 되도록 스크롤은 바로, 화면 반영은 RENDER_MS 뒤에 한다(장면 안의 단계별 등장 시점이 원본과 같아진다).
   var RENDER_MS = 120;
   var renderTimer = 0;
+  // 부드러운 스크롤이 SETTLE_MS 안에 시작되지 않으면(다른 입력에 끊기는 등) 목표 위치로 바로 옮긴다. 정상 동작에는 영향이 없다.
+  var SETTLE_MS = 350;
+  var settleTimer = 0;
+  function jumpTo(top) {
+    // 사이트 전역의 scroll-behavior:smooth 를 잠깐 끄고 바로 옮긴다
+    var prevBehavior = html.style.scrollBehavior;
+    html.style.scrollBehavior = "auto";
+    window.scrollTo(0, top);
+    html.style.scrollBehavior = prevBehavior;
+  }
   function apply(next) {
     var prev = state.scene;
     state.scene = next;
     if (SCENES[next].sec !== SCENES[prev].sec) {
       var e = sectionEl(SCENES[next].sec);
       if (e) {
-        if (SCENES[next].sec === "hero") window.scrollTo({ top: 0, behavior: "smooth" });
-        else window.scrollTo({ top: Math.round(docTop(e)), behavior: "smooth" });
+        var target = SCENES[next].sec === "hero" ? 0 : Math.round(docTop(e));
+        var from = window.scrollY;
+        window.scrollTo({ top: target, behavior: "smooth" });
+        window.clearTimeout(settleTimer);
+        if (Math.abs(target - from) > 2) settleTimer = window.setTimeout(function () {
+          if (Math.abs(window.scrollY - from) < 2 && Math.abs(window.scrollY - target) > 2) jumpTo(target);
+        }, SETTLE_MS);
       }
     }
     window.clearTimeout(renderTimer);
@@ -276,6 +317,7 @@
     return box.scrollTop > 2 ? box : null;
   }
   function onWheel(e) {
+    releaseStaleLock();
     if (!state.stage) return;
     if (isBlocked()) return;
     if (e.ctrlKey || Math.abs(e.deltaY) < 4) return;
@@ -300,6 +342,7 @@
     go(dir);
   }
   function onKey(e) {
+    releaseStaleLock();
     if (!state.stage || state.intro) return;
     if (isBlocked()) return;
     var t = e.target;
