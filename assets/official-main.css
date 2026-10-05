@@ -3658,3 +3658,14 @@ html[data-om-intro] .prereg-pop {
     transform: translateY(26px);
   }
 }
+
+/* ── 휴대폰·일반 스크롤(om--flow): 첫 화면이 고정된 채 비어 있는 구간을 줄인다 (2026-10-05 PM 검수: 「스크롤이 안 내려간다」) ──
+   기준은 「아크원이란?」 장면의 위 여백이 500u 라서 첫 화면을 넘긴 뒤 약 1.3화면을 더 쓸어 올려야 다음 내용이 나왔다.
+   엠블럼은 바로, 설명은 반 화면 안에 이어지고 사업개요도 그만큼 먼저 온다. PC 장면 전환(om--stage)은 그대로. */
+.om--flow .om-hero__definition_scene {
+  min-height: 0;
+  padding-top: calc(260 * var(--u));
+}
+.om--flow .om-hero__transition {
+  top: calc(30 * var(--u));
+}
