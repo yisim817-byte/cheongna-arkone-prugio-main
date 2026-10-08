@@ -518,7 +518,8 @@
   root.insertBefore(nav, root.firstChild);
   syncChromeVars();
   paintVisual();
-  if (!state.reduced) startIntro();
+  // v7.0: 첫 화면 등장 연출은 대표 승인 범위에서 생략. 인트로 영상 선로드가 LCP 글자를 가린다.
+  if (false && !state.reduced) startIntro();
   syncMode();
   window.addEventListener("resize", onResize);
   window.addEventListener("load", syncChromeVars);
