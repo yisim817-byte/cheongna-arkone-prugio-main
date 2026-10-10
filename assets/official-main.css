@@ -3669,7 +3669,3 @@ html[data-om-intro] .prereg-pop {
 .om--flow .om-hero__transition {
   top: calc(30 * var(--u));
 }
-
-/* v6.1 first-viewport titles visible immediately; intro ends before 10s */
-.om-intro{display:none!important}
-.om-hero__title,.om-hero__title span{opacity:1!important;animation:none!important;transform:none!important}
