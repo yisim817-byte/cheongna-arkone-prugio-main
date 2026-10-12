@@ -688,3 +688,13 @@ body.prereg-lock { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .prereg-pop.is-in { transition: none; }
 }
+/* v14.0 §3 (2026-10-12): 휴대폰 사전고객등록 띠 — 자동 팝업 대신. nav.mbar(58px) 바로 위, 높이 44px, 배경 덮개 없음 */
+.prereg-strip{display:none}
+@media (max-width:767px){
+  .prereg-strip{position:fixed;left:0;right:0;bottom:calc(58px + env(safe-area-inset-bottom));z-index:129;height:44px;display:flex;align-items:center;gap:8px;padding:0 4px 0 14px;background:var(--gold);color:#241C0C;font-size:13px;font-weight:600}
+  .prereg-strip[hidden]{display:none}
+  .prereg-strip__txt{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .prereg-strip__more{flex:none;height:32px;padding:0 12px;border:1px solid currentColor;border-radius:16px;background:transparent;color:#241C0C;font:inherit;font-weight:600}
+  .prereg-strip__x{flex:none;width:40px;height:40px;border:0;background:transparent;color:#241C0C;font-size:16px}
+  html[data-om-intro] .prereg-strip{visibility:hidden}
+}

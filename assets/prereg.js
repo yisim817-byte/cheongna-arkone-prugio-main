@@ -129,14 +129,21 @@
           document.head.appendChild(popupStyle);
         }
         modal.innerHTML = '<div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><p>10월 중 OPEN 예정 · 일정 문의 1833-3872</p><p>EVENT · 사전고객등록 고객 혜택</p><h2>백화점 상품권 30만원</h2><p>롯데 · 현대 · 신세계 중 선택</p><p>사전고객등록 후 담당자 안내에 따라 MGM 등록을 마치고, 청약 당첨 및 MGM 인정조건을 충족하신 고객께 드립니다.</p><p>사전고객등록은 공식 청약 신청이 아닙니다.</p>' + termsButton() + '<p><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p>사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p><div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></div>';
-        var savedY = window.__homeUserMoved ? (window.scrollY || 0) : 0;
-        if (!window.__homeUserMoved) window.scrollTo(0, 0);
-        document.body.dataset.preregScroll = String(savedY);
-        document.body.style.position = "fixed";
-        document.body.style.top = (-savedY) + "px";
-        document.body.style.left = "0";
-        document.body.style.right = "0";
-        document.body.style.width = "100%";
+        // v14.0 §3 (2026-10-12): 휴대폰(767px 이하)에서는 자동으로 띄우지 않는다. 다이얼로그는 만들어 두고 닫아 두며,
+        // nav.mbar 위 띠의 「자세히」를 누를 때만 잠그고 연다. 데스크톱 동작(잠금·인트로 대기·표시)은 종전 그대로다.
+        var mobileView = false;
+        try { mobileView = window.matchMedia("(max-width: 767px)").matches; } catch (err) {}
+        function lock() {
+          var savedY = mobileView ? (window.scrollY || 0) : (window.__homeUserMoved ? (window.scrollY || 0) : 0);
+          if (!mobileView && !window.__homeUserMoved) window.scrollTo(0, 0);
+          document.body.dataset.preregScroll = String(savedY);
+          document.body.style.position = "fixed";
+          document.body.style.top = (-savedY) + "px";
+          document.body.style.left = "0";
+          document.body.style.right = "0";
+          document.body.style.width = "100%";
+        }
+        if (!mobileView) lock();
         function unlock() {
           var y = Number(document.body.dataset.preregScroll || 0);
           document.body.style.position = "";
@@ -155,12 +162,20 @@
         }
         function close(hideToday) {
           if (closed) return;
+          if (mobileView && !shown) return; // 휴대폰: 열리지 않은(되돌려 둔) 다이얼로그의 늦은 close 이벤트는 무시
           closed = true;
           if (guard) guard.disconnect();
           ["wheel", "touchstart", "keydown"].forEach(function (type) { window.removeEventListener(type, check); });
           if (canDialog && modal.open) modal.close();
           modal.remove(); unlock();
           if (hideToday) { try { localStorage.setItem("prereg_popup_until_v8", String(Date.now() + 86400000)); } catch (err) {} }
+          if (mobileView) {
+            // 휴대폰: 다시 열 수 있게 닫힌 다이얼로그로 되돌리고 띠를 다시 보인다(오늘 하루 보지 않기면 띠도 숨긴다).
+            if (hideToday) { if (strip) strip.remove(); return; }
+            closed = false; shown = false;
+            document.body.appendChild(modal);
+            if (strip && !stripClosed()) strip.hidden = false;
+          }
         }
         function show() {
           if (closed || shown) return;
@@ -173,11 +188,31 @@
         modal.addEventListener("keydown", function (e) { if (e.key === "Escape") close(false); if (e.key === "Tab") { var f=Array.from(modal.querySelectorAll("a,button")),i=f.indexOf(document.activeElement); if(e.shiftKey&&i===0){e.preventDefault();f[f.length-1].focus();}else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus();} } });
         if (canDialog) modal.addEventListener("close", function () { close(false); });
         document.body.appendChild(modal);
-        if ("MutationObserver" in window) { guard = new MutationObserver(check); guard.observe(document.body, { childList: true }); }
-        ["wheel", "touchstart", "keydown"].forEach(function (type) { window.addEventListener(type, check, { passive: true }); });
-        // 홈 인트로가 도는 동안에는 띄우지 않는다(top layer 는 인트로보다 위에 그려진다). 인트로가 끝나면 official-main.js 가 om:intro-done 을 낸다.
-        if (document.documentElement.hasAttribute("data-om-intro")) window.addEventListener("om:intro-done", show, { once: true });
-        else show();
+        function arm() {
+          if ("MutationObserver" in window) { guard = new MutationObserver(check); guard.observe(document.body, { childList: true }); }
+          ["wheel", "touchstart", "keydown"].forEach(function (type) { window.addEventListener(type, check, { passive: true }); });
+        }
+        function stripClosed() { try { return sessionStorage.getItem("prereg_strip_closed") === "1"; } catch (err) { return false; } }
+        var strip = null;
+        if (mobileView) {
+          if (!stripClosed()) {
+            strip = document.createElement("div");
+            strip.className = "prereg-strip";
+            strip.setAttribute("role", "region");
+            strip.setAttribute("aria-label", "사전고객등록 이벤트 안내");
+            strip.innerHTML = '<span class="prereg-strip__txt">EVENT · 사전고객등록 백화점 상품권 30만원</span><button type="button" class="prereg-strip__more">자세히</button><button type="button" class="prereg-strip__x" aria-label="닫기">✕</button>';
+            strip.addEventListener("click", function (e) {
+              if (e.target.closest(".prereg-strip__more")) { strip.hidden = true; lock(); arm(); show(); }
+              else if (e.target.closest(".prereg-strip__x")) { try { sessionStorage.setItem("prereg_strip_closed", "1"); } catch (err) {} strip.remove(); strip = null; }
+            });
+            document.body.appendChild(strip);
+          }
+        } else {
+          arm();
+          // 홈 인트로가 도는 동안에는 띄우지 않는다(top layer 는 인트로보다 위에 그려진다). 인트로가 끝나면 official-main.js 가 om:intro-done 을 낸다.
+          if (document.documentElement.hasAttribute("data-om-intro")) window.addEventListener("om:intro-done", show, { once: true });
+          else show();
+        }
       }
     }
   }
