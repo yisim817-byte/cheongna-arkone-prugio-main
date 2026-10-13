@@ -95,7 +95,7 @@
     html.setAttribute("data-om-intro", "1");
     root.classList.add("om--intro");
     var video = el("video", { class: "om-intro__video", poster: "/assets/official/arkone/main/poster/" + (state.pc ? "hero_bg.v4.jpg" : "hero_bg_m.v4.jpg"), autoplay: "", muted: "", loop: "", playsinline: "", preload: "auto" }, [
-      el("source", { src: "/media/main/intro_video.mp4", type: "video/mp4" })
+      el("source", { src: "/media/official/intro_video.mp4", type: "video/mp4" })
     ]);
     video.muted = true;
     var skip = el("button", { type: "button", class: "om-intro__skip", lang: "en", "aria-label": "인트로 건너뛰기" }, ["SKIP"]);
@@ -405,7 +405,7 @@
     var poster = "/assets/official/arkone/main/poster/" + (state.pc ? "hero_bg.v4.jpg" : "hero_bg_m.v4.jpg");
     if (heroVideo.getAttribute("poster") !== poster) heroVideo.setAttribute("poster", poster);
     if (state.reduced) return;
-    var src = (state.pc ? "/media/main/hero_video.mp4" : "/media/main/hero_video_m.mp4");
+    var src = (state.pc ? "/media/official/hero_video.mp4" : "/media/official/hero_video_m.mp4");
     if (heroVideo.getAttribute("src") !== src) {
       heroVideo.setAttribute("src", src);
       heroVideo.preload = "auto";
