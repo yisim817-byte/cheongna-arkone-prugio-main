@@ -94,7 +94,7 @@
     state.intro = true;
     html.setAttribute("data-om-intro", "1");
     root.classList.add("om--intro");
-    var video = el("video", { class: "om-intro__video", autoplay: "", muted: "", loop: "", playsinline: "", preload: "auto" }, [
+    var video = el("video", { class: "om-intro__video", poster: "/assets/official/arkone/main/poster/" + (state.pc ? "hero_bg.v4.jpg" : "hero_bg_m.v4.jpg"), autoplay: "", muted: "", loop: "", playsinline: "", preload: "auto" }, [
       el("source", { src: MAIN + "intro_video_2.mp4", type: "video/mp4" })
     ]);
     video.muted = true;
@@ -400,7 +400,11 @@
   /* ── 히어로 영상: 화면 폭으로 고른다. 「동작 줄이기」면 받지 않는다 ─────────── */
   var heroVideo = root.querySelector(".om-hero__video");
   function syncHeroVideo() {
-    if (!heroVideo || state.reduced) return;
+    if (!heroVideo) return;
+    /* 구글 동영상 색인: 썸네일(poster)은 자체 도메인 이미지로, 화면 폭에 맞춘다 */
+    var poster = "/assets/official/arkone/main/poster/" + (state.pc ? "hero_bg.v4.jpg" : "hero_bg_m.v4.jpg");
+    if (heroVideo.getAttribute("poster") !== poster) heroVideo.setAttribute("poster", poster);
+    if (state.reduced) return;
     var src = MAIN + (state.pc ? "hero_video_3.mp4" : "hero_video_m_2.mp4");
     if (heroVideo.getAttribute("src") !== src) {
       heroVideo.setAttribute("src", src);
