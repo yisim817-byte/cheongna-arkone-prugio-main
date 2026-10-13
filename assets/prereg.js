@@ -192,6 +192,7 @@
           ["wheel", "touchstart", "keydown"].forEach(function (type) { window.addEventListener(type, check, { passive: true }); });
         }
         function stripClosed() { try { return sessionStorage.getItem("prereg_strip_closed") === "1"; } catch (err) { return false; } }
+        try { sessionStorage.removeItem("prereg_strip_closed"); } catch (err) {}
         var strip = null;
         if (mobileView) {
           if (!stripClosed()) {
