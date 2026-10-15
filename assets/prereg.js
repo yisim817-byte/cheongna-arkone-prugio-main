@@ -400,7 +400,7 @@
       document.getElementById("prereg-done-time").textContent = formatKst(createdAt);
       var step1Note = document.createElement("div"); step1Note.className = "prereg-done-box"; step1Note.setAttribute("role", "status");
       var t1 = document.createElement("strong"); t1.className = "prereg-done-title"; t1.textContent = "사전등록 완료되었습니다.";
-      var d1 = document.createElement("p"); d1.textContent = (first.duplicate ? "이미 사전등록된 번호입니다. 최초 접수번호 " : "접수번호 ") + receiptNo + " · 접수시각 " + formatKst(createdAt) + " · 상품 " + (product === "officetel" ? "오피스텔" : "아파트");
+      var d1 = document.createElement("p"); d1.textContent = (first.duplicate ? "이미 사전등록된 번호입니다. 최초 접수번호 " : "접수번호 ") + receiptNo + " · 접수시각 " + formatKst(createdAt) + " · 상품 " + (product === "officetel" ? "오피스텔" : product === "commercial" ? "상가" : "아파트");
       var sh1 = document.createElement("div");
       step1Note.appendChild(t1); step1Note.appendChild(d1); step1Note.appendChild(sh1);
       if (window.PreregShare) window.PreregShare.mount(sh1, receiptNo, formatKst(createdAt));
