@@ -229,7 +229,7 @@
   var done = document.getElementById("prereg-done");
   var alertBox = document.getElementById("prereg-alert");
   var requestedProduct = new URLSearchParams(location.search).get("product");
-  var product = requestedProduct === "apt" || requestedProduct === "officetel" ? requestedProduct : "";
+  var product = requestedProduct === "apt" || requestedProduct === "officetel" || requestedProduct === "commercial" ? requestedProduct : "";
   function applyProduct(value) {
     product = value;
     form.querySelectorAll("[data-product-option]").forEach(function (option) { option.hidden = option.getAttribute("data-product-option") !== product; });
@@ -238,6 +238,7 @@
     var officeType = form.querySelector('[name="interest_type"][value="오피스텔"]');
     form.querySelectorAll('[name="interest_type"]').forEach(function (input) { input.checked = false; });
     if (product === "officetel" && officeType) officeType.checked = true;
+    if (product === "commercial") { var commercialType = form.querySelector('[name="interest_type"][value="상가"]'); if (commercialType) commercialType.checked = true; }
   }
   form.querySelectorAll('[name="product"]').forEach(function (input) {
     input.checked = input.value === product;
