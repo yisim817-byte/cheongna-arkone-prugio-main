@@ -688,3 +688,10 @@ body.prereg-lock { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .prereg-pop.is-in { transition: none; }
 }
+
+/* v18 mobile prereg strip */
+@media (max-width:767px){
+  .prereg-popup{display:none !important;}
+  .prereg-strip{position:fixed;bottom:60px;left:0;right:0;height:40px;background:#1a3a2a;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 12px;z-index:20;font-size:13px;}
+  .prereg-strip button{background:transparent;border:0;color:#fff;font-size:16px;}
+}
