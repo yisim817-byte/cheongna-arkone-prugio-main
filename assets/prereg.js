@@ -116,7 +116,17 @@
     var forcePopup = repair === "popup-v8" || repair === "popup-v7";
     var popupUntil = 0;
     try { popupUntil = Number(localStorage.getItem("prereg_popup_until_v8") || 0); } catch (err) {}
-    if (forcePopup || Date.now() >= popupUntil) {
+    if (window.innerWidth <= 767) {
+      // mobile: no auto popup, show strip instead
+      if (!document.querySelector(".prereg-strip") && !sessionStorage.getItem("prereg_strip_closed")) {
+        var strip = document.createElement("div");
+        strip.className = "prereg-strip";
+        strip.innerHTML = "<span>EVENT · 사전고객등록</span><button type=\"button\" class=\"prereg-strip__more\">자세히</button><button type=\"button\" class=\"prereg-strip__x\">✕</button>";
+        document.body.appendChild(strip);
+        strip.querySelector(".prereg-strip__x").onclick = function(){ strip.remove(); sessionStorage.setItem("prereg_strip_closed","1"); };
+        strip.querySelector(".prereg-strip__more").onclick = function(){ /* open existing popup logic if needed */ };
+      }
+    } else if (forcePopup || Date.now() >= popupUntil) {
       if (!document.querySelector(".prereg-popup")) {
         // 팝업은 브라우저 기본 <dialog>(top layer, 덮개는 ::backdrop)로 띄운다. 화면 전체를 덮는 고정 요소가 DOM 에 없어
         // 「마우스 제한 해제」류 확장이 덮개로 오인해 지우는 일을 피한다. <dialog> 를 못 쓰는 브라우저는 전과 같은 div 로 띄운다.
