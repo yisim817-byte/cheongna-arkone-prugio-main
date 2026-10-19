@@ -333,6 +333,55 @@
   }
 
   var receiptNo = "", createdAt = "", phoneValue = "";
+
+  // 모델하우스 방문예약(선택) — 작업지시서 9. 비워도 등록은 그대로 진행된다. 설정 함수가 실패하면 날짜 칸을 숨긴다.
+  var visitBox = form.querySelector("[name=visit_request]");
+  var visitDate = form.querySelector("[name=visit_date]");
+  var visitPick = form.querySelector(".visit-block__pick");
+  var visitOff = form.querySelector(".visit-block__off");
+  var visitReady = false, visitLine = "";
+  var VISIT_SLOT = { AM: "오전", PM: "오후", ANY: "시간 상관없음" };
+  function visitSync() { if (visitPick) visitPick.hidden = !(visitReady && visitBox && visitBox.checked); }
+  if (visitBox) visitBox.addEventListener("change", visitSync);
+  if (visitDate) visitDate.addEventListener("change", function () {
+    if (!visitDate.value) return;
+    if (visitBox) visitBox.checked = true;
+    if (!form.querySelector("[name=visit_slot]:checked")) { var anySlot = form.querySelector('[name=visit_slot][value="ANY"]'); if (anySlot) anySlot.checked = true; }
+    visitSync();
+  });
+  var fromVisit = new URLSearchParams(location.search).get("visit") === "1";
+  if (fromVisit && visitBox) visitBox.checked = true;
+  if (!window.__arkoneVisitCfg) {
+    window.__arkoneVisitCfg = fetch("https://jzmktahlrwtrtejjflrw.supabase.co/functions/v1/arkone-visit-config", { method: "GET", credentials: "omit" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { return d && d.enabled === true && Array.isArray(d.dates) && d.dates.length ? d : null; })
+      .catch(function () { return null; });
+  }
+  window.__arkoneVisitCfg.then(function (cfg) {
+    if (cfg && visitDate) {
+      cfg.dates.forEach(function (item) {
+        var option = document.createElement("option");
+        option.value = item.value;
+        option.textContent = item.label;
+        visitDate.appendChild(option);
+      });
+      visitReady = true;
+    } else if (visitOff) visitOff.hidden = false;
+    visitSync();
+    if (fromVisit) {
+      var block = document.getElementById("visit");
+      if (block && block.scrollIntoView) block.scrollIntoView({ block: "center" });
+      var target = visitReady ? visitDate : visitBox;
+      if (target) target.focus({ preventScroll: true });
+    }
+  });
+  function showVisitLine(anchor) {
+    if (!visitLine || !anchor) return;
+    var line = document.createElement("p");
+    line.className = "prereg-visit-line";
+    line.textContent = visitLine;
+    anchor.insertAdjacentElement("afterend", line);
+  }
   function validateFirst() {
     var name = (form.querySelector("[name=name]").value || "").trim();
     var digits = phone.value.replace(/\D/g, "");
@@ -381,6 +430,9 @@
     button.disabled = true;
     button.textContent = "접수 중…";
     say("");
+    var visitPicked = visitReady && visitBox && visitBox.checked && visitDate ? visitDate.value : "";
+    var visitSlotEl = form.querySelector("[name=visit_slot]:checked");
+    var visitSlot = visitSlotEl ? visitSlotEl.value : "ANY";
     post(Object.assign(payloadBase(), {
       step: 1,
       name: name,
@@ -388,9 +440,9 @@
       birth6: birthValue,
       consent_collect: true,
       consent_marketing: !!form.querySelector("[name=consent_marketing]").checked,
-      visit_request: false,
+      visit_request: !!(visitBox && visitBox.checked),
       hp: ""
-    })).then(function (first) {
+    }, visitPicked ? { visit_date: visitPicked, visit_slot: visitSlot } : {})).then(function (first) {
       if (!first) {
         say("접수를 확인하지 못했습니다. 입력 내용은 유지됩니다. 잠시 후 다시 시도하시거나 " + PHONE + "로 문의해 주세요.");
         return null;
@@ -405,6 +457,14 @@
       step1Note.appendChild(t1); step1Note.appendChild(d1); step1Note.appendChild(sh1);
       if (window.PreregShare) window.PreregShare.mount(sh1, receiptNo, formatKst(createdAt));
       step1.parentNode.insertBefore(step1Note, step1); step1.querySelectorAll("input,button").forEach(function(el){el.disabled=true;}); button.hidden=true;
+      if (visitDate) visitDate.disabled = true;
+      if (visitPicked) {
+        var picked = visitDate.options[visitDate.selectedIndex];
+        visitLine = first.visit_saved === true
+          ? "방문 희망일 " + (picked ? picked.textContent : visitPicked) + " " + VISIT_SLOT[visitSlot] + " · 담당자가 확인 후 연락드립니다."
+          : "방문 희망 일정은 담당자가 전화로 확인합니다.";
+        showVisitLine(t1);
+      }
       if (first.duplicate) { var existing=document.getElementById("prereg-existing"); existing.hidden=false; document.getElementById("prereg-existing-no").textContent=receiptNo; }
       step2.hidden=false; say(""); step2.scrollIntoView({block:"start"}); var first2=step2.querySelector("select,input,button"); if(first2) first2.focus();
       return null;
@@ -416,5 +476,5 @@
     });
   });
   form.querySelector("[data-prereg-skip]").addEventListener("click", function(){ if(receiptNo) showDone(false); });
-  function showDone(duplicate){ document.getElementById("prereg-done-no").textContent=receiptNo; document.getElementById("prereg-done-time").textContent=formatKst(createdAt); document.getElementById("prereg-done-heading").textContent="사전등록 완료되었습니다."; var dp=document.getElementById("prereg-done-product"); if(dp) dp.textContent="등록 상품 "+(product==="officetel"?"오피스텔":product==="commercial"?"상가":"아파트"); if(window.PreregShare) window.PreregShare.mount(document.getElementById("prereg-done-share"), receiptNo, formatKst(createdAt)); if(product==="officetel"){document.getElementById("prereg-steps").innerHTML="<p>STEP 1 오피스텔 사전등록 완료</p><p>STEP 2 담당자가 오피스텔 상품 안내를 드립니다.</p>";} else if(product==="commercial"){document.getElementById("prereg-steps").innerHTML="<p>STEP 1 상가 사전등록 완료</p><p>STEP 2 담당자가 상가 상품 안내를 드립니다.</p>";} if(duplicate){document.getElementById("prereg-existing").hidden=false;document.getElementById("prereg-existing-no").textContent=receiptNo;} form.hidden=true; done.hidden=false; done.scrollIntoView({block:"start"}); }
+  function showDone(duplicate){ document.getElementById("prereg-done-no").textContent=receiptNo; document.getElementById("prereg-done-time").textContent=formatKst(createdAt); document.getElementById("prereg-done-heading").textContent="사전등록 완료되었습니다."; showVisitLine(document.getElementById("prereg-done-heading")); var dp=document.getElementById("prereg-done-product"); if(dp) dp.textContent="등록 상품 "+(product==="officetel"?"오피스텔":product==="commercial"?"상가":"아파트"); if(window.PreregShare) window.PreregShare.mount(document.getElementById("prereg-done-share"), receiptNo, formatKst(createdAt)); if(product==="officetel"){document.getElementById("prereg-steps").innerHTML="<p>STEP 1 오피스텔 사전등록 완료</p><p>STEP 2 담당자가 오피스텔 상품 안내를 드립니다.</p>";} else if(product==="commercial"){document.getElementById("prereg-steps").innerHTML="<p>STEP 1 상가 사전등록 완료</p><p>STEP 2 담당자가 상가 상품 안내를 드립니다.</p>";} if(duplicate){document.getElementById("prereg-existing").hidden=false;document.getElementById("prereg-existing-no").textContent=receiptNo;} form.hidden=true; done.hidden=false; done.scrollIntoView({block:"start"}); }
 })();
