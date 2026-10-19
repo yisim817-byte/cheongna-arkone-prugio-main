@@ -698,3 +698,5 @@ body.prereg-lock { overflow: hidden; }
   .prereg-strip__x{flex:none;width:40px;height:40px;border:0;background:transparent;color:#241C0C;font-size:16px}
   html[data-om-intro] .prereg-strip{visibility:hidden}
 }
+/* 작업지시서 9 (2026-10-19): 1단계 「모델하우스 방문예약 (선택)」 블록 */
+.visit-block{margin:16px 0;padding:14px;border:1px solid rgba(3,43,32,.25);border-radius:8px;scroll-margin-top:120px}.visit-block__title{margin:0 0 6px;font-weight:700}.visit-block__pick .field{margin-top:12px}.visit-block__slots{margin:12px 0 0;padding:0;border:0;min-width:0}.visit-block__slots legend{padding:0;font-weight:700}.visit-block .muted{margin:8px 0 0}.prereg-visit-line{margin:6px 0 0}
