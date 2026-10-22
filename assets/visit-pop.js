@@ -22,7 +22,7 @@
   }
 
   function startVisitPopup(cfg) {
-    var GAP = 24;
+    var GAP = 16; // 작업지시서 13: 팝업 간격 16px
     var dead = false, closed = false, timers = [], mode = "", root = null, panel = null, prevFocus = null, watch = 0, focused = false;
     var shifts = [];
     var useDialog = !!cfg.dialog && typeof HTMLDialogElement === "function" && typeof HTMLDialogElement.prototype.showModal === "function";
@@ -34,7 +34,7 @@
     }
     function skip() {
       var p = norm(location.pathname);
-      return p === norm(cfg.register) || p === "/register" || p === "/privacy" || p === "/terms" || p === "/agreement" || p === "/policy";
+      return p === norm(cfg.register) || p === "/register" || p === norm(cfg.visit || "/visit") || p === "/visit" || p === "/privacy" || p === "/terms" || p === "/agreement" || p === "/policy";
     }
     function hidden() {
       try { var u = localStorage.getItem(VISIT_HIDE_KEY); return !!(u && Date.now() < Number(u)); } catch (e) { return false; }
@@ -66,7 +66,7 @@
       + "dialog.visit-pop{width:100%;height:100%;max-width:none;max-height:none;margin:0;border:0;overflow:auto}"
       + "dialog.visit-pop::backdrop{background:rgba(3,43,32,.6)}"
       + ".visit-pop--side{background:transparent;pointer-events:none}"
-      + ".visit-pop--side .visit-pop__panel,.visit-pop__panel--side{position:absolute;pointer-events:auto;margin:0}"
+      + ".visit-pop--side .visit-pop__panel,.visit-pop__panel.visit-pop__panel--side{position:absolute;pointer-events:auto;margin:0}" // 작업지시서 13: 기존 팝업이 <dialog> 일 때도 absolute 가 이기게(뒤의 .visit-pop__panel{position:relative} 보다 우선)
       + "dialog.visit-pop{background:transparent}"
       + ".visit-pop__panel{position:relative;width:min(420px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;box-sizing:border-box;border:1px solid #B5853A;border-radius:16px;background:#F7F3EA;color:#032B20;text-align:left;font-family:inherit;animation:visitPopIn .25s ease-out both}"
       + ".visit-pop__panel *{box-sizing:border-box}"
@@ -102,9 +102,9 @@
         + '<p class="visit-pop__band">청라 아크원 푸르지오 · 견본주택 방문예약</p>'
         + '<div class="visit-pop__body">'
         + '<h2 id="visit-pop-title" class="visit-pop__title">모델하우스 방문예약</h2>'
-        + '<p class="visit-pop__desc">사전고객등록과 함께 방문 희망 날짜를 남겨 주시면, 담당자가 확인 후 방문 시간을 안내해 드립니다.</p>'
+        + '<p class="visit-pop__desc">방문 희망 날짜를 남겨 주시면, 담당자가 확인 후 방문 시간을 안내해 드립니다.</p>'
         + '<p class="visit-pop__loc"><span>견본주택 위치</span>인천광역시 서해구 청라동 87-1</p>'
-        + '<a class="visit-pop__go" href="' + cfg.register + '?visit=1#visit">방문 날짜 선택하고 예약하기</a>'
+        + '<a class="visit-pop__go" href="' + (cfg.visit || "/visit") + '">방문 날짜 선택하고 예약하기</a>'
         + '<a class="visit-pop__tel" href="' + (cfg.tel || "tel:18333872") + '">전화 예약 ' + (cfg.phone || "1833-3872") + '</a>'
         + '<p class="visit-pop__note">※ 방문예약 신청은 담당자 확인 후 확정됩니다. 희망 일정이 어려운 경우 다른 일정으로 안내드릴 수 있습니다.</p>'
         + '<p class="visit-pop__note">※ 견본주택 운영 일정은 사업주체 사정에 따라 변경될 수 있습니다.</p>'
@@ -248,7 +248,7 @@
         if (t.closest(".visit-pop__go")) {
           e.preventDefault(); e.stopPropagation();
           close(false);
-          location.assign(cfg.register + "?visit=1#visit");
+          location.assign(cfg.visit || "/visit");
           return;
         }
         if (t.closest("[data-visit-today]")) { e.stopPropagation(); close(true); }
@@ -275,6 +275,6 @@
     visitConfig().then(function (d) { if (d && !dead) whenReady(open); });
     return function stop() { dead = true; timers.forEach(function (t) { window.clearTimeout(t); }); close(false); };
   }
-  function run() { startVisitPopup({ phone: "1833-3872", tel: "tel:18333872", register: "/register", cards: [".prereg-popup__card", ".costco-pop__panel"], dialog: true, delay: 2600, z: 1102 }); }
+  function run() { startVisitPopup({ phone: "1833-3872", tel: "tel:18333872", register: "/register", visit: "/visit", cards: [".prereg-popup__card", ".costco-pop__panel"], dialog: true, delay: 2600, z: 1102 }); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run); else run();
 })();

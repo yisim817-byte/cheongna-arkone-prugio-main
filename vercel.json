@@ -18,6 +18,18 @@
       "source": "/index.html",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/register",
+      "has": [
+        {
+          "type": "query",
+          "key": "visit",
+          "value": "1"
+        }
+      ],
+      "destination": "/visit",
+      "permanent": false
     }
   ],
   "headers": [
@@ -45,6 +57,15 @@
     },
     {
       "source": "/register(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/visit(.*)",
       "headers": [
         {
           "key": "X-Robots-Tag",

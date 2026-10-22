@@ -127,7 +127,8 @@
           popupStyle.textContent = "dialog.prereg-popup{position:fixed;inset:auto;top:50%;left:50%;transform:translate(-50%,-50%);width:min(480px,calc(100% - 32px));max-width:none;max-height:85vh;margin:0;padding:0;border:0;background:transparent;overflow:visible}dialog.prereg-popup:not([open]){display:none}dialog.prereg-popup[open]{display:block}dialog.prereg-popup::backdrop{background:rgba(0,0,0,.55)}dialog.prereg-popup .prereg-popup__card{width:100%}";
           document.head.appendChild(popupStyle);
         }
-        modal.innerHTML = '<div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><p>입주자모집공고 게시 2026.10.22(목) · 견본주택 GRAND OPEN 10.30(금) · 일정 문의 1833-3872</p><p>EVENT · 사전고객등록 고객 혜택</p><h2>백화점 상품권 30만원</h2><p>롯데 · 현대 · 신세계 중 선택</p><p>사전고객등록 후 청약 당첨 및 지급 조건을 충족하신 고객께 드립니다.</p><p>사전고객등록은 공식 청약 신청이 아닙니다.</p><p>※ 동일 현장의 다른 홈페이지·분양 채널에 중복으로 등록하신 경우, 상품권 지급이 제한될 수 있습니다.</p>' + termsButton() + '<p><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p>사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p><div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></div>';
+        // 작업지시서 13: 문구는 그대로 두고 배치·모양만 아크원푸르지오.site 30만원 팝업과 같게(제목 → 혜택 → 등록 버튼 → 확인 → 유의 문구 → 하단 버튼)
+        modal.innerHTML = '<div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><p>입주자모집공고 게시 2026.10.22(목) · 견본주택 GRAND OPEN 10.30(금) · 일정 문의 1833-3872</p><p>EVENT · 사전고객등록 고객 혜택</p><h2>백화점 상품권 30만원</h2><p>롯데 · 현대 · 신세계 중 선택</p><p>사전고객등록 후 청약 당첨 및 지급 조건을 충족하신 고객께 드립니다.</p><p class="prereg-popup__go"><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p class="prereg-popup__confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p><p class="prereg-popup__fine">사전고객등록은 공식 청약 신청이 아닙니다.</p><p class="prereg-popup__fine">※ 동일 현장의 다른 홈페이지·분양 채널에 중복으로 등록하신 경우, 상품권 지급이 제한될 수 있습니다.</p>' + termsButton() + '<div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></div>';
         // v14.0 §3 (2026-10-12): 휴대폰(767px 이하)에서는 자동으로 띄우지 않는다. 다이얼로그는 만들어 두고 닫아 두며,
         // nav.mbar 위 띠의 「자세히」를 누를 때만 잠그고 연다. 데스크톱 동작(잠금·인트로 대기·표시)은 종전 그대로다.
         var mobileView = false;
@@ -334,54 +335,7 @@
 
   var receiptNo = "", createdAt = "", phoneValue = "";
 
-  // 모델하우스 방문예약(선택) — 작업지시서 9. 비워도 등록은 그대로 진행된다. 설정 함수가 실패하면 날짜 칸을 숨긴다.
-  var visitBox = form.querySelector("[name=visit_request]");
-  var visitDate = form.querySelector("[name=visit_date]");
-  var visitPick = form.querySelector(".visit-block__pick");
-  var visitOff = form.querySelector(".visit-block__off");
-  var visitReady = false, visitLine = "";
-  var VISIT_SLOT = { AM: "오전", PM: "오후", ANY: "시간 상관없음" };
-  function visitSync() { if (visitPick) visitPick.hidden = !(visitReady && visitBox && visitBox.checked); }
-  if (visitBox) visitBox.addEventListener("change", visitSync);
-  if (visitDate) visitDate.addEventListener("change", function () {
-    if (!visitDate.value) return;
-    if (visitBox) visitBox.checked = true;
-    if (!form.querySelector("[name=visit_slot]:checked")) { var anySlot = form.querySelector('[name=visit_slot][value="ANY"]'); if (anySlot) anySlot.checked = true; }
-    visitSync();
-  });
-  var fromVisit = new URLSearchParams(location.search).get("visit") === "1";
-  if (fromVisit && visitBox) visitBox.checked = true;
-  if (!window.__arkoneVisitCfg) {
-    window.__arkoneVisitCfg = fetch("https://jzmktahlrwtrtejjflrw.supabase.co/functions/v1/arkone-visit-config", { method: "GET", credentials: "omit" })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) { return d && d.enabled === true && Array.isArray(d.dates) && d.dates.length ? d : null; })
-      .catch(function () { return null; });
-  }
-  window.__arkoneVisitCfg.then(function (cfg) {
-    if (cfg && visitDate) {
-      cfg.dates.forEach(function (item) {
-        var option = document.createElement("option");
-        option.value = item.value;
-        option.textContent = item.label;
-        visitDate.appendChild(option);
-      });
-      visitReady = true;
-    } else if (visitOff) visitOff.hidden = false;
-    visitSync();
-    if (fromVisit) {
-      var block = document.getElementById("visit");
-      if (block && block.scrollIntoView) block.scrollIntoView({ block: "center" });
-      var target = visitReady ? visitDate : visitBox;
-      if (target) target.focus({ preventScroll: true });
-    }
-  });
-  function showVisitLine(anchor) {
-    if (!visitLine || !anchor) return;
-    var line = document.createElement("p");
-    line.className = "prereg-visit-line";
-    line.textContent = visitLine;
-    anchor.insertAdjacentElement("afterend", line);
-  }
+  // 작업지시서 13 (2026-10-22): 모델하우스 방문예약은 전용 페이지(/visit)로 분리했다. 이 폼에는 방문 항목이 없다.
   function validateFirst() {
     var name = (form.querySelector("[name=name]").value || "").trim();
     var digits = phone.value.replace(/\D/g, "");
@@ -430,9 +384,6 @@
     button.disabled = true;
     button.textContent = "접수 중…";
     say("");
-    var visitPicked = visitReady && visitBox && visitBox.checked && visitDate ? visitDate.value : "";
-    var visitSlotEl = form.querySelector("[name=visit_slot]:checked");
-    var visitSlot = visitSlotEl ? visitSlotEl.value : "ANY";
     post(Object.assign(payloadBase(), {
       step: 1,
       name: name,
@@ -440,9 +391,8 @@
       birth6: birthValue,
       consent_collect: true,
       consent_marketing: !!form.querySelector("[name=consent_marketing]").checked,
-      visit_request: !!(visitBox && visitBox.checked),
       hp: ""
-    }, visitPicked ? { visit_date: visitPicked, visit_slot: visitSlot } : {})).then(function (first) {
+    })).then(function (first) {
       if (!first) {
         say("접수를 확인하지 못했습니다. 입력 내용은 유지됩니다. 잠시 후 다시 시도하시거나 " + PHONE + "로 문의해 주세요.");
         return null;
@@ -454,17 +404,9 @@
       var t1 = document.createElement("strong"); t1.className = "prereg-done-title"; t1.textContent = "사전등록 완료되었습니다.";
       var d1 = document.createElement("p"); d1.textContent = (first.duplicate ? "이미 사전등록된 번호입니다. 최초 접수번호 " : "접수번호 ") + receiptNo + " · 접수시각 " + formatKst(createdAt) + " · 상품 " + (product === "officetel" ? "오피스텔" : product === "commercial" ? "상가" : "아파트");
       var sh1 = document.createElement("div");
-      step1Note.appendChild(t1); step1Note.appendChild(d1); step1Note.appendChild(sh1);
+      step1Note.appendChild(t1); step1Note.appendChild(d1); step1Note.appendChild(sh1); var gv1 = document.createElement("p"); gv1.className = "prereg-visit-go"; gv1.innerHTML = '<a class="btn btn--line" href="/visit">모델하우스 방문예약 하기</a>'; step1Note.appendChild(gv1);
       if (window.PreregShare) window.PreregShare.mount(sh1, receiptNo, formatKst(createdAt));
       step1.parentNode.insertBefore(step1Note, step1); step1.querySelectorAll("input,button").forEach(function(el){el.disabled=true;}); button.hidden=true;
-      if (visitDate) visitDate.disabled = true;
-      if (visitPicked) {
-        var picked = visitDate.options[visitDate.selectedIndex];
-        visitLine = first.visit_saved === true
-          ? "방문 희망일 " + (picked ? picked.textContent : visitPicked) + " " + VISIT_SLOT[visitSlot] + " · 담당자가 확인 후 연락드립니다."
-          : "방문 희망 일정은 담당자가 전화로 확인합니다.";
-        showVisitLine(t1);
-      }
       if (first.duplicate) { var existing=document.getElementById("prereg-existing"); existing.hidden=false; document.getElementById("prereg-existing-no").textContent=receiptNo; }
       step2.hidden=false; say(""); step2.scrollIntoView({block:"start"}); var first2=step2.querySelector("select,input,button"); if(first2) first2.focus();
       return null;

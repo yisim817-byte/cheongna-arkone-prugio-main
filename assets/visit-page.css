@@ -1,0 +1,42 @@
+/* 모델하우스 방문예약 /visit (작업지시서 13) — 입력칸·버튼 모양은 아크원푸르지오.site 등록 서식(제목 굵게 · 입력칸 56px · 모서리 8px · 버튼 #004b45 60px) */
+.visit-wrap{max-width:640px;margin:0 auto}
+.visit-title{margin:0 0 12px;font-size:clamp(26px,3vw,34px);font-weight:800;line-height:1.3;color:#004b45;letter-spacing:-.02em}
+.visit-desc{margin:0 0 8px;font-size:16px;line-height:1.6;color:#303030}
+.visit-loc{margin:0 0 28px;font-size:15px;line-height:1.6;color:#303030}
+.visit-loc b{color:#004b45}
+.visit-alert:not([hidden]){display:block;margin:0 0 14px;padding:12px 14px;border-radius:8px;background:#F8E8E6;color:#B4443B;font-size:15px}
+.visit-field{margin:0 0 22px;padding:0;border:0;min-width:0}
+.visit-field>label,.visit-field>legend{display:block;margin:0 0 10px;padding:0;font-size:16px;font-weight:700;color:#303030}
+.visit-field i{font-style:normal;color:#303030}
+.visit-field legend span{font-weight:400;color:#666}
+.visit-field input[type=text],.visit-field input[type=tel],.visit-field select{width:100%;height:56px;padding:0 16px;border:1px solid #e6e6e6;border-radius:8px;background:#fff;color:#303030;font:inherit;font-size:16px}
+.visit-field input:focus,.visit-field select:focus{outline:2px solid #004b45;outline-offset:1px}
+.visit-msg{display:none;margin-top:6px;font-size:13px;color:#B4443B}
+.visit-field.err input,.visit-field.err select{border-color:#B4443B}
+.visit-field.err .visit-msg{display:block}
+.visit-options{display:flex;flex-wrap:wrap;gap:8px}
+.visit-options label{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 16px;border:1px solid #e6e6e6;border-radius:8px;background:#fff;font-size:15px;color:#303030;cursor:pointer}
+.visit-options input{accent-color:#004b45}
+.visit-off{margin:0 0 22px;padding:16px;border:1px solid #e6e6e6;border-radius:8px;background:#fff}
+.visit-off p{margin:0 0 10px;font-size:15px;color:#303030}
+.visit-tel{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 18px;border:1px solid #004b45;border-radius:8px;color:#004b45;font-weight:700}
+.visit-agree{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin:4px 0 16px}
+.visit-agree.err .visit-check span{color:#B4443B}
+.visit-check{display:inline-flex;align-items:center;gap:10px;font-size:15px;color:#303030;cursor:pointer}
+.visit-check input{width:20px;height:20px;accent-color:#004b45}
+.visit-toggle{border:0;background:transparent;color:#303030;font:inherit;font-size:14px;text-decoration:underline;cursor:pointer}
+#visit-consent{flex-basis:100%}
+#visit-consent p{margin:0;padding:12px 14px;border-radius:8px;background:#f4f4f4;font-size:13px;line-height:1.7;color:#303030}
+.visit-submit{display:flex;width:100%;height:60px;align-items:center;justify-content:center;border:0;border-radius:8px;background:#004b45;color:#fff;font:inherit;font-size:18px;font-weight:700;cursor:pointer;text-decoration:none}
+.visit-submit:hover{background:#003a35;color:#fff}
+.visit-submit:disabled{opacity:.6}
+.visit-submit--line{margin-top:18px;border:1px solid #004b45;background:#fff;color:#004b45}
+.visit-submit--line:hover{background:#f0f5f4;color:#004b45}
+.visit-notes{margin:16px 0 0;padding:0;list-style:none}
+.visit-notes li{margin:0 0 6px;font-size:14px;line-height:1.6;color:#303030}
+.visit-notes a{font-weight:700;color:#004b45;text-decoration:underline;text-underline-offset:3px}
+.visit-done{padding:28px 24px;border-radius:8px;background:#EEF4F1}
+.visit-done:focus{outline:none}
+.visit-done__title{margin:0 0 10px;font-size:22px;font-weight:800;line-height:1.4;color:#0E3B33}
+.visit-done__line{margin:0 0 6px;font-size:16px;line-height:1.6;color:#303030}
+.visit-done__no{margin:0;font-size:15px;color:#303030}
