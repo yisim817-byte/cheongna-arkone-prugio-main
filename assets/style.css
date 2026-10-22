@@ -700,3 +700,37 @@ body.prereg-lock { overflow: hidden; }
 }
 /* 작업지시서 9 (2026-10-19): 1단계 「모델하우스 방문예약 (선택)」 블록 */
 .visit-block{margin:16px 0;padding:14px;border:1px solid rgba(3,43,32,.25);border-radius:8px;scroll-margin-top:120px}.visit-block__title{margin:0 0 6px;font-weight:700}.visit-block__pick .field{margin-top:12px}.visit-block__slots{margin:12px 0 0;padding:0;border:0;min-width:0}.visit-block__slots legend{padding:0;font-weight:700}.visit-block .muted{margin:8px 0 0}.prereg-visit-line{margin:6px 0 0}
+
+/* 작업지시서 10 (2026-10-22): 입주자모집공고 반영 구간(청약 일정 등) */
+.notice-sched{margin-top:32px}
+.notice-title{margin:0 0 16px;font-size:clamp(17px,1.5vw,20px);font-weight:600;line-height:1.5;color:var(--ink)}
+.notice-sched__list{list-style:none;margin:0 0 20px;padding:0;border-top:1px solid var(--ink)}
+.notice-sched__list li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 4px;border-bottom:1px solid var(--line);font-size:15px;line-height:1.6;color:var(--ink-soft)}
+.notice-sched__list b{font-weight:600;color:var(--green);white-space:nowrap;text-align:right}
+.notice-sched>p,.notice-block p{margin:0 0 8px;font-size:15px;line-height:1.85;color:var(--sub)}
+.notice-sched>p.official-note,.notice-block p.official-note{margin-top:14px;font-size:13px}
+
+/* 작업지시서 10 (2026-10-22): 단계 띠 자리 — 고정 헤더(86px · 900px 이하 66px) 바로 아래, 본문 흐름 안(고정 아님) */
+.ak-phase-band-slot:not(:empty){position:relative;z-index:1;padding-top:86px}
+@media (max-width:900px){.ak-phase-band-slot:not(:empty){padding-top:66px}}
+/* 홈: 헤더가 영상 위 흰 글자(clear) 상태일 때 헤더 뒤 여백을 어둡게 해 글자가 보이게 한다 */
+html[data-om-hd="clear"] .ak-phase-band-slot:not(:empty){background:var(--green-night)}
+/* 공고 반영 구간(분양가·납부·자격·특별공급·주택형) — 표는 표 안에서만 가로 스크롤 */
+.notice-section{padding-block:clamp(56px,7vw,96px)}
+.notice-block{margin:32px 0 48px}
+.notice-block+.notice-block{margin-top:56px}
+.notice-subtitle{margin:28px 0 0;font-size:15px;font-weight:600;color:var(--ink)}
+.notice-title,.notice-subtitle,.notice-sched>p,.notice-block p{word-break:keep-all;overflow-wrap:anywhere}
+.notice-table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0 8px}
+.notice-table-wrap:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.notice-table{table-layout:auto;margin-top:0;min-width:520px}
+.notice-table th,.notice-table td{white-space:nowrap;text-align:center;padding:12px 10px;font-size:14px}
+.notice-table th:first-child{width:auto;text-align:left}
+.notice-table tbody th{font-weight:500;color:var(--ink)}
+@media (max-width:760px){.notice-table th,.notice-table td{padding:10px 8px;font-size:12.5px}}
+/* 작업지시서 10 · 타입 연출 이미지 — 가로 100%, 비율 유지, 잘라내지 않음, 고지는 그림 아래 글자로 */
+.unit-figure{margin:12px 0 24px}
+.unit-figure img{display:block;width:100%;height:auto}
+.unit-figure figcaption{margin-top:6px;font-size:13px;line-height:1.5;color:var(--sub)}
+.unit-gallery{margin-top:32px}
+.unit-gallery .notice-subtitle{margin-bottom:12px}
