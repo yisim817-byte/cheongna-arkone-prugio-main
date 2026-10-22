@@ -66,3 +66,22 @@ html[data-om-hd="plain"] .menubtn {
     padding-bottom: 56px;
   }
 }
+
+/* ── 작업지시서 10 (2026-10-22): OPEN 표시 문구가 길어져(입주자모집공고 게시 일자 포함) 테두리 안에 글자가 다 들어가도록 폭·높이를 글자에 맞춘다 ── */
+.om .om-hero__open {
+  display: inline-block;
+  height: auto;
+  min-height: calc(40 * var(--u));
+  max-width: 100%;
+  padding: calc(9 * var(--u)) calc(16 * var(--u));
+  line-height: 1.4;
+  text-align: center;
+  word-break: keep-all;
+}
+.om.om--stage .om-hero__open {
+  display: inline-flex;
+  width: auto;
+  min-height: clamp(38px, 2.6042vw, 50px);
+  padding: 0 calc(24 * var(--u));
+  white-space: nowrap;
+}
