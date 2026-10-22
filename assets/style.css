@@ -743,3 +743,68 @@ html[data-om-hd="clear"] .ak-phase-band-slot:not(:empty){background:var(--green-
 .plan-figure a{display:block;border:1px solid var(--line);background:#fff}
 .plan-figure img{display:block;width:100%;height:auto}
 .plan-figure figcaption{margin-top:8px;font-size:13px;line-height:1.6;color:var(--sub);word-break:keep-all}
+
+/* ===== 작업지시서 13 (2026-10-22): 아크원푸르지오.site(A) 기준 통일 — 헤더 → 단계 띠 → 본문 · 팝업 3종 · 휴대폰 하단 바 =====
+   A 값: 헤더 높이 90px(900px 이하 70px) · 로고 22px/800 · 전화 26px/700 · 홈 헤더 뒤 검정 → 띠 #032B20(phase-band.css 그대로) ·
+   30만원 팝업 흰 카드(모서리 8px·여백 32px·제목 #004b45·등록 버튼 #004b45 60px·하단 버튼 줄) · 덮개 rgba(48,48,48,.55) ·
+   하단 바 #004b45 56px. 문구는 바꾸지 않는다. */
+:root{--h:90px}
+@media (max-width:900px){:root{--h:70px}.header{--h:70px}}
+.ak-phase-band-slot:not(:empty){padding-top:var(--h)}
+@media (max-width:900px){.ak-phase-band-slot:not(:empty){padding-top:var(--h)}}
+html[data-om-hd="clear"] .ak-phase-band-slot:not(:empty){background:#000}
+.header.solid{background:rgba(255,255,255,.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#303030;box-shadow:0 1px 0 rgba(0,0,0,.08)}
+.brand{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.header__tel{font-size:26px;font-weight:700}
+.header__tel small{font-size:11px;font-weight:400}
+.header__cta{height:auto;padding:0 2px;border:0;font-size:16px;font-weight:500;letter-spacing:0;opacity:1}
+.header__cta:hover{background:transparent;text-decoration:underline;text-underline-offset:4px}
+.header.solid .header__cta:hover{color:inherit}
+html[data-om-hd="clear"] .header__cta:hover{color:#fff}
+.header__cta + .header__cta{margin-left:-12px}
+@media (max-width:900px){.brand{font-size:17px}}
+/* 30만원 팝업 — A 모양 */
+dialog.prereg-popup::backdrop{background:rgba(48,48,48,.55)}
+.prereg-popup{background:rgba(48,48,48,.55)}
+dialog.prereg-popup{background:transparent}
+.prereg-popup__card{width:min(480px,calc(100% - 32px));padding:32px;border-radius:8px;background:#fff;color:#303030;font-size:16px;line-height:24px}
+dialog.prereg-popup .prereg-popup__card{width:100%}
+.prereg-popup__card p{margin:0;color:#303030;font-size:16px;line-height:24px}
+.prereg-popup__card h2{margin:4px 0 12px;color:#004b45;font-size:16px;font-weight:400;line-height:24px}
+.prereg-popup__card .prereg-popup__go{margin:12px 0 0}
+.prereg-popup__go .btn{display:flex;width:100%;height:60px;align-items:center;justify-content:center;padding:0;border:0;border-radius:8px;background:#004b45;color:#fff;font-size:18px;font-weight:700;letter-spacing:0}
+.prereg-popup__go .btn:hover{background:#003a35;color:#fff}
+.prereg-popup__card .prereg-popup__confirm{margin:12px 0;line-height:25.6px}
+.prereg-popup__card .prereg-popup__fine{font-size:13px;line-height:19.5px}
+.prereg-popup__card .prereg-link{margin:4px 0 0;padding:0;border:0;background:transparent;color:#303030;font-size:13px;line-height:19.5px;text-decoration:underline;cursor:pointer}
+.prereg-popup__close{top:8px;right:8px;color:#303030}
+.prereg-popup__actions{position:static;display:flex;gap:0;margin:16px -32px -32px;padding:0;border-top:1px solid #e6e6e6;background:transparent}
+.prereg-popup__today,.prereg-popup__later{flex:1;width:auto;height:48px;min-height:48px;margin:0;padding:0;border:0;background:transparent;color:#303030;font-size:16px}
+@media(max-width:600px){.prereg-popup__card{width:100%;border-radius:8px 8px 0 0;padding:24px 24px calc(24px + env(safe-area-inset-bottom))}.prereg-popup__actions{position:sticky;bottom:calc(-24px - env(safe-area-inset-bottom));margin:16px -24px -24px;background:#fff}}
+/* 휴대폰 하단 바·사전고객등록 띠 — A 모양 */
+.mbar{background:#004b45}
+.mbar a{height:56px;font-weight:700;color:#fff}
+.mbar a b{font-weight:700}
+.mbar__reg{background:transparent;color:#fff !important;border-left:1px solid rgba(255,255,255,.35)}
+@media (max-width:900px){body{--bar:56px}}
+@media (max-width:767px){
+  .prereg-strip{bottom:calc(56px + env(safe-area-inset-bottom));background:#8b7f71;color:#fff;font-weight:700}
+  .prereg-strip__more{border-color:rgba(255,255,255,.6);color:#fff;font-weight:700}
+  .prereg-strip__x{color:#fff}
+}
+/* 사전고객등록 페이지: 방문예약 안내 카드 · 등록 완료 화면 방문예약 버튼 */
+.reg-visit-card{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin:8px 0 20px;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.reg-visit-card p{margin:0;font-size:15px;line-height:1.6;color:var(--ink)}
+.reg-visit-card a{font-weight:700;color:#004b45;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.prereg-visit-go{margin:12px 0 0}
+.prereg-popup__card :focus-visible{outline:2px solid #004b45;outline-offset:2px}
+/* PM 지시(2026-10-22): 「맨 위 라인을 블랙으로」 — 헤더 바탕을 모든 페이지·모든 화면에서 검정(#000, A 홈 헤더와 같은 색), 글자 흰색.
+   단계 띠(#032B20 + 금색 버튼)는 그대로 두어 두 줄이 확실히 구분되게 한다. */
+.header,.header.solid,html[data-om-hd] .header,html[data-om-hd="clear"] .header,html[data-om-hd="plain"] .header{background:#000;color:#fff;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+.header .brand,.header__tel,.header__tel a,.header__cta,.menubtn,
+html[data-om-hd="plain"] .header .brand,html[data-om-hd="plain"] .header__tel,html[data-om-hd="plain"] .header__tel a,html[data-om-hd="plain"] .header__cta,html[data-om-hd="plain"] .menubtn{color:#fff}
+.header.solid .header__cta:hover,html[data-om-hd] .header__cta:hover{color:#fff}
+.ak-phase-band-slot:not(:empty),html[data-om-hd="clear"] .ak-phase-band-slot:not(:empty){background:#000}
+body.menu-open .header{background:transparent}
+/* 작업지시서 13: 화면 높이가 낮은 PC(예: 1366×768)에서도 팝업 줄이 단계 띠 아래(8px 이상)에서 시작하게 */
+html body dialog.prereg-popup{top:max(50%,400px)} /* 런타임에 붙는 prereg-popup-style(top:50%)보다 우선 */
