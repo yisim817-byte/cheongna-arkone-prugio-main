@@ -798,3 +798,13 @@ dialog.prereg-popup .prereg-popup__card{width:100%}
 .reg-visit-card a{font-weight:700;color:#004b45;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
 .prereg-visit-go{margin:12px 0 0}
 .prereg-popup__card :focus-visible{outline:2px solid #004b45;outline-offset:2px}
+/* PM 지시(2026-10-22): 「맨 위 라인을 블랙으로」 — 헤더 바탕을 모든 페이지·모든 화면에서 검정(#000, A 홈 헤더와 같은 색), 글자 흰색.
+   단계 띠(#032B20 + 금색 버튼)는 그대로 두어 두 줄이 확실히 구분되게 한다. */
+.header,.header.solid,html[data-om-hd] .header,html[data-om-hd="clear"] .header,html[data-om-hd="plain"] .header{background:#000;color:#fff;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+.header .brand,.header__tel,.header__tel a,.header__cta,.menubtn,
+html[data-om-hd="plain"] .header .brand,html[data-om-hd="plain"] .header__tel,html[data-om-hd="plain"] .header__tel a,html[data-om-hd="plain"] .header__cta,html[data-om-hd="plain"] .menubtn{color:#fff}
+.header.solid .header__cta:hover,html[data-om-hd] .header__cta:hover{color:#fff}
+.ak-phase-band-slot:not(:empty),html[data-om-hd="clear"] .ak-phase-band-slot:not(:empty){background:#000}
+body.menu-open .header{background:transparent}
+/* 작업지시서 13: 화면 높이가 낮은 PC(예: 1366×768)에서도 팝업 줄이 단계 띠 아래(8px 이상)에서 시작하게 */
+html body dialog.prereg-popup{top:max(50%,400px)} /* 런타임에 붙는 prereg-popup-style(top:50%)보다 우선 */
