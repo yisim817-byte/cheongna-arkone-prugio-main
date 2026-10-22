@@ -21,8 +21,8 @@ def note(text=NOTICE):
     return f'<p class="official-note">※ {text}</p>'
 
 def schedule(short=False):
-    content='<div class="official-schedule"><div><span>모집공고 10.22 · GRAND OPEN 10.30 예정 · 세부 일정은 대표번호 1833-3872로 문의</span></div></div>'
-    return section('2026 분양일정', 'SCHEDULE',content+note('일정은 모두 예정이며 사업주체 사정에 따라 변경될 수 있습니다.')+('<a class="textlink" href="/information#schedule">전체 일정 · 청약안내</a>' if short else ''),'schedule')
+    content='<div class="official-schedule"><div><span>입주자모집공고 게시 2026.10.22(목) · 견본주택 GRAND OPEN 10.30(금) · 세부 일정은 대표번호 1833-3872로 문의</span></div></div>'
+    return section('2026 분양일정', 'SCHEDULE',content+note('일정은 사업주체 사정에 따라 변경될 수 있으며, 입주자모집공고문이 우선합니다.')+('<a class="textlink" href="/information#schedule">전체 일정 · 청약안내</a>' if short else ''),'schedule')
 
 def overview():
     rows=[('대지위치',D['address']+'<br>'+D['block']),('대지면적',D['siteArea']),('건축면적',D['buildingArea']),('연면적',D['grossArea']),('건폐율',D['coverage']),('용적률',D['far']),('아파트',f'{D["aptBuildings"]} · {N("apt")}세대 · 전용 84㎡·103㎡'),('오피스텔',f'{D["otBuildings"]} · {N("ot")}실 · 전용 105㎡·121㎡·136㎡'),('총 규모',f'지하 5층~지상 49층, 총 {D["buildings"]}개동 · {N("total")}세대·실'),('주차',f'{N("parking")}대 (APT {N("aptParking")} · OT {N("otParking")} · 상업시설 {D["retailParking"]})'),('입주',D['moveIn']),('시행',D['developer']),('시공',D['builder'])]
@@ -43,7 +43,7 @@ def types():
         for t in D[key]:
             content=spec([('전용면적',f'{t["exclusive"]:.2f}㎡'),(area+'면적',f'{t["area"]:.2f}㎡ / {t["pyeong"]:.2f}평'),('라인',t['line']+'라인')]+([('실사용면적',f'약 {t["usable"]:.1f}평 (서비스면적 포함)')] if key=='otTypes' else []))
             cards.append(f'<details class="official-type"><summary><span>{t["type"]}</span><span>{t["count"]}{unit}<small>상세보기 +</small></span></summary><div class="official-type__body">{content}</div></details>')
-        parts.append(section(title+' 타입 안내',en,'<div class="official-types">'+''.join(cards)+'</div>'+note('공식 평면도는 추후 안내 예정입니다. 타입별 수치와 구성은 최종 모집공고를 확인해 주세요.')+(note('오피스텔 실사용면적은 서비스면적을 포함한 참고 면적입니다. 계약면적과 다르므로 혼용하지 마세요.') if key=='otTypes' else ''),en.lower()))
+        parts.append(section(title+' 타입 안내',en,'<div class="official-types">'+''.join(cards)+'</div>'+note('평면은 견본주택(84A·103A 유니트)과 대표번호 상담으로 안내합니다. 타입별 수치와 구성은 입주자모집공고문을 확인해 주세요.')+(note('오피스텔 실사용면적은 서비스면적을 포함한 참고 면적입니다. 계약면적과 다르므로 혼용하지 마세요.') if key=='otTypes' else ''),en.lower()))
     return '<nav class="official-type-nav wrap" aria-label="상품별 타입 이동"><a class="btn btn--line" href="#apt">APT · 아파트</a><a class="btn btn--line" href="#officetel">OFFICETEL · 오피스텔</a><a class="textlink" href="#layout">단지 동·라인 안내</a></nav>'+''.join(parts)
 
 def layout():
@@ -53,13 +53,13 @@ def layout():
         ot=[x['type'] for x in D['otTypes'] if f'{i}호' in x['line']]
         rows.append(f'<tr><th scope="row">{i}호</th><td>{" / ".join(ap)}</td><td>{" / ".join(ot)}</td></tr>')
     table=f'<table class="official-table"><caption>아파트 {D["aptBuildings"]} / 오피스텔 {D["otBuildings"]}</caption><thead><tr><th scope="col">라인</th><th scope="col">APT</th><th scope="col">OFFICETEL</th></tr></thead><tbody>'+''.join(rows)+'</tbody></table>'
-    return section('단지 동·라인 안내','BUILDING & LINE',table+note('동·라인별 타입 정보입니다. 향·조망 또는 실제 배치도를 나타내지 않습니다. 공식 단지배치도는 추후 안내 예정입니다.'),'layout','warm')
+    return section('단지 동·라인 안내','BUILDING & LINE',table+note('동·라인별 타입 정보입니다. 향·조망 또는 실제 배치도를 나타내지 않습니다. 동·호별 공급 내역은 입주자모집공고문에서 확인할 수 있습니다.'),'layout','warm')
 
 def brand():
     return section(f'총 {N("brandTown")}세대·실<br>푸르지오 브랜드타운','BRAND TOWN',spec([('M5 아크원',f'아파트 {N("apt")}세대 + 오피스텔 {N("ot")}실 = {N("total")}세대·실'),('B1 피크원',f'오피스텔 {N("peakone")}실'),('아크원 입주',D['moveIn'])])+note('브랜드타운은 두 단지의 합산 규모입니다. 사업일정은 변경될 수 있습니다.'),'brandtown','warm')
 
 def faq():
-    return [('청라 아크원 푸르지오 위치는 어디인가요?',D['address']+' ('+D['block']+')입니다.'),('총 공급 규모는 어떻게 되나요?',f'아파트 {N("apt")}세대와 오피스텔 {N("ot")}실, 총 {N("total")}세대·실입니다.'),('아파트 평형은 어떻게 구성되나요?','전용 84㎡·103㎡이며 '+', '.join(t['type'] for t in D['aptTypes'])+'의 6개 세부 타입입니다.'),('오피스텔 타입은 어떻게 구성되나요?','전용 105㎡·121㎡·136㎡이며 '+', '.join(t['type'] for t in D['otTypes'])+'의 8개 세부 타입입니다.'),('분양 일정은 언제인가요?','모집공고 10.22 · GRAND OPEN 10.30 예정 · 세부 일정은 대표번호 1833-3872로 문의'),('청라 아크원 푸르지오 분양가는 언제, 어디서 확인하나요?','분양가는 2026.10.04 확인 기준 아직 공식 발표되지 않았으며, 입주자모집공고를 통해 확정·공개됩니다. 청라 아크원 푸르지오는 모집공고 10.22 · GRAND OPEN 10.30 예정이며, 세부 일정은 대표번호 1833-3872로 문의해 주세요. 공고가 게시되면 한국부동산원 청약홈(www.applyhome.co.kr)과 사업주체 공식 홈페이지(arkone-prugio.com)에서 공고 원문을 확인하실 수 있습니다. 아파트와 오피스텔의 공급금액은 공고에 따라 타입·층별로 다르게 정해질 수 있습니다. 사전고객으로 등록하시면 공고 일정이 확정되는 대로 안내해 드리며, 분양문의는 1833-3872입니다.'),('피크원 푸르지오와 어떤 관계인가요?',f'B1블록 피크원 {N("peakone")}실과 M5블록 아크원 {N("total")}세대·실을 합산한 {N("brandTown")}세대·실 브랜드타운입니다.')]
+    return [('청라 아크원 푸르지오 위치는 어디인가요?',D['address']+' ('+D['block']+')입니다.'),('총 공급 규모는 어떻게 되나요?',f'아파트 {N("apt")}세대와 오피스텔 {N("ot")}실, 총 {N("total")}세대·실입니다.'),('아파트 평형은 어떻게 구성되나요?','전용 84㎡·103㎡이며 '+', '.join(t['type'] for t in D['aptTypes'])+'의 6개 세부 타입입니다.'),('오피스텔 타입은 어떻게 구성되나요?','전용 105㎡·121㎡·136㎡이며 '+', '.join(t['type'] for t in D['otTypes'])+'의 8개 세부 타입입니다.'),('분양 일정은 언제인가요?','입주자모집공고는 2026.10.22(목) 게시되었습니다. 특별공급 11.02(월), 일반공급 1순위 11.03(화), 2순위 11.04(수), 당첨자 발표 11.10(화), 당첨자 서류접수 11.12(목)~11.16(월), 계약 11.22(일)~11.24(화)입니다. 일정이 바뀌면 입주자모집공고문이 우선합니다.'),('청라 아크원 푸르지오 분양가는 언제, 어디서 확인하나요?','청라 아크원 푸르지오(APT) 분양가(공급금액)는 2026.10.22(목) 게시된 입주자모집공고문(주택관리번호 2026000496)의 공급금액표에 주택형·동·층·호별로 공개되어 있습니다. 공고문은 청약홈(applyhome.co.kr)에서 직접 확인하실 수 있습니다. 오피스텔은 별도 공고로 안내합니다. 조건별 금액은 대표번호 1833-3872로 상담해 주세요. 발코니 확장·유상옵션·취득세 등은 별도입니다.'),('피크원 푸르지오와 어떤 관계인가요?',f'B1블록 피크원 {N("peakone")}실과 M5블록 아크원 {N("total")}세대·실을 합산한 {N("brandTown")}세대·실 브랜드타운입니다.')]
 
 FAQ_IDS={'청라 아크원 푸르지오 분양가는 언제, 어디서 확인하나요?':' id="faq-price"'}
 
