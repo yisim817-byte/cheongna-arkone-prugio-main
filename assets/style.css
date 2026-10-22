@@ -734,3 +734,10 @@ html[data-om-hd="clear"] .ak-phase-band-slot:not(:empty){background:var(--green-
 .unit-figure figcaption{margin-top:6px;font-size:13px;line-height:1.5;color:var(--sub)}
 .unit-gallery{margin-top:32px}
 .unit-gallery .notice-subtitle{margin-bottom:12px}
+/* 작업지시서 12 (2026-10-22): 공급금액표 · 평면 안내도 */
+.notice-table--price{min-width:360px}
+.plan-figs{display:grid;gap:28px;margin:24px 0 32px}
+.plan-figure{margin:0}
+.plan-figure a{display:block;border:1px solid var(--line);background:#fff}
+.plan-figure img{display:block;width:100%;height:auto}
+.plan-figure figcaption{margin-top:8px;font-size:13px;line-height:1.6;color:var(--sub);word-break:keep-all}

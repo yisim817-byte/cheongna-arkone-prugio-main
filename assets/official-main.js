@@ -11,7 +11,6 @@
   var root = document.querySelector("[data-official-main]");
   if (!root) return;
   var html = document.documentElement;
-  var MAIN = "https://arkone-prugio.com/resources/img/pages/main/";
   var YOUTUBE_ID = "OPf_5C5WaJY";
   var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)");
   var PC = window.matchMedia("(min-width: 1025px)");
