@@ -728,3 +728,9 @@ html[data-om-hd="clear"] .ak-phase-band-slot:not(:empty){background:var(--green-
 .notice-table th:first-child{width:auto;text-align:left}
 .notice-table tbody th{font-weight:500;color:var(--ink)}
 @media (max-width:760px){.notice-table th,.notice-table td{padding:10px 8px;font-size:12.5px}}
+/* 작업지시서 10 · 타입 연출 이미지 — 가로 100%, 비율 유지, 잘라내지 않음, 고지는 그림 아래 글자로 */
+.unit-figure{margin:12px 0 24px}
+.unit-figure img{display:block;width:100%;height:auto}
+.unit-figure figcaption{margin-top:6px;font-size:13px;line-height:1.5;color:var(--sub)}
+.unit-gallery{margin-top:32px}
+.unit-gallery .notice-subtitle{margin-bottom:12px}
