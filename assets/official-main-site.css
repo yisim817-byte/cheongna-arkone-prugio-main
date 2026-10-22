@@ -85,3 +85,8 @@ html[data-om-hd="plain"] .menubtn {
   padding: 0 calc(24 * var(--u));
   white-space: nowrap;
 }
+
+/* ── 작업지시서 11 (2026-10-22): OPEN 표시는 구절 단위로만 줄바꿈(휴대폰에서 「·」 자리에서만 두 줄) ── */
+.om .om-hero__open .om-hero__ph {
+  white-space: nowrap;
+}
