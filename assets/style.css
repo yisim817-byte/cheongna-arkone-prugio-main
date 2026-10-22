@@ -814,3 +814,8 @@ html[data-om-hd] header.header{background:#000;box-shadow:none;-webkit-backdrop-
 html[data-om-hd] header.header .brand,html[data-om-hd] header.header .header__tel,html[data-om-hd] header.header .header__tel a,html[data-om-hd] header.header .header__cta,html[data-om-hd] header.header .menubtn{color:#fff}
 html[data-om-hd] header.header .header__cta:hover{color:#fff}
 body.menu-open header.header{background:transparent}
+/* PM 지시(2026-10-22): /units 평면 아래 공급금액(청약안내와 같은 표) · 평면별 공급금액 한 줄 */
+.plan-figure .plan-price{margin:6px 0 0;font-size:15px;font-weight:600;line-height:1.6;color:var(--green);word-break:keep-all}
+.plan-price .nw{white-space:nowrap}
+.units-price{margin-top:8px}
+.units-price .notice-block:first-child{margin-top:24px}
