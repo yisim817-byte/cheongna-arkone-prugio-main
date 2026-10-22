@@ -15,10 +15,12 @@
   var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)");
   var PC = window.matchMedia("(min-width: 1025px)");
   var SCENE_MS = 1000;
-  var SECTIONS = ["hero", "overview", "location", "history", "premium", "brand", "contact", "site-info"];
+  var SECTIONS = ["hero", "plans", "overview", // 작업지시서(PM 2026-10-22): 히어로 바로 아래 「평면도 · 공급금액」 배너도 장면 1개
+      "location", "history", "premium", "brand", "contact", "site-info"];
   var SCENES = [
     { sec: "hero", step: "hero-final" },
     { sec: "hero", step: "hero-definition" },
+    { sec: "plans", step: "plans-01" },
     { sec: "overview", step: "overview-mask" },
     { sec: "overview", step: "overview-content" },
     { sec: "location", step: "location-01" },
@@ -36,6 +38,7 @@
   ];
   var NAV_ITEMS = [
     { sec: "hero", label: "HERO" },
+    { sec: "plans", label: "PLANS" },
     { sec: "overview", label: "OVERVIEW" },
     { sec: "location", label: "LOCATION" },
     { sec: "history", label: "HISTORY" },
