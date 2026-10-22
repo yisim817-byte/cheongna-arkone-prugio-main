@@ -808,3 +808,9 @@ html[data-om-hd="plain"] .header .brand,html[data-om-hd="plain"] .header__tel,ht
 body.menu-open .header{background:transparent}
 /* 작업지시서 13: 화면 높이가 낮은 PC(예: 1366×768)에서도 팝업 줄이 단계 띠 아래(8px 이상)에서 시작하게 */
 html body dialog.prereg-popup{top:max(50%,400px)} /* 런타임에 붙는 prereg-popup-style(top:50%)보다 우선 */
+/* PM 지시 보완: 홈은 official-main-site.css(html[data-om-hd] .header — 뒤에 로드)가 헤더를 투명·어두운 글자로 바꾸므로
+   선택자 우선순위를 올려 홈 전 구간(영상 위·「아크원이란?」 구간 포함)에서도 헤더 검정·흰 글자로 고정한다. */
+html[data-om-hd] header.header{background:#000;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;color:#fff}
+html[data-om-hd] header.header .brand,html[data-om-hd] header.header .header__tel,html[data-om-hd] header.header .header__tel a,html[data-om-hd] header.header .header__cta,html[data-om-hd] header.header .menubtn{color:#fff}
+html[data-om-hd] header.header .header__cta:hover{color:#fff}
+body.menu-open header.header{background:transparent}
