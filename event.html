@@ -148,7 +148,7 @@
   .oe-tabs small { display: block; margin-top: 2px; font-size: 12px; font-weight: 500; }
   .oe-draw-grid { display: block; }
   .oe-draw-col__h { display: none; }
-  .oe-draw-col[hidden] { display: none; }
+  .oe-draw-col.is-off { display: none; }
 }
 @media (max-width: 767px) {
   .oe-hero { padding: 56px 16px; }
@@ -166,9 +166,6 @@
   .oe-cards { display: none; }
 }
 
-@media (min-width: 1080px) {
-  .oe-draw-col[hidden] { display: block !important; }
-}
 </style>
 <article class="oe">
 <header class="oe-hero">
@@ -199,7 +196,7 @@
 <h2 id="oe-draw-title">매일 16시 경품 추첨</h2>
 <i class="oe-rule" aria-hidden="true"></i>
 <div class="oe-tabs" role="tablist" aria-label="일차별 경품"><button id="oe-tab-day1" type="button" role="tab" data-date="10.30(금)" aria-selected="true" aria-controls="oe-panel-day1" tabindex="0" class="is-on"><span>1일차 · 대디 DAY</span><small>10.30(금)</small></button><button id="oe-tab-day2" type="button" role="tab" data-date="10.31(토)" aria-selected="false" aria-controls="oe-panel-day2" tabindex="-1"><span>2일차 · 맘 DAY</span><small>10.31(토)</small></button><button id="oe-tab-day3" type="button" role="tab" data-date="11.01(일)" aria-selected="false" aria-controls="oe-panel-day3" tabindex="-1"><span>3일차 · 키즈 DAY</span><small>11.01(일)</small></button></div>
-<div class="oe-draw-grid"><div id="oe-panel-day1" role="tabpanel" aria-labelledby="oe-tab-day1" class="oe-draw-col"><h3 class="oe-draw-col__h">1일차 · 대디 DAY<small>10.30(금)</small></h3><ol><li class="is-first"><span class="oe-rank">1등</span><strong>LG 트롬 세탁기</strong><em>1명</em></li><li class=""><span class="oe-rank">2등</span><strong>로보락 로봇청소기</strong><em>1명</em></li><li class=""><span class="oe-rank">3등</span><strong>다이슨 디지털 슬림 청소기</strong><em>1명</em></li><li class=""><span class="oe-rank">4등</span><strong>미닉스 음식물 처리기</strong><em>3명</em></li><li class=""><span class="oe-rank">5등</span><strong>LG 엑스붐 미니</strong><em>5명</em></li></ol></div><div id="oe-panel-day2" role="tabpanel" aria-labelledby="oe-tab-day2" hidden class="oe-draw-col"><h3 class="oe-draw-col__h">2일차 · 맘 DAY<small>10.31(토)</small></h3><ol><li class="is-first"><span class="oe-rank">1등</span><strong>LG 디오스 인덕션</strong><em>1명</em></li><li class=""><span class="oe-rank">2등</span><strong>다이슨 에어랩</strong><em>1명</em></li><li class=""><span class="oe-rank">3등</span><strong>쿠쿠 사일런스 큐브</strong><em>1명</em></li><li class=""><span class="oe-rank">4등</span><strong>스타우브 꼬꼬떼</strong><em>3명</em></li><li class=""><span class="oe-rank">5등</span><strong>모도리 깔끔도마</strong><em>5명</em></li></ol></div><div id="oe-panel-day3" role="tabpanel" aria-labelledby="oe-tab-day3" hidden class="oe-draw-col"><h3 class="oe-draw-col__h">3일차 · 키즈 DAY<small>11.01(일)</small></h3><ol><li class="is-first"><span class="oe-rank">1등</span><strong>아이패드 에어</strong><em>1명</em></li><li class=""><span class="oe-rank">2등</span><strong>DJI 오즈모 포켓</strong><em>1명</em></li><li class=""><span class="oe-rank">3등</span><strong>갤럭시 워치</strong><em>1명</em></li><li class=""><span class="oe-rank">4등</span><strong>캐논 포토프린터</strong><em>3명</em></li><li class=""><span class="oe-rank">5등</span><strong>갤럭시 버즈3</strong><em>5명</em></li></ol></div></div>
+<div class="oe-draw-grid"><div id="oe-panel-day1" role="tabpanel" aria-labelledby="oe-tab-day1" class="oe-draw-col"><h3 class="oe-draw-col__h">1일차 · 대디 DAY<small>10.30(금)</small></h3><ol><li class="is-first"><span class="oe-rank">1등</span><strong>LG 트롬 세탁기</strong><em>1명</em></li><li class=""><span class="oe-rank">2등</span><strong>로보락 로봇청소기</strong><em>1명</em></li><li class=""><span class="oe-rank">3등</span><strong>다이슨 디지털 슬림 청소기</strong><em>1명</em></li><li class=""><span class="oe-rank">4등</span><strong>미닉스 음식물 처리기</strong><em>3명</em></li><li class=""><span class="oe-rank">5등</span><strong>LG 엑스붐 미니</strong><em>5명</em></li></ol></div><div id="oe-panel-day2" role="tabpanel" aria-labelledby="oe-tab-day2" class="oe-draw-col is-off"><h3 class="oe-draw-col__h">2일차 · 맘 DAY<small>10.31(토)</small></h3><ol><li class="is-first"><span class="oe-rank">1등</span><strong>LG 디오스 인덕션</strong><em>1명</em></li><li class=""><span class="oe-rank">2등</span><strong>다이슨 에어랩</strong><em>1명</em></li><li class=""><span class="oe-rank">3등</span><strong>쿠쿠 사일런스 큐브</strong><em>1명</em></li><li class=""><span class="oe-rank">4등</span><strong>스타우브 꼬꼬떼</strong><em>3명</em></li><li class=""><span class="oe-rank">5등</span><strong>모도리 깔끔도마</strong><em>5명</em></li></ol></div><div id="oe-panel-day3" role="tabpanel" aria-labelledby="oe-tab-day3" class="oe-draw-col is-off"><h3 class="oe-draw-col__h">3일차 · 키즈 DAY<small>11.01(일)</small></h3><ol><li class="is-first"><span class="oe-rank">1등</span><strong>아이패드 에어</strong><em>1명</em></li><li class=""><span class="oe-rank">2등</span><strong>DJI 오즈모 포켓</strong><em>1명</em></li><li class=""><span class="oe-rank">3등</span><strong>갤럭시 워치</strong><em>1명</em></li><li class=""><span class="oe-rank">4등</span><strong>캐논 포토프린터</strong><em>3명</em></li><li class=""><span class="oe-rank">5등</span><strong>갤럭시 버즈3</strong><em>5명</em></li></ol></div></div>
 <p class="oe-note">※ 추첨 대상·응모 방법·당첨 발표는 견본주택 현장에서 안내합니다.</p>
 </section>
 <section class="oe-sec" id="after" aria-labelledby="oe-after-title">
@@ -209,7 +206,7 @@
 <article class="oe-card"><h3>청약 인증 고객</h3><p>코스트코 골드스타 연간 회원권</p><p class="oe-muted">수량 한정</p></article>
 <article class="oe-card"><h3>당첨자 서류접수 고객</h3><p>현대명품 금쌀</p></article>
 </div>
-<p class="oe-note">※ 인증 기간·방법은 견본주택에서 안내합니다.</p>
+<p class="oe-note">※ 인증 기간: 당첨자 서류접수 기간 11.12(목)~11.16(월) · 인증 방법은 견본주택에서 안내합니다.</p>
 </section>
 <section class="oe-sec" id="notice" aria-labelledby="oe-notice-title">
 <h2 id="oe-notice-title">유의사항</h2>
@@ -247,7 +244,7 @@
       t.tabIndex=on?0:-1;
       t.classList.toggle("is-on", on);
     });
-    panels.forEach(function(p,n){ if(n===i) p.removeAttribute("hidden"); else p.setAttribute("hidden",""); });
+    panels.forEach(function(p,n){ p.classList.toggle("is-off", n!==i); });
   }
   tabs.forEach(function(t,n){
     t.addEventListener("click", function(){ set(n); });
