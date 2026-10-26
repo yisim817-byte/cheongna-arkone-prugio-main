@@ -77,6 +77,7 @@
 <a class="brand" href="/"><span>청라 아크원 푸르지오</span></a>
 <div class="header__tel"><small>분양문의</small><a href="tel:18333872">1833-3872</a></div>
 <a class="header__cta" href="/register"><span>사전고객등록</span></a>
+<a class="header__cta" href="/event"><span>이벤트</span></a>
 <a class="header__cta" href="/visit"><span>방문예약</span></a>
 <button aria-controls="fullmenu" aria-expanded="false" aria-label="전체메뉴 열기" class="menubtn" data-menu="" type="button">
 <span>MENU</span><i aria-hidden="true"></i>
@@ -116,6 +117,10 @@
 <li class="menu__item"><a class="menu__link" href="/register">
 <span class="menu__no">07</span>
 <span><span class="menu__en">REGISTER</span><span class="menu__ko">사전고객등록</span></span>
+</a></li>
+<li class="menu__item"><a class="menu__link" href="/event">
+<span class="menu__no">08</span>
+<span><span class="menu__en">EVENT</span><span class="menu__ko">이벤트</span></span>
 </a></li>
 <li class="menu__item"><a class="menu__link" href="/visit">
 <span class="menu__no">08</span>
@@ -278,6 +283,7 @@
 <a href="/news">홍보센터</a>
 <a href="/contact">오시는길</a>
 <a href="/register">사전고객등록</a>
+<a href="/event">이벤트</a>
 <a href="/visit">방문예약</a>
 </nav>
 </div>
@@ -324,7 +330,9 @@
 <script defer="" src="/assets/prereg.js?v=20261022-r13"></script>
 <script defer="" src="/assets/app.js?v=20260927-popup-v6"></script>
 <script src="/assets/costco-pop.js" defer></script>
-<script src="/assets/visit-pop.js" defer></script>
+<script src="/assets/event-config.js"></script>
+<script>window.ARKONE_EVENT_POP={phone:"1833-3872",tel:"tel:18333872",days:(window.ARKONE_EVENT_CFG&&window.ARKONE_EVENT_CFG.EVENT_DAYS)||[],cards:[".prereg-popup__card",".costco-pop__panel"],dialog:true,delay:2600,z:1102,register:"/register",visit:"/visit",event:"/event"};</script>
+<script src="/assets/event-pop.js" defer></script>
 <script>window.ARKONE_PHASE_CFG={fnUrl:'https://jzmktahlrwtrtejjflrw.supabase.co/functions/v1/arkone-site-phase',fnHeaders:{},registerPath:'/register',scheduleHref:'/information#schedule',noticeUrl:'https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000496&pblancNo=2026000496'};document.addEventListener('DOMContentLoaded',function(){if(window.ArkonePhaseBand)ArkonePhaseBand.mountAfter('header.header');});</script>
 <script defer src="/assets/phase-band.js"></script>
 </body>
