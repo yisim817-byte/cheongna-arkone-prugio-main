@@ -201,7 +201,7 @@
             strip.className = "prereg-strip";
             strip.setAttribute("role", "region");
             strip.setAttribute("aria-label", "사전고객등록 이벤트 안내");
-            strip.innerHTML = '<span class="prereg-strip__txt">아파트 11.3(화) 17:00까지 · 상가·오피스텔 상시 접수</span><button type="button" class="prereg-strip__more">자세히</button><button type="button" class="prereg-strip__x" aria-label="닫기">✕</button>';
+            strip.innerHTML = '<span class="prereg-strip__txt">아파트 사전고객등록 마감(11.3) · 상가·오피스텔 상시 접수</span><button type="button" class="prereg-strip__more">자세히</button><button type="button" class="prereg-strip__x" aria-label="닫기">✕</button>';
             strip.addEventListener("click", function (e) {
               if (e.target.closest(".prereg-strip__more")) { strip.hidden = true; lock(); arm(); show(); }
               else if (e.target.closest(".prereg-strip__x")) { try { sessionStorage.setItem("prereg_strip_closed", "1"); } catch (err) {} strip.remove(); strip = null; }
