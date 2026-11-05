@@ -98,7 +98,7 @@
         + '<a class="costco-pop__tel" href="' + TEL + '">전화 문의 ' + PHONE + '</a>'
         + '<p class="costco-pop__note">※ 선착순 1,000명 마감 시 조기 종료됩니다.</p>'
         + '<p class="costco-pop__note">※ 선착순 기준·지급 시기·방법은 담당자가 개별 안내합니다.</p>'
-        + '<p class="costco-pop__note">※ 사전고객등록은 공식 청약 신청이 아니며, 등록만으로는 증정되지 않습니다.</p>'
+        + '<p class="costco-pop__note">※ 사전고객등록만으로는 증정되지 않습니다.</p>'
         + '<p class="costco-pop__note">※ 홈페이지 운영자가 진행하는 이벤트로, 시행·시공사 및 코스트코가 제공하는 혜택이 아닙니다.</p>'
         + '<div class="costco-pop__foot"><button type="button" data-today="1">오늘 하루 보지 않기</button><button type="button" data-close="1" aria-label="닫기">닫기</button></div>';
       p.addEventListener("click", function (e) {
