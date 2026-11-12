@@ -94,7 +94,6 @@
         + '<h2 id="costco-pop-title" class="costco-pop__title">선착순 1,000명</h2>'
         + '<p class="costco-pop__benefit">코스트코 1년 회원권 증정</p>'
         + '<p class="costco-pop__target">홈페이지 사전고객등록 후 청약하신 고객 · 청약 당첨 여부와 관계없이</p>'
-        + '<p class="costco-pop__both">사전고객등록 <b>한 번</b>이면<br>백화점 상품권 30만원 · 코스트코 1년 회원권<br>두 이벤트에 <b>함께 인정</b>됩니다</p>'
         + '<a class="costco-pop__tel" href="' + TEL + '">전화 문의 ' + PHONE + '</a>'
         + '<p class="costco-pop__note">※ 선착순 1,000명 마감 시 조기 종료됩니다.</p>'
         + '<p class="costco-pop__note">※ 선착순 기준·지급 시기·방법은 담당자가 개별 안내합니다.</p>'

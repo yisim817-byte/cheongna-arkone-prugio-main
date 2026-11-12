@@ -23,16 +23,15 @@
   }
   function termsMarkup() {
     var terms = promoTerms();
-    return '<div class="prereg-terms" hidden><p><b>청라 아크원 푸르지오 APT 사전고객등록 이벤트 유의사항</b></p><ol>' +
-      '<li>대상 : 본 홈페이지에서 사전고객등록을 완료한 고객 중, 청라 아크원 푸르지오 아파트 청약에 당첨되어 지급 조건을 충족한 고객</li>' +
-      '<li>혜택 : 백화점 상품권 30만원 (롯데·현대·신세계 중 1종 선택)</li>' +
+    return '<div class="prereg-terms" hidden><p><b>청라 아크원 푸르지오 상가·오피스텔 사전등록 이벤트 유의사항</b></p><ol>' +
+      '<li>대상 : 본 홈페이지에서 상가·오피스텔 사전등록을 완료한 뒤 청라 아크원 푸르지오 오피스텔 또는 상가를 계약한 고객</li>' +
+      '<li>혜택 : 백화점 상품권 50만원 (롯데·현대·신세계 중 1종 선택)</li>' +
+      '<li>이벤트 기간 : 2026년 11월 20일(금)까지</li>' +
       '<li>지급 시기 : ' + terms.payout_time + '</li>' +
       '<li>1인(동일인·동일 휴대전화번호) 1회 지급</li>' +
-      '<li>부적격 당첨, 계약 미체결·취소·해제 시 지급 대상에서 제외되며, 지급 후 해당 사유 발생 시 ' + terms.refund + '</li>' +
-      '' +
+      '<li>계약 미체결·취소·해제 시 지급 대상에서 제외되며, 지급 후 해당 사유 발생 시 ' + terms.refund + '</li>' +
       '<li>제세공과금 : ' + terms.tax + '</li>' +
       '<li>이벤트 내용은 사전 공지 후 변경 또는 조기 종료될 수 있습니다.</li>' +
-      '<li>청약 자격과 일정은 입주자모집공고를 따릅니다.</li>' +
       '</ol><p>등록 확인 및 문의 ' + PHONE + '</p></div>';
   }
   function termsButton() {
@@ -103,7 +102,7 @@
   if (promoReady() && !/\/(register|privacy)(\.html)?\/?$/.test(location.pathname)) {
     var promo = document.createElement("section");
     promo.className = "prereg-event";
-    promo.innerHTML = '<div><p>EVENT · 사전고객등록 고객 혜택</p><h2>백화점 상품권 30만원</h2><p class="prereg-deadline" style="color:#a8834a;font-weight:700;letter-spacing:-0.01em">아파트 사전고객등록 11월 3일(화) 17:00까지 · 상가·오피스텔 상시 접수</p><p>롯데 · 현대 · 신세계 중 선택</p><p>홈페이지 사전고객등록 후 청약 당첨 및 지급 조건을 충족하신 고객께 드립니다.</p><ol class="prereg-event__steps"><li>① 사전고객등록</li><li>② 공식 청약</li><li>③ 당첨·인정 확인</li><li>④ 상품권 지급</li></ol><p>지급 시기: 청약 당첨 및 지급 조건 충족 확인 후 계약 당일 지급합니다. 제세공과금 처리 기준은 담당자가 개별 안내합니다.</p><p class="prereg-event__schedule">입주자모집공고 게시 2026.10.22(목) · 견본주택 별도 공지 시까지 운영 · 세부 일정은 대표번호 1833-3872로 문의</p><p>※ 동일 현장의 다른 홈페이지·분양 채널에 중복으로 등록하신 경우, 상품권 지급이 제한될 수 있습니다.</p>' + termsButton() + '<p><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p></div>';
+    promo.innerHTML = '<div><p>상가·오피스텔 사전등록 이벤트</p><h2>백화점 상품권 50만원</h2><p>롯데 · 현대 · 신세계 중 선택</p><p>사전등록 후 오피스텔·상가 계약 시 지급</p><p class="prereg-deadline" style="color:#a8834a;font-weight:700;letter-spacing:-0.01em">11월 20일(금)까지</p><p style="font-size:13px">상가·오피스텔 상시 접수</p><ol class="prereg-event__steps"><li>① 상가·오피스텔 사전등록</li><li>② 오피스텔·상가 계약</li><li>③ 계약 시 상품권 지급</li></ol><p>제세공과금 처리 기준은 담당자가 개별 안내합니다.</p><p class="prereg-event__schedule">입주자모집공고 게시 2026.10.22(목) · 견본주택 별도 공지 시까지 운영 · 세부 일정은 대표번호 1833-3872로 문의</p><p>※ 동일 현장의 다른 홈페이지·분양 채널에 중복으로 등록하신 경우, 상품권 지급이 제한될 수 있습니다.</p>' + termsButton() + '<p><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p></div>';
     promo.style.overflowAnchor = "none";
     var hero = document.querySelector(".hero");
     if (hero) hero.insertAdjacentElement("afterend", promo);
@@ -127,8 +126,8 @@
           popupStyle.textContent = "dialog.prereg-popup{position:fixed;inset:auto;top:50%;left:50%;transform:translate(-50%,-50%);width:min(480px,calc(100% - 32px));max-width:none;max-height:85vh;margin:0;padding:0;border:0;background:transparent;overflow:visible}dialog.prereg-popup:not([open]){display:none}dialog.prereg-popup[open]{display:block}dialog.prereg-popup::backdrop{background:rgba(0,0,0,.55)}dialog.prereg-popup .prereg-popup__card{width:100%}";
           document.head.appendChild(popupStyle);
         }
-        // 작업지시서 13: 문구는 그대로 두고 배치·모양만 아크원푸르지오.site 30만원 팝업과 같게(제목 → 혜택 → 등록 버튼 → 확인 → 유의 문구 → 하단 버튼)
-        modal.innerHTML = '<div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><p>입주자모집공고 게시 2026.10.22(목) · 견본주택 별도 공지 시까지 운영 · 일정 문의 1833-3872</p><p>EVENT · 사전고객등록 고객 혜택</p><h2>백화점 상품권 30만원</h2><p class="prereg-deadline" style="color:#a8834a;font-weight:700;letter-spacing:-0.01em">아파트 사전고객등록 11월 3일(화) 17:00까지 · 상가·오피스텔 상시 접수</p><p>롯데 · 현대 · 신세계 중 선택</p><p>사전고객등록 후 청약 당첨 및 지급 조건을 충족하신 고객께 드립니다.</p><p class="prereg-popup__go"><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p class="prereg-popup__confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p><p class="prereg-popup__fine">※ 동일 현장의 다른 홈페이지·분양 채널에 중복으로 등록하신 경우, 상품권 지급이 제한될 수 있습니다.</p>' + termsButton() + '<div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></div>';
+        // 작업지시서 13: 문구는 그대로 두고 배치·모양만 아크원푸르지오.site 사전등록 팝업과 같게(제목 → 혜택 → 등록 버튼 → 확인 → 유의 문구 → 하단 버튼)
+        modal.innerHTML = '<div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><h2 style="font-size:clamp(22px,6.4vw,28px);font-weight:800;line-height:1.3;letter-spacing:-0.02em;word-break:keep-all">오피스텔·상가 사전고객등록</h2><p style="font-weight:700">계약 시 백화점 상품권 50만원 지급</p><p class="prereg-deadline" style="color:#a8834a;font-weight:700;letter-spacing:-0.01em">롯데·현대·신세계 중 선택, 11.20(금)까지</p><p>입주자모집공고 게시 2026.10.22(목) · 견본주택 별도 공지 시까지 운영 · 일정 문의 1833-3872</p><p style="font-size:13px">상가·오피스텔 상시 접수</p><p class="prereg-popup__go"><a class="btn btn--gold" href="/register">사전고객등록하기</a></p><p class="prereg-popup__confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p><p class="prereg-popup__fine">※ 상품권은 지급조건을 모두 충족한 고객에 한해 지급됩니다.</p><p class="prereg-popup__fine">※ 동일 현장의 다른 홈페이지·분양 채널에 중복으로 등록하신 경우, 상품권 지급이 제한될 수 있습니다.</p>' + termsButton() + '<div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></div>';
         // v14.0 §3 (2026-10-12): 휴대폰(767px 이하)에서는 자동으로 띄우지 않는다. 다이얼로그는 만들어 두고 닫아 두며,
         // nav.mbar 위 띠의 「자세히」를 누를 때만 잠그고 연다. 데스크톱 동작(잠금·인트로 대기·표시)은 종전 그대로다.
         var mobileView = false;
@@ -201,7 +200,7 @@
             strip.className = "prereg-strip";
             strip.setAttribute("role", "region");
             strip.setAttribute("aria-label", "사전고객등록 이벤트 안내");
-            strip.innerHTML = '<span class="prereg-strip__txt">아파트 11.3(화) 17:00까지 · 상가·오피스텔 상시 접수</span><button type="button" class="prereg-strip__more">자세히</button><button type="button" class="prereg-strip__x" aria-label="닫기">✕</button>';
+            strip.innerHTML = '<span class="prereg-strip__txt">상가·오피스텔 상품권 50만원 · 11.20까지</span><button type="button" class="prereg-strip__more">자세히</button><button type="button" class="prereg-strip__x" aria-label="닫기">✕</button>';
             strip.addEventListener("click", function (e) {
               if (e.target.closest(".prereg-strip__more")) { strip.hidden = true; lock(); arm(); show(); }
               else if (e.target.closest(".prereg-strip__x")) { try { sessionStorage.setItem("prereg_strip_closed", "1"); } catch (err) {} strip.remove(); strip = null; }
@@ -339,6 +338,8 @@
   function validateFirst() {
     var name = (form.querySelector("[name=name]").value || "").trim();
     var digits = phone.value.replace(/\D/g, "");
+    var age14El = form.querySelector("[name=age14]");
+    var ageOk = !age14El || age14El.checked;
     var agree = form.querySelector("[name=consent_collect]").checked;
     var birthValue = birth.value;
     var productWrap = form.querySelector(".prereg-product");
@@ -346,12 +347,14 @@
     mark("name", name.length < 2 || name.length > 20);
     mark("phone", !(digits.indexOf("010") === 0 && digits.length === 11));
     mark("birth6", !validDate(birthValue));
+    if (age14El) mark("age14", !ageOk);
     mark("consent_collect", !agree);
     var missing = [];
     if (name.length < 2 || name.length > 20) missing.push("이름");
     if (digits.indexOf("010") !== 0 || digits.length !== 11) missing.push("휴대전화번호");
     if (!validDate(birthValue)) missing.push("생년월일");
     if (!product) missing.push("등록 상품");
+    if (!ageOk) missing.push("만 14세 이상 확인");
     if (!agree) missing.push("개인정보 동의");
     if (missing.length) {
       say("입력 내용을 확인해 주세요. " + missing.join(", ") + " 항목을 확인해 주세요.");
