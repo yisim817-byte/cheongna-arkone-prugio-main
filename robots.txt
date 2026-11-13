@@ -35,4 +35,19 @@ Allow: /
 User-agent: Yeti
 Allow: /
 
+User-agent: Claude-User
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Daumoa
+Allow: /
+
 Sitemap: https://www.xn--oi2bj1bg5twzasy72kx8fj1ipxj.site/sitemap.xml
