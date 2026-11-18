@@ -102,7 +102,7 @@
   if (promoReady() && !/\/(register|privacy)(\.html)?\/?$/.test(location.pathname)) {
     var promo = document.createElement("section");
     promo.className = "prereg-event";
-    promo.innerHTML = '<div><p>예비당첨자 사전고객등록</p><h2>아파트 예비당첨자 안내</h2><p>예비당첨자로 선정되신 고객께서 사전고객등록을 해 주시면 계약 일정·절차·준비 서류를 담당자가 개별 안내해 드립니다.</p><p class="prereg-deadline" style="color:#a8834a;font-weight:700;letter-spacing:-0.01em">당첨자 계약 11.22(일)~11.24(화) · 예비당첨자 계약은 입주자모집공고 기준</p><ol class="prereg-event__steps"><li>① 예비당첨자 사전고객등록</li><li>② 담당자 일정·서류 안내</li><li>③ 예비당첨자 계약(공고 기준)</li></ol><p class="prereg-event__schedule">세부 일정은 대표번호 1833-3872로 문의</p><p>※ 사전고객등록은 공식 청약·계약 신청이 아닙니다. 예비당첨자 선정 여부와 순번은 청약홈·입주자모집공고를 따릅니다.</p><p><a class="btn btn--gold" href="/register?product=apt">예비당첨자 사전고객등록하기</a></p><p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p></div>';
+    promo.innerHTML = '<div><p>예비당첨자 사전고객등록</p><h2>아파트 예비당첨자 안내</h2><p>예비당첨자로 선정되신 고객께서 사전고객등록을 해 주시면 계약 일정·절차·준비 서류를 담당자가 개별 안내해 드립니다.</p><p class="prereg-deadline" style="color:#a8834a;font-weight:700;letter-spacing:-0.01em">당첨자 계약 11.22(일)~11.24(화) · 예비당첨자 계약은 입주자모집공고 기준</p><ol class="prereg-event__steps"><li>① 예비당첨자 사전고객등록</li><li>② 담당자 일정·서류 안내</li><li>③ 예비당첨자 계약(공고 기준)</li></ol><p class="prereg-event__schedule">세부 일정은 대표번호 1833-3872로 문의</p><p><b>견본주택 방문은 사전 예약제입니다.</b> 방문 전 <a href="/visit" style="text-decoration:underline">방문예약</a>을 해 주세요. 예약 없이 방문하시면 입장·상담이 제한될 수 있습니다.</p><p>※ 사전고객등록은 공식 청약·계약 신청이 아닙니다. 예비당첨자 선정 여부와 순번은 청약홈·입주자모집공고를 따릅니다.</p><p><a class="btn btn--gold" href="/register?product=apt">예비당첨자 사전고객등록하기</a></p><p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p></div>';
     promo.style.overflowAnchor = "none";
     var hero = document.querySelector(".hero");
     if (hero) hero.insertAdjacentElement("afterend", promo);
@@ -119,7 +119,7 @@
         // 팝업은 브라우저 기본 <dialog>(top layer, 덮개는 ::backdrop)로 띄운다. 화면 전체를 덮는 고정 요소가 DOM 에 없어
         // 「마우스 제한 해제」류 확장이 덮개로 오인해 지우는 일을 피한다. <dialog> 를 못 쓰는 브라우저는 전과 같은 div 로 띄운다.
         var canDialog = typeof HTMLDialogElement === "function" && typeof HTMLDialogElement.prototype.showModal === "function";
-        var modal = document.createElement(canDialog ? "dialog" : "div"); modal.className = "prereg-popup"; modal.setAttribute("aria-label", "예비당첨자 사전고객등록 안내");
+        var modal = document.createElement(canDialog ? "dialog" : "div"); modal.className = "prereg-popup"; modal.setAttribute("aria-label", "견본주택 방문예약 안내");
         if (!canDialog) { modal.setAttribute("role", "dialog"); modal.setAttribute("aria-modal", "true"); }
         if (canDialog && !document.getElementById("prereg-popup-style")) {
           var popupStyle = document.createElement("style"); popupStyle.id = "prereg-popup-style";
@@ -127,7 +127,7 @@
           document.head.appendChild(popupStyle);
         }
         // 작업지시서 13: 문구는 그대로 두고 배치·모양만 아크원푸르지오.site 사전등록 팝업과 같게(제목 → 혜택 → 등록 버튼 → 확인 → 유의 문구 → 하단 버튼)
-        modal.innerHTML = '<div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><h2 style="font-size:clamp(22px,6.4vw,28px);font-weight:800;line-height:1.3;letter-spacing:-0.02em;word-break:keep-all">예비당첨자 사전고객등록</h2><p style="font-weight:700">청라 아크원 푸르지오 아파트 예비당첨자 안내</p><p class="prereg-deadline" style="color:#a8834a;font-weight:700;letter-spacing:-0.01em">당첨자 계약 11.22(일)~11.24(화) · 예비당첨자 계약은 입주자모집공고 기준</p><p>예비당첨자로 선정되신 고객께서 사전고객등록을 해 주시면 계약 일정·절차·준비 서류를 담당자가 개별 안내해 드립니다.</p><p class="prereg-popup__go"><a class="btn btn--gold" href="/register?product=apt">예비당첨자 사전고객등록하기</a></p><p class="prereg-popup__confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p><p class="prereg-popup__fine">※ 사전고객등록은 공식 청약·계약 신청이 아닙니다. 예비당첨자 선정 여부와 순번은 청약홈·입주자모집공고를 따릅니다.</p><p class="prereg-popup__fine">※ 예비당첨자 계약은 당첨자 계약 종료 후 잔여 세대가 있는 경우 공고문 기준으로 진행됩니다.</p><div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></div>';
+        modal.innerHTML = '<div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><h2 style="font-size:clamp(22px,6.4vw,28px);font-weight:800;line-height:1.3;letter-spacing:-0.02em;word-break:keep-all">견본주택 방문은 사전 예약제</h2><p style="font-weight:700">방문 전 반드시 예약해 주세요</p><p class="prereg-deadline" style="color:#a8834a;font-weight:700;letter-spacing:-0.01em">예약 없이 방문하시면 입장·상담이 제한될 수 있습니다</p><p>홈페이지 방문예약 또는 대표번호 1833-3872로 예약하신 뒤 방문해 주세요.</p><p class="prereg-popup__go"><a class="btn btn--gold" href="/visit">방문예약 하기</a></p><p class="prereg-popup__confirm">예비당첨자 사전고객등록은 <a href="/register?product=apt">사전고객등록</a>에서 하실 수 있습니다.</p><p class="prereg-popup__fine">※ 방문예약은 담당자 확인 후 확정됩니다.</p><p class="prereg-popup__fine">※ 방문예약은 청약 신청이 아니며, 청약 자격·순위와 관계없습니다.</p><div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></div>';
         // v14.0 §3 (2026-10-12): 휴대폰(767px 이하)에서는 자동으로 띄우지 않는다. 다이얼로그는 만들어 두고 닫아 두며,
         // nav.mbar 위 띠의 「자세히」를 누를 때만 잠그고 연다. 데스크톱 동작(잠금·인트로 대기·표시)은 종전 그대로다.
         var mobileView = false;
@@ -199,8 +199,8 @@
             strip = document.createElement("div");
             strip.className = "prereg-strip";
             strip.setAttribute("role", "region");
-            strip.setAttribute("aria-label", "예비당첨자 사전고객등록 안내");
-            strip.innerHTML = '<span class="prereg-strip__txt">예비당첨자 사전고객등록 접수 중</span><button type="button" class="prereg-strip__more">자세히</button><button type="button" class="prereg-strip__x" aria-label="닫기">✕</button>';
+            strip.setAttribute("aria-label", "견본주택 방문예약 안내");
+            strip.innerHTML = '<span class="prereg-strip__txt">견본주택 방문은 사전 예약제</span><button type="button" class="prereg-strip__more">자세히</button><button type="button" class="prereg-strip__x" aria-label="닫기">✕</button>';
             strip.addEventListener("click", function (e) {
               if (e.target.closest(".prereg-strip__more")) { strip.hidden = true; lock(); arm(); show(); }
               else if (e.target.closest(".prereg-strip__x")) { try { sessionStorage.setItem("prereg_strip_closed", "1"); } catch (err) {} strip.remove(); strip = null; }
@@ -219,6 +219,15 @@
 
   var form = document.getElementById("prereg-form");
   if (!form) return;
+  // PM 지시(2026-11-18): 고객등록란 위에 견본주택 방문 사전 예약제 안내를 둔다(폼·전송값은 건드리지 않는다).
+  if (!document.getElementById("visit-rule-note") && form.parentNode) {
+    var visitRule = document.createElement("aside");
+    visitRule.id = "visit-rule-note";
+    visitRule.setAttribute("aria-label", "견본주택 방문예약 안내");
+    visitRule.style.cssText = "margin:0 0 20px;padding:18px 20px;border:1px solid #a8834a;border-radius:10px;background:#faf6ee;color:#1d2a26;line-height:1.6;text-align:left";
+    visitRule.innerHTML = '<p style="margin:0;font-size:12px;font-weight:700;letter-spacing:.08em;color:#a8834a">견본주택 방문 안내</p><p style="margin:4px 0 6px;font-size:20px;font-weight:800;letter-spacing:-.02em;color:#1d2a26">오시기 전에, 예약 먼저.</p><p style="margin:0;font-size:14px;color:#1d2a26">청라 아크원 푸르지오 견본주택은 사전 예약제로 운영합니다. 사전고객등록만으로는 방문예약이 되지 않으니, 방문하실 분은 방문예약을 따로 신청해 주세요.</p><p style="margin:6px 0 0;font-size:13px;font-weight:700;color:#1d2a26">예약 없이 방문하시면 입장·상담이 제한될 수 있습니다.</p><p style="margin:12px 0 0;font-size:14px;font-weight:700"><a href="/visit" style="color:#004b45;text-decoration:underline">방문예약 하기 ›</a> <span aria-hidden="true">·</span> <a href="tel:18333872" style="color:#004b45;text-decoration:underline">전화 예약 1833-3872</a></p>';
+    form.parentNode.insertBefore(visitRule, form);
+  }
 
   fillSido(form.querySelector("[name=addr_sido]"));
   var phone = form.querySelector("[name=phone]");
