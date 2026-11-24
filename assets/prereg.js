@@ -22,20 +22,10 @@
     return pick("year") + "." + pick("month") + "." + pick("day") + " " + pick("hour") + ":" + pick("minute");
   }
   function termsMarkup() {
-    var terms = promoTerms();
-    return '<div class="prereg-terms" hidden><p><b>청라 아크원 푸르지오 오피스텔 사전고객등록 이벤트 유의사항</b></p><ol>' +
-      '<li>대상 : 본 홈페이지에서 오피스텔 사전고객등록을 완료한 뒤 청라 아크원 푸르지오 오피스텔을 계약한 고객</li>' +
-      '<li>혜택 : 백화점 상품권 50만원 (롯데·현대·신세계 중 1종 선택)</li>' +
-      '<li>이벤트 기간 : 2026년 11월 20일(금)까지</li>' +
-      '<li>지급 시기 : ' + terms.payout_time + '</li>' +
-      '<li>1인(동일인·동일 휴대전화번호) 1회 지급</li>' +
-      '<li>계약 미체결·취소·해제 시 지급 대상에서 제외되며, 지급 후 해당 사유 발생 시 ' + terms.refund + '</li>' +
-      '<li>제세공과금 : ' + terms.tax + '</li>' +
-      '<li>이벤트 내용은 사전 공지 후 변경 또는 조기 종료될 수 있습니다.</li>' +
-      '</ol><p>등록 확인 및 문의 ' + PHONE + '</p></div>';
+    return "";
   }
   function termsButton() {
-    return '<button type="button" class="prereg-link" data-prereg-terms>이벤트 유의사항</button>' + termsMarkup();
+    return "";
   }
 
   try {
