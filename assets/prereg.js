@@ -92,7 +92,11 @@
   if (promoReady() && !/\/(register|privacy)(\.html)?\/?$/.test(location.pathname)) {
     var promo = document.createElement("section");
     promo.className = "prereg-event";
-    promo.innerHTML = '<div><p>예비당첨자 사전고객등록</p><h2>아파트 예비당첨자 안내</h2><p>예비당첨자로 선정되신 고객께서 사전고객등록을 해 주시면 계약 일정·절차·준비 서류를 담당자가 개별 안내해 드립니다.</p><p class="prereg-deadline" style="color:#a8834a;font-weight:700;letter-spacing:-0.01em">당첨자 계약 11.22(일)~11.24(화) · 예비당첨자 계약은 입주자모집공고 기준</p><ol class="prereg-event__steps"><li>① 예비당첨자 사전고객등록</li><li>② 담당자 일정·서류 안내</li><li>③ 예비당첨자 계약(공고 기준)</li></ol><p class="prereg-event__schedule">세부 일정은 대표번호 1833-3872로 문의</p><p><b>견본주택 방문은 사전 예약제입니다.</b> 방문 전 <a href="/visit" style="text-decoration:underline">방문예약</a>을 해 주세요. 예약 없이 방문하시면 입장·상담이 제한될 수 있습니다.</p><p>※ 사전고객등록은 공식 청약·계약 신청이 아닙니다. 예비당첨자 선정 여부와 순번은 청약홈·입주자모집공고를 따릅니다.</p><p><a class="btn btn--gold" href="/register?product=apt">예비당첨자 사전고객등록하기</a></p><p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p></div>';
+    promo.innerHTML = '<div><p>예비당첨자 사전고객등록</p><h2>아파트 예비당첨자 안내</h2><p>예비당첨자로 선정되신 고객께서 사전고객등록을 해 주시면 계약 일정·절차·준비 서류를 담당자가 개별 안내해 드립니다.</p><p class="prereg-deadline prereg-line-1128" style="color:#a8834a;font-weight:700;letter-spacing:-0.01em">예비당첨자 추첨 11.28(토) 예정 · 세부 일정은 사업주체가 개별 안내</p><ol class="prereg-event__steps"><li>① 예비당첨자 사전고객등록</li><li>② 담당자 일정·서류 안내</li><li>③ 예비당첨자 계약(공고 기준)</li></ol><p class="prereg-event__schedule">세부 일정은 대표번호 1833-3872로 문의</p><p><b>견본주택 방문은 사전 예약제입니다.</b> 방문 전 <a href="/visit" style="text-decoration:underline">방문예약</a>을 해 주세요. 예약 없이 방문하시면 입장·상담이 제한될 수 있습니다.</p><p>※ 사전고객등록은 공식 청약·계약 신청이 아닙니다. 예비당첨자 선정 여부와 순번은 청약홈·입주자모집공고를 따릅니다.</p><p><a class="btn btn--gold" href="/register?product=apt">예비당첨자 사전고객등록하기</a></p><p class="prereg-confirm">사전고객등록 확인은 대표번호 1833-3872로 문의해 주세요.</p></div>';
+    if (Date.now() >= Date.UTC(2026, 10, 28, 15, 0, 0)) {
+      var ybLine = promo.querySelector(".prereg-line-1128");
+      if (ybLine) ybLine.hidden = true;
+    }
     promo.style.overflowAnchor = "none";
     var hero = document.querySelector(".hero");
     if (hero) hero.insertAdjacentElement("afterend", promo);
@@ -103,7 +107,7 @@
     var repair = new URLSearchParams(location.search).get("repair");
     var forcePopup = repair === "popup-v8" || repair === "popup-v7";
     var popupUntil = 0;
-    try { popupUntil = Number(localStorage.getItem("prereg_popup_until_v8") || 0); } catch (err) {}
+    try { popupUntil = Number(localStorage.getItem("popup_20261125") || 0); } catch (err) {}
     if (forcePopup || Date.now() >= popupUntil) {
       if (!document.querySelector(".prereg-popup")) {
         // 팝업은 브라우저 기본 <dialog>(top layer, 덮개는 ::backdrop)로 띄운다. 화면 전체를 덮는 고정 요소가 DOM 에 없어
@@ -111,13 +115,31 @@
         var canDialog = typeof HTMLDialogElement === "function" && typeof HTMLDialogElement.prototype.showModal === "function";
         var modal = document.createElement(canDialog ? "dialog" : "div"); modal.className = "prereg-popup"; modal.setAttribute("aria-label", "견본주택 방문예약 안내");
         if (!canDialog) { modal.setAttribute("role", "dialog"); modal.setAttribute("aria-modal", "true"); }
-        if (canDialog && !document.getElementById("prereg-popup-style")) {
+        if (!document.getElementById("prereg-popup-style")) {
           var popupStyle = document.createElement("style"); popupStyle.id = "prereg-popup-style";
-          popupStyle.textContent = "dialog.prereg-popup{position:fixed;inset:auto;top:50%;left:50%;transform:translate(-50%,-50%);width:min(480px,calc(100% - 32px));max-width:none;max-height:85vh;margin:0;padding:0;border:0;background:transparent;overflow:visible}dialog.prereg-popup:not([open]){display:none}dialog.prereg-popup[open]{display:block}dialog.prereg-popup::backdrop{background:rgba(0,0,0,.55)}dialog.prereg-popup .prereg-popup__card{width:100%}";
+          popupStyle.textContent = ""
+            + "html body dialog.prereg-popup{position:fixed !important;inset:0 !important;top:0 !important;left:0 !important;right:0 !important;bottom:0 !important;transform:none !important;width:100% !important;max-width:100% !important;height:100vh !important;max-height:100vh !important;margin:0 !important;padding:12px !important;border:0 !important;background:transparent !important;overflow:auto !important;box-sizing:border-box !important;display:block !important}"
+            + "dialog.prereg-popup:not([open]){display:none !important}dialog.prereg-popup[open]{display:block !important}dialog.prereg-popup::backdrop{background:rgba(0,0,0,.55)}"
+            + ".prereg-popup__row{display:flex;gap:12px;align-items:center;justify-content:center;margin:0 auto;max-width:100%;min-height:calc(100vh - 24px);box-sizing:border-box}"
+            + "dialog.prereg-popup .prereg-popup__row .prereg-popup__card,.prereg-popup .prereg-popup__row .prereg-popup__card{width:min(420px,calc(100vw - 273px - 64px)) !important;max-width:100%;flex:1 1 280px;min-width:0}"
+            + ".sb-card{position:relative;box-sizing:border-box;width:273px;height:560px;flex:0 0 273px;padding:36px 16px 12px;border-radius:8px;background:#032B20;color:#fff;display:flex;flex-direction:column;text-align:center;overflow:auto;font-family:\"Pretendard\",\"Pretendard Variable\",\"Apple SD Gothic Neo\",\"Malgun Gothic\",\"Noto Sans KR\",sans-serif}"
+            + ".sb-card__cup{display:block;margin:0 auto 8px}"
+            + ".sb-card__chip{display:inline-block;align-self:center;margin:0;padding:3px 10px;border:1px solid rgba(255,255,255,.7);border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.04em;line-height:1.4}"
+            + ".sb-card__lead{margin:14px 0 0;font-size:15px;font-weight:700;line-height:1.45;word-break:keep-all}"
+            + ".sb-card__big{margin:10px 0 0;font-size:28px;font-weight:800;line-height:1.25;letter-spacing:-.03em;word-break:keep-all}"
+            + ".sb-card__body{margin:12px 0 0;font-size:13px;font-weight:400;line-height:1.5;word-break:keep-all}"
+            + ".sb-card__go{display:flex;align-items:center;justify-content:center;margin-top:auto;min-height:48px;padding:0 10px;border-radius:8px;background:#E2B565;color:#032B20;font-size:15px;font-weight:700;text-decoration:none}"
+            + ".sb-card__note{margin:10px 0 0;font-size:11px;font-weight:400;line-height:1.45;color:rgba(255,255,255,.86);word-break:keep-all}"
+            + ".sb-card__note a{color:#fff;text-decoration:underline}"
+            + ".sb-card .prereg-popup__close{color:#fff}"
+            + ".sb-card .prereg-popup__actions{margin:10px -16px -12px;border-top:1px solid rgba(255,255,255,.28);background:transparent}"
+            + ".sb-card .prereg-popup__today,.sb-card .prereg-popup__later{color:#fff}"
+            + "@media (max-width:767px){.prereg-popup__row{flex-direction:column;align-items:center;justify-content:flex-start;width:100%}dialog.prereg-popup .prereg-popup__row .prereg-popup__card,.prereg-popup .prereg-popup__row .prereg-popup__card{width:100% !important;max-width:min(420px,100%) !important;flex:0 1 auto}}"
+            + "@media (max-width:480px){.sb-card{width:min(212px,calc(100vw - 32px));flex-basis:auto;height:auto;min-height:0}}";
           document.head.appendChild(popupStyle);
         }
         // 작업지시서 13: 문구는 그대로 두고 배치·모양만 아크원푸르지오.site 사전등록 팝업과 같게(제목 → 혜택 → 등록 버튼 → 확인 → 유의 문구 → 하단 버튼)
-        modal.innerHTML = '<div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><h2 style="font-size:clamp(22px,6.4vw,28px);font-weight:800;line-height:1.3;letter-spacing:-0.02em;word-break:keep-all">견본주택 방문은 사전 예약제</h2><p style="font-weight:700">방문 전 반드시 예약해 주세요</p><p class="prereg-deadline" style="color:#a8834a;font-weight:700;letter-spacing:-0.01em">예약 없이 방문하시면 입장·상담이 제한될 수 있습니다</p><p>홈페이지 방문예약 또는 대표번호 1833-3872로 예약하신 뒤 방문해 주세요.</p><p class="prereg-popup__go"><a class="btn btn--gold" href="/visit">방문예약 하기</a></p><p class="prereg-popup__confirm">예비당첨자 사전고객등록은 <a href="/register?product=apt">사전고객등록</a>에서 하실 수 있습니다.</p><p class="prereg-popup__fine">※ 방문예약은 담당자 확인 후 확정됩니다.</p><p class="prereg-popup__fine">※ 방문예약은 청약 신청이 아니며, 청약 자격·순위와 관계없습니다.</p><div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></div>';
+        modal.innerHTML = '<div class="prereg-popup__row"><article class="sb-card" aria-label="방문 혜택"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><svg class="sb-card__cup" viewBox="0 0 48 48" width="36" height="36" aria-hidden="true" fill="none" stroke="#fff" stroke-width="1.6"><path d="M16 20h14v7a7 7 0 0 1-14 0v-7z"/><path d="M30 22h3.5a3.5 3.5 0 0 1 0 7H30"/><path d="M20 16c0-2 1-2 1-4M25 16c0-2 1-2 1-4"/></svg><p class="sb-card__chip">방문 혜택</p><p class="sb-card__lead">방문예약 후 모델하우스 방문 시</p><p class="sb-card__big">스타벅스 커피 쿠폰 2장</p><p class="sb-card__body">방문고객등록(방문예약)을 하신 뒤 견본주택을 방문하시면 드립니다.</p><a class="sb-card__go" href="/visit">방문고객등록 하기</a><p class="sb-card__note">※ 쿠폰 지급 기준·기간은 분양문의 <a href="tel:18333872">1833-3872</a>로 확인해 주세요. 사전 공지 후 변경·조기 종료될 수 있습니다.</p><div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></article><div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><h2 style="font-size:clamp(22px,6.4vw,28px);font-weight:800;line-height:1.3;letter-spacing:-0.02em;word-break:keep-all">견본주택 방문은 사전 예약제</h2><p style="font-weight:700">방문 전 반드시 예약해 주세요</p><p class="prereg-deadline" style="color:#a8834a;font-weight:700;letter-spacing:-0.01em">예약 없이 방문하시면 입장·상담이 제한될 수 있습니다</p><p>홈페이지 방문예약 또는 대표번호 1833-3872로 예약하신 뒤 방문해 주세요.</p><p class="prereg-popup__go"><a class="btn btn--gold" href="/visit">방문예약 하기</a></p><p class="prereg-popup__confirm">예비당첨자 사전고객등록은 <a href="/register?product=apt">사전고객등록</a>에서 하실 수 있습니다.</p><p class="prereg-popup__fine">※ 방문예약은 담당자 확인 후 확정됩니다.</p><p class="prereg-popup__fine">※ 방문예약은 청약 신청이 아니며, 청약 자격·순위와 관계없습니다.</p><div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></div></div>';
         // v14.0 §3 (2026-10-12): 휴대폰(767px 이하)에서는 자동으로 띄우지 않는다. 다이얼로그는 만들어 두고 닫아 두며,
         // nav.mbar 위 띠의 「자세히」를 누를 때만 잠그고 연다. 데스크톱 동작(잠금·인트로 대기·표시)은 종전 그대로다.
         var mobileView = false;
@@ -157,7 +179,7 @@
           ["wheel", "touchstart", "keydown"].forEach(function (type) { window.removeEventListener(type, check); });
           if (canDialog && modal.open) modal.close();
           modal.remove(); unlock();
-          if (hideToday) { try { localStorage.setItem("prereg_popup_until_v8", String(Date.now() + 86400000)); } catch (err) {} }
+          if (hideToday) { try { localStorage.setItem("popup_20261125", String(Date.now() + 86400000)); } catch (err) {} }
           if (mobileView) {
             // 휴대폰: 다시 열 수 있게 닫힌 다이얼로그로 되돌리고 띠를 다시 보인다(오늘 하루 보지 않기면 띠도 숨긴다).
             if (hideToday) { if (strip) strip.remove(); return; }
