@@ -135,7 +135,7 @@
             + ".sb-card .prereg-popup__actions{margin:10px -16px -12px;border-top:1px solid rgba(255,255,255,.28);background:transparent}"
             + ".sb-card .prereg-popup__today,.sb-card .prereg-popup__later{color:#fff}"
             + "@media (max-width:767px){.prereg-popup__row{flex-direction:column;align-items:center;justify-content:flex-start;width:100%}dialog.prereg-popup .prereg-popup__row .prereg-popup__card,.prereg-popup .prereg-popup__row .prereg-popup__card{width:100% !important;max-width:min(420px,100%) !important;flex:0 1 auto}}"
-            + "@media (max-width:480px){.sb-card{width:min(212px,calc(100vw - 32px));flex-basis:auto;height:auto;min-height:0}}";
+            + "@media (max-width:480px){.sb-card{width:min(212px,calc(100vw - 32px));flex-basis:min(212px,calc(100vw - 32px));height:434px;min-height:434px}}";
           document.head.appendChild(popupStyle);
         }
         // 작업지시서 13: 문구는 그대로 두고 배치·모양만 아크원푸르지오.site 사전등록 팝업과 같게(제목 → 혜택 → 등록 버튼 → 확인 → 유의 문구 → 하단 버튼)
