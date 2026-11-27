@@ -107,44 +107,44 @@
     var repair = new URLSearchParams(location.search).get("repair");
     var forcePopup = repair === "popup-v8" || repair === "popup-v7";
     var popupUntil = 0;
-    try { popupUntil = Number(localStorage.getItem("popup_20261125") || 0); } catch (err) {}
+    try { popupUntil = Number(localStorage.getItem("popup_20261127") || 0); } catch (err) {}
     if (forcePopup || Date.now() >= popupUntil) {
       if (!document.querySelector(".prereg-popup")) {
         // 팝업은 브라우저 기본 <dialog>(top layer, 덮개는 ::backdrop)로 띄운다. 화면 전체를 덮는 고정 요소가 DOM 에 없어
         // 「마우스 제한 해제」류 확장이 덮개로 오인해 지우는 일을 피한다. <dialog> 를 못 쓰는 브라우저는 전과 같은 div 로 띄운다.
         var canDialog = typeof HTMLDialogElement === "function" && typeof HTMLDialogElement.prototype.showModal === "function";
-        var modal = document.createElement(canDialog ? "dialog" : "div"); modal.className = "prereg-popup"; modal.setAttribute("aria-label", "견본주택 방문예약 안내");
+        var modal = document.createElement(canDialog ? "dialog" : "div"); modal.className = "prereg-popup"; modal.setAttribute("aria-label", "방문 혜택");
         if (!canDialog) { modal.setAttribute("role", "dialog"); modal.setAttribute("aria-modal", "true"); }
         if (!document.getElementById("prereg-popup-style")) {
           var popupStyle = document.createElement("style"); popupStyle.id = "prereg-popup-style";
           popupStyle.textContent = ""
-            + "html body dialog.prereg-popup{position:fixed !important;inset:0 !important;top:0 !important;left:0 !important;right:0 !important;bottom:0 !important;transform:none !important;width:100% !important;max-width:100% !important;height:100vh !important;max-height:100vh !important;margin:0 !important;padding:12px !important;border:0 !important;background:transparent !important;overflow:hidden !important;box-sizing:border-box !important;display:block !important}"
+            + "html body dialog.prereg-popup,html body div.prereg-popup{z-index:2147483000 !important}html body dialog.prereg-popup{position:fixed !important;inset:0 !important;top:0 !important;left:0 !important;right:0 !important;bottom:0 !important;transform:none !important;width:100% !important;max-width:100% !important;height:100vh !important;max-height:100vh !important;margin:0 !important;padding:12px !important;border:0 !important;background:transparent !important;overflow:hidden !important;box-sizing:border-box !important;display:block !important}"
             + "dialog.prereg-popup:not([open]){display:none !important}dialog.prereg-popup[open]{display:block !important}dialog.prereg-popup::backdrop{background:rgba(0,0,0,.55)}"
             + ".prereg-popup__row{display:flex;gap:12px;align-items:center;justify-content:center;margin:0 auto;max-width:100%;min-height:calc(100vh - 24px);box-sizing:border-box}"
-            + "dialog.prereg-popup .prereg-popup__row .prereg-popup__card,.prereg-popup .prereg-popup__row .prereg-popup__card{width:min(420px,calc(100vw - 32px)) !important;max-width:420px;flex:0 1 420px;min-width:0;overflow:hidden;max-height:calc(100vh - 24px)}"
-            + ".sb-card{position:relative;box-sizing:border-box;width:273px;height:560px;flex:0 0 273px;padding:36px 16px 12px;border-radius:8px;background:#032B20;color:#fff;display:flex;flex-direction:column;text-align:center;overflow:auto;font-family:\"Pretendard\",\"Pretendard Variable\",\"Apple SD Gothic Neo\",\"Malgun Gothic\",\"Noto Sans KR\",sans-serif}"
+            + "dialog.prereg-popup .prereg-popup__row .prereg-popup__card,.prereg-popup .prereg-popup__row .prereg-popup__card{width:min(273px,calc(100vw - 24px)) !important;max-width:273px !important;flex:0 0 273px;min-width:0;overflow:hidden !important;height:min(560px,calc(100vh - 16px)) !important;max-height:min(560px,calc(100vh - 16px)) !important}"
+            + ".sb-card{position:relative;box-sizing:border-box;width:273px !important;max-width:min(273px,calc(100vw - 24px)) !important;height:560px !important;max-height:calc(100vh - 16px) !important;flex:0 0 273px !important;padding:18px 14px 8px !important;border-radius:8px !important;background:#032B20 !important;color:#fff !important;display:flex;flex-direction:column;text-align:center;overflow:hidden !important;font-family:\"Pretendard\",\"Pretendard Variable\",\"Apple SD Gothic Neo\",\"Malgun Gothic\",\"Noto Sans KR\",sans-serif}"
             + ".sb-card__cup{display:block;margin:0 auto 8px}"
             + ".sb-card__chip{display:inline-block;align-self:center;margin:0;padding:3px 10px;border:1px solid rgba(255,255,255,.7);border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.04em;line-height:1.4}"
             + ".sb-card__lead{margin:14px 0 0;font-size:15px;font-weight:700;line-height:1.45;word-break:keep-all}"
-            + ".sb-card__big{margin:10px 0 0;font-size:28px;font-weight:800;line-height:1.25;letter-spacing:-.03em;word-break:keep-all}"
+            + ".sb-card__big{margin:8px 0 0;font-size:22px;font-weight:800;line-height:1.25;letter-spacing:-.03em;word-break:keep-all}"
             + ".sb-card__body{margin:12px 0 0;font-size:13px;font-weight:400;line-height:1.5;word-break:keep-all}"
             + ".sb-card__go{display:flex;align-items:center;justify-content:center;margin-top:auto;min-height:48px;padding:0 10px;border-radius:8px;background:#E2B565;color:#032B20;font-size:15px;font-weight:700;text-decoration:none}"
             + ".sb-card__note{margin:10px 0 0;font-size:11px;font-weight:400;line-height:1.45;color:rgba(255,255,255,.86);word-break:keep-all}"
             + ".sb-card__note a{color:#fff;text-decoration:underline}"
             + ".sb-card .prereg-popup__close{color:#fff}"
-            + ".sb-card .prereg-popup__actions{margin:10px -16px -12px;border-top:1px solid rgba(255,255,255,.28);background:transparent}"
-            + ".sb-card .prereg-popup__today,.sb-card .prereg-popup__later{color:#fff}"
+            + ".sb-card .prereg-popup__actions{position:static !important;margin:8px 0 0 !important;padding:0 !important;border-top:1px solid rgba(255,255,255,.28);background:transparent !important}"
+            + ".sb-card .prereg-popup__today,.sb-card .prereg-popup__later{color:#fff !important;background:transparent !important;border:0 !important;height:36px !important;min-height:36px !important}"
             + ".prereg-popup__benefitband{background:#032B20;color:#fff;margin:0 0 10px;padding:12px 14px 10px;text-align:center}"
             + ".prereg-popup__benefitband p{margin:0;color:#fff;font-size:13px;font-weight:700;line-height:1.35}"
             + ".prereg-popup__benefitband .lg{margin-top:4px;font-size:22px;font-weight:800;line-height:1.25;letter-spacing:-.03em}"
             + ".prereg-popup__card h2{font-size:20px !important;line-height:1.25 !important}"
             + ".prereg-popup__card .prereg-popup__fine{font-size:12px;line-height:1.35}"
-            + "@media (max-width:767px){.prereg-popup__row{flex-direction:column;align-items:center;justify-content:flex-start;width:100%}dialog.prereg-popup .prereg-popup__row .prereg-popup__card,.prereg-popup .prereg-popup__row .prereg-popup__card{width:100% !important;max-width:min(420px,100%) !important;flex:0 1 auto}}"
-            + "@media (max-width:480px){.sb-card{width:min(212px,calc(100vw - 32px));flex-basis:min(212px,calc(100vw - 32px));height:434px;min-height:434px}}";
+            + "@media (max-width:767px){.prereg-popup__row{flex-direction:column;align-items:center;justify-content:center;width:100%;min-height:calc(100vh - 24px)}dialog.prereg-popup .prereg-popup__row .prereg-popup__card,.prereg-popup .prereg-popup__row .prereg-popup__card{width:min(273px,calc(100vw - 24px)) !important;max-width:273px !important;flex:0 0 auto !important}}"
+            + "@media (max-width:480px){.sb-card,.sb-card.prereg-popup__card{width:min(212px,calc(100vw - 24px)) !important;max-width:min(212px,calc(100vw - 24px)) !important;flex-basis:min(212px,calc(100vw - 24px)) !important;height:min(434px,calc(100vh - 16px)) !important;min-height:0 !important}}";
           document.head.appendChild(popupStyle);
         }
         // 작업지시서 13: 문구는 그대로 두고 배치·모양만 아크원푸르지오.site 사전등록 팝업과 같게(제목 → 혜택 → 등록 버튼 → 확인 → 유의 문구 → 하단 버튼)
-        modal.innerHTML = '<div class="prereg-popup__row"><div class="prereg-popup__card"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><div class="prereg-popup__benefitband"><p>방문 혜택 · 방문예약 후 모델하우스 방문 시</p><p class="lg">스타벅스 커피 쿠폰 2장</p></div><h2 style="font-size:clamp(22px,6.4vw,28px);font-weight:800;line-height:1.3;letter-spacing:-0.02em;word-break:keep-all">견본주택 방문은 사전 예약제</h2><p style="font-weight:700">방문 전 반드시 예약해 주세요</p><p class="prereg-deadline" style="color:#a8834a;font-weight:700;letter-spacing:-0.01em">예약 없이 방문하시면 입장·상담이 제한될 수 있습니다</p><p>홈페이지 방문예약 또는 대표번호 1833-3872로 예약하신 뒤 방문해 주세요.</p><p class="prereg-popup__go"><a class="btn btn--gold" href="/visit">방문예약 하기</a></p><p class="prereg-popup__confirm">예비당첨자 사전고객등록은 <a href="/register?product=apt">사전고객등록</a>에서 하실 수 있습니다.</p><p class="prereg-popup__fine">※ 방문예약은 담당자 확인 후 확정됩니다.</p><p class="prereg-popup__fine">※ 방문예약은 청약 신청이 아니며, 청약 자격·순위와 관계없습니다.</p><p class="prereg-popup__fine">※ 쿠폰 지급 기준·기간은 분양문의 <a href="tel:18333872">1833-3872</a>로 확인해 주세요. 사전 공지 후 변경·조기 종료될 수 있습니다.</p><div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></div></div>';
+        modal.innerHTML = '<div class="prereg-popup__row"><article class="sb-card prereg-popup__card" aria-label="방문 혜택"><button type="button" class="prereg-popup__close" aria-label="닫기">✕</button><svg class="sb-card__cup" viewBox="0 0 48 48" width="36" height="36" aria-hidden="true" focusable="false"><path d="M14 20h18v8a7 7 0 0 1-7 7h-4a7 7 0 0 1-7-7v-8z" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M32 22h3.5a4.5 4.5 0 0 1 0 9H32" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M18 16c0-1.6 1.4-1.6 1.4-3.2M23 16c0-1.6 1.4-1.6 1.4-3.2M28 16c0-1.6 1.4-1.6 1.4-3.2" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg><p class="sb-card__chip">방문 혜택</p><p class="sb-card__lead">방문고객등록 후 모델하우스 방문 시</p><p class="sb-card__big">스타벅스 커피 쿠폰 2장 증정</p><p class="sb-card__body">견본주택 방문은 사전 예약제입니다. 방문고객등록 후 방문해 주세요.</p><a class="sb-card__go" href="/visit">방문고객등록 하기</a><p class="sb-card__note">※ 쿠폰 지급 기준·기간은 분양문의 1833-3872로 확인해 주세요. 사전 공지 후 변경·조기 종료될 수 있습니다.<br>※ 방문고객등록은 청약 신청이 아니며, 청약 자격·순위와 관계없습니다.</p><div class="prereg-popup__actions"><button type="button" class="prereg-popup__today">오늘 하루 보지 않기</button><button type="button" class="prereg-popup__later">닫기</button></div></article></div>';
         // v14.0 §3 (2026-10-12): 휴대폰(767px 이하)에서는 자동으로 띄우지 않는다. 다이얼로그는 만들어 두고 닫아 두며,
         // nav.mbar 위 띠의 「자세히」를 누를 때만 잠그고 연다. 데스크톱 동작(잠금·인트로 대기·표시)은 종전 그대로다.
         var mobileView = false;
@@ -184,7 +184,7 @@
           ["wheel", "touchstart", "keydown"].forEach(function (type) { window.removeEventListener(type, check); });
           if (canDialog && modal.open) modal.close();
           modal.remove(); unlock();
-          if (hideToday) { try { localStorage.setItem("popup_20261125", String(Date.now() + 86400000)); } catch (err) {} }
+          if (hideToday) { try { localStorage.setItem("popup_20261127", String(Date.now() + 86400000)); } catch (err) {} }
           if (mobileView) {
             // 휴대폰: 다시 열 수 있게 닫힌 다이얼로그로 되돌리고 띠를 다시 보인다(오늘 하루 보지 않기면 띠도 숨긴다).
             if (hideToday) { if (strip) strip.remove(); return; }
