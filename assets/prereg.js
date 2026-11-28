@@ -103,7 +103,7 @@
     if (location.pathname === "/" && !location.hash && !window.__homeUserMoved) window.scrollTo(0, 0);
   }
 
-  if (promoReady() && location.pathname === "/") {
+  if (false && promoReady() && location.pathname === "/") { // 작업지시서 30: 자동 열림 끔
     var repair = new URLSearchParams(location.search).get("repair");
     var forcePopup = repair === "popup-v8" || repair === "popup-v7";
     var popupUntil = 0;
@@ -264,6 +264,19 @@
     input.addEventListener("change", function () { if (input.checked) applyProduct(input.value); });
   });
   if (product) applyProduct(product);
+  var wo30Titles = { apt: "아파트 사전고객등록", officetel: "오피스텔 사전고객등록", commercial: "상가 사전고객등록" };
+  if (wo30Titles[product]) document.title = wo30Titles[product] + " | 청라 아크원 푸르지오";
+  if (new URLSearchParams(location.search).get("src") === "fcfs1226") {
+    try { if (!sessionStorage.getItem("utm_content")) sessionStorage.setItem("utm_content", "fcfs1226"); } catch (e) {}
+    if (!document.querySelector(".wo30-fcfs")) {
+      var wo30Note = document.createElement("p");
+      wo30Note.className = "wo30-fcfs";
+      wo30Note.setAttribute("role", "note");
+      wo30Note.textContent = "12.26(토) 아파트 선착순 계약 예정 · 선착순 고객등록은 아파트 사전고객등록으로 접수됩니다.";
+      wo30Note.style.cssText = "margin:0 0 16px;padding:12px 14px;border-left:4px solid #C3395A;background:#fdecef;color:#1c2b28;font-weight:700;line-height:1.5";
+      form.parentNode.insertBefore(wo30Note, form);
+    }
+  }
 
   function hyphen(value) {
     var digits = value.replace(/\D/g, "").slice(0, 11);
